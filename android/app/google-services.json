@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "302412946332",
+    "firebase_url": "https://broker-app-17c72-default-rtdb.firebaseio.com",
+    "project_id": "broker-app-17c72",
+    "storage_bucket": "broker-app-17c72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302412946332:android:43f27facbee555bf4cc659",
+        "android_client_info": {
+          "package_name": "com.ebroker.wrteam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302412946332-2lhd0cj8c4bn9tep4d73cv9ksr0j6mbs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ebroker.wrteam",
+            "certificate_hash": "fa2a2a65e9b7f041020b88ba4afc3bed55848212"
+          }
+        },
+        {
+          "client_id": "302412946332-hrsurabfuu3k724c64jvv0gasdaiaurq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMftgaBxtn_v9Y1cgHLGTomJjz8cxXJhY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302412946332-hrsurabfuu3k724c64jvv0gasdaiaurq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "302412946332-qc9ubb10gvfrl624klm292t0n9ef10a4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ebroker.wrteam"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
