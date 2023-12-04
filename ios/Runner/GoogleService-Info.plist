@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDdYlCF6HJEqrLnyo0PmFFBQnIsF6_hwlk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>302412946332</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ebroker.wrteam</string>
+	<key>PROJECT_ID</key>
+	<string>broker-app-17c72</string>
+	<key>STORAGE_BUCKET</key>
+	<string>broker-app-17c72.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:302412946332:ios:99e665282bdbc0824cc659</string>
+</dict>
+</plist>
