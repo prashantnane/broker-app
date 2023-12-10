@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "302412946332-nr4nvu4kug4k1cpdj5pdsnpsi8gltna5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ebroker.wrteam",
+            "certificate_hash": "7cec3f22631665fa5143a78dab476c51bca0399e"
+          }
+        },
+        {
           "client_id": "302412946332-hrsurabfuu3k724c64jvv0gasdaiaurq.apps.googleusercontent.com",
           "client_type": 3
         }

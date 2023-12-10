@@ -5,7 +5,7 @@ class AppIcons {
   //
   static const String _basePath = "assets/svg/";
   //** */
-  static String splashLogo = _svgPath("Logo/splashlogo");
+  static String splashLogo = _svgPath("Logo/SplashPropertyKar");
   static String magic = _svgPath("magic");
   static String bin = _svgPath("bin");
   static String chat = _svgPath("inactive_chat");
@@ -52,7 +52,7 @@ class AppIcons {
   static String logoutDoor = _svgPath("logout_door");
   static String forRent = _svgPath("for_rent");
   static String forSale = _svgPath("for_sale");
-  static String homeLogo = _svgPath("Logo/homelogo");
+  static String homeLogo = _svgPath("Logo/PropertyKar");
   static String placeHolder = _svgPath("Logo/placeholder");
   static String noInternet = _svgPath("no_internet");
   static String propertyMap = _svgPath("propertymap");

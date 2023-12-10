@@ -33,7 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     List slidersList = [
       {
         'lottie': "assets/lottie/onbo_a.json",
-        'title': UiUtils.getTranslatedLabel(context, "onboarding_1_title"),
+        'title': 'Welcome To PropertyKar',
         'description':
             UiUtils.getTranslatedLabel(context, "onboarding_1_description"),
         'button': 'next_button.svg'
