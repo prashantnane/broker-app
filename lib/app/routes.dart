@@ -16,6 +16,7 @@ import '../Ui/screens/Articles/article_details.dart';
 import '../Ui/screens/Articles/articles_screen.dart';
 import '../Ui/screens/Converter/area_converter.dart';
 import '../Ui/screens/auth/login_screen.dart';
+import '../Ui/screens/customer/customer_form.dart';
 import '../Ui/screens/favorites_screen.dart';
 import '../Ui/screens/filter_screen.dart';
 import '../Ui/screens/home/category_list.dart';
@@ -90,6 +91,9 @@ class Routes {
   static const transactionHistory = '/transactionHistory';
   static const nearbyAllProperties = '/nearbyAllProperties';
   static const personalizedPropertyScreen = '/personalizedPropertyScreen';
+
+  ///Add customer screen
+  static const addCustomerScreen = '/addCustomer';
 
   ///Add property screens
   static const selectPropertyTypeScreen = '/selectPropertyType';
@@ -171,6 +175,9 @@ class Routes {
 
       case selectPropertyTypeScreen:
         return SelectPropertyType.route(routeSettings);
+
+      case addCustomerScreen:
+        return AddCustomer.route(routeSettings);
 
       case transactionHistory:
         return TransactionHistory.route(routeSettings);

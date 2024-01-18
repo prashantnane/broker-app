@@ -562,7 +562,7 @@ class MainActivityState extends State<MainActivity>
                                       {"propertyType": PropertyType.rent});
                                   Navigator.pushNamed(
                                     context,
-                                    Routes.selectPropertyTypeScreen,
+                                    Routes.addCustomerScreen,
                                   );
                                 });
                               },
@@ -594,7 +594,7 @@ class MainActivityState extends State<MainActivity>
                                         width: 7.rw(context),
                                       ),
                                       Text(UiUtils.getTranslatedLabel(
-                                              context, "forRent"))
+                                              context, "For Customer"))
                                           .color(context.color.buttonColor),
                                     ],
                                   )),
@@ -750,8 +750,7 @@ class MainActivityState extends State<MainActivity>
 
   BottomAppBar bottomBar() {
     return BottomAppBar(
-      // notchMargin: 10.0,
-
+      notchMargin: 0,
       color: context.color.primaryColor,
       shape: const CircularNotchedRectangle(),
       child: Container(
@@ -832,6 +831,7 @@ class MainActivityState extends State<MainActivity>
               Text(
                 title,
                 textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13),
               ).color(currtab == index
                   ? context.color.teritoryColor
                   : context.color.textLightColor),
