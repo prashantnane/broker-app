@@ -216,7 +216,7 @@ class _SetProeprtyParametersScreenState
               (dynamic item) async {
                 var multipartFile = await MultipartFile.fromFile(item.path);
                 if (!multipartFile.isFinalized) {
-                  gallery.add(multipartFile);
+                  gallery.add(multipartFile.toString());
                 }
               },
             );
@@ -229,7 +229,7 @@ class _SetProeprtyParametersScreenState
               apiParameters!['title_image'] = await MultipartFile.fromFile(
                   (titleImage as File).path,
                   contentType: h.MediaType('image', extension[1]),
-                  filename: (titleImage as File).path.split("/").last);
+                  filename: (titleImage as File).path.split("/").last).toString();
             }
 
 //set 360 deg image
@@ -241,7 +241,7 @@ class _SetProeprtyParametersScreenState
               apiParameters!['threeD_image'] = await MultipartFile.fromFile(
                   t360degImage?.path ?? "",
                   contentType: h.MediaType('image', extension[1]),
-                  filename: t360degImage?.path.split("/").last);
+                  filename: t360degImage?.path.split("/").last).toString();
             }
 
             Future.delayed(

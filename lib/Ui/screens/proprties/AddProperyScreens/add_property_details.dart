@@ -108,6 +108,7 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
       // propertyImageList.addAll(List.from(images));
       //}
       log(mixedPropertyImageList.toString(), name: "IMAGE");
+      // print('this is images list: ${mixedPropertyImageList.toString()}');
       setState(() {});
     });
     _pickTitleImage.listener((p0) {
@@ -169,6 +170,7 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
       // var extension = mimeType!.split("/");
 
       titleImage = _pickTitleImage.pickedFile;
+      print('this is titleImage $titleImage');
     }
 
     if (_pick360deg.pickedFile != null) {
@@ -234,6 +236,7 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
         ..removeWhere((element) => element == null);
 
       log(list.toString());
+      // print('this is list: ${list}');
       // return;
 
       propertyData.addAll({
@@ -667,12 +670,12 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
                 SizedBox(
                   height: 10.rh(context),
                 ),
-                CustomTextFormField(
-                  // prefix: Text("${Constant.currencySymbol} "),
-                  controller: _videoLinkController,
-                  // isReadOnly: widget.properyDetails != null,
-                  hintText: "http://example.com/video.mp4",
-                ),
+                // CustomTextFormField(
+                //   // prefix: Text("${Constant.currencySymbol} "),
+                //   controller: _videoLinkController,
+                //   // isReadOnly: widget.properyDetails != null,
+                //   hintText: "http://example.com/video.mp4",
+                // ),
                 SizedBox(
                   height: 10.rh(context),
                 ),
@@ -797,9 +800,9 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
                         if (image is String) {
                           UiUtils.showFullScreenImage(context,
                               provider: NetworkImage(image));
-                        } else {
-                          UiUtils.showFullScreenImage(context,
-                              provider: FileImage(image));
+                        // } else {
+                        //   UiUtils.showFullScreenImage(context,
+                        //       provider: FileImage(image));
                         }
                       },
                       child: Container(

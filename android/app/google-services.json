@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "302412946332-2lhd0cj8c4bn9tep4d73cv9ksr0j6mbs.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ebroker.wrteam",
-            "certificate_hash": "fa2a2a65e9b7f041020b88ba4afc3bed55848212"
-          }
-        },
-        {
           "client_id": "302412946332-nr4nvu4kug4k1cpdj5pdsnpsi8gltna5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

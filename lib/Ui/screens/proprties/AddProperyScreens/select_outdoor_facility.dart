@@ -17,6 +17,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/cubits/property/create_property_cubit.dart';
+import '../../../../data/helper/widgets.dart';
+import '../../../../database.dart';
+import '../../../../utils/helper_utils.dart';
 import '../../../../utils/sliver_grid_delegate_with_fixed_cross_axis_count_and_fixed_height.dart';
 import '../../widgets/AnimatedRoutes/blur_page_route.dart';
 
@@ -47,6 +50,47 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
   Map<int, TextEditingController> distanceFieldList = {};
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var _oldSize;
+  bool _isLoading = false;
+
+  Future<void> _handleAddProperty() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    Map<String, dynamic>? parameters = widget.apiParameters;
+
+    ///adding facility data to api payload
+    // parameters!.addAll(assembleOutdoorFacility());
+    // parameters
+    //   ..remove("assign_facilities")
+    //   ..remove("isUpdate");
+    // if (_formKey.currentState!.validate()) {
+    //   context
+    //       .read<CreatePropertyCubit>()
+    //       .create(parameters: parameters);
+    // }
+    bool success = await DatabaseMethods().addProperty(parameters!);
+    setState(() {
+      _isLoading = false;
+    });
+    if(success) {
+      Widgets.showLoader(context);
+      HelperUtils.showSnackBarMessage(context,
+          UiUtils.getTranslatedLabel(context, "propertyAdded"),
+          type: MessageType.success, onClose: () {
+            Navigator.of(context)
+              ..pop()
+              ..pop()
+              ..pop()
+              ..pop()
+              ..pop();
+          });
+    }else if (!success) {
+      // Widgets.hideLoder(context);
+      HelperUtils.showSnackBarMessage(context, 'Failed to add Property', type: MessageType.error);
+    }
+  }
+
   @override
   void initState() {
     List<AssignedOutdoorFacility> facilities = [];
@@ -152,20 +196,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
               padding: const EdgeInsets.all(8.0),
               child: UiUtils.buildButton(
                 context,
-                onPressed: () {
-                  Map<String, dynamic>? parameters = widget.apiParameters;
-
-                  ///adding facility data to api payload
-                  parameters!.addAll(assembleOutdoorFacility());
-                  parameters
-                    ..remove("assign_facilities")
-                    ..remove("isUpdate");
-                  if (_formKey.currentState!.validate()) {
-                    context
-                        .read<CreatePropertyCubit>()
-                        .create(parameters: parameters);
-                  }
-                },
+                onPressed: _handleAddProperty,
                 buttonTitle: widget.apiParameters?['action_type'] == "0"
                     ? UiUtils.getTranslatedLabel(context, "update")
                     : UiUtils.getTranslatedLabel(context, "submitProperty"),
