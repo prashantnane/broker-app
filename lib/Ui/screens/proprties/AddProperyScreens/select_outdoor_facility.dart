@@ -50,12 +50,9 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
   Map<int, TextEditingController> distanceFieldList = {};
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var _oldSize;
-  bool _isLoading = false;
 
   Future<void> _handleAddProperty() async {
-    setState(() {
-      _isLoading = true;
-    });
+
 
     Map<String, dynamic>? parameters = widget.apiParameters;
 
@@ -70,9 +67,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //       .create(parameters: parameters);
     // }
     bool success = await DatabaseMethods().addProperty(parameters!);
-    setState(() {
-      _isLoading = false;
-    });
+    
     if(success) {
       Widgets.showLoader(context);
       HelperUtils.showSnackBarMessage(context,

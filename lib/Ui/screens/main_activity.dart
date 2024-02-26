@@ -589,7 +589,8 @@ class MainActivityState extends State<MainActivity>
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      UiUtils.getSvg(AppIcons.forRent),
+                                      // UiUtils.getSvg(AppIcons.forRent),
+                                      Icon(Icons.person_add_alt_1, color: Colors.white, size: 22,),
                                       SizedBox(
                                         width: 7.rw(context),
                                       ),
@@ -645,7 +646,8 @@ class MainActivityState extends State<MainActivity>
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    UiUtils.getSvg(AppIcons.forSale),
+                                    // UiUtils.getSvg(AppIcons.forSale),
+                                    Icon(Icons.sell, color: Colors.white, size: 20,),
                                     SizedBox(
                                       width: 7.rw(context),
                                     ),

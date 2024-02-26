@@ -15,4 +15,18 @@ class DatabaseMethods {
       return false; // Failure
     }
   }
+  Future addCustomer(Map<String, dynamic> infoMap) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("customers")
+          .doc()
+          .set(infoMap)
+          .then((value) => print("Customer Added"));
+
+      return true; // Success
+    } catch (error) {
+      print('Failed to add customer: $error');
+      return false; // Failure
+    }
+  }
 }
