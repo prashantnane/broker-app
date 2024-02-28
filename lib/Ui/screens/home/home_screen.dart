@@ -13,6 +13,7 @@ import 'package:ebroker/data/cubits/category/fetch_cities_category.dart';
 import 'package:ebroker/data/cubits/property/fetch_city_property_list.dart';
 import 'package:ebroker/data/cubits/property/fetch_nearby_property_cubit.dart';
 import 'package:ebroker/data/cubits/property/fetch_recent_properties.dart';
+import 'package:ebroker/test_page/test.dart';
 import 'package:ebroker/utils/guestChecker.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -65,7 +66,9 @@ const double sidePadding = 18;
 
 class HomeScreen extends StatefulWidget {
   final String? from;
+
   const HomeScreen({Key? key, this.from}) : super(key: key);
+
   @override
   HomeScreenState createState() => HomeScreenState();
 }
@@ -234,6 +237,14 @@ class HomeScreenState extends State<HomeScreen>
             ),
             backgroundColor: const Color.fromARGB(0, 0, 0, 0),
             actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => TestPage()));
+                  },
+                  child: Text('Test Page')),
               GuestChecker.updateUI(
                 onChangeStatus: (isGuest) {
                   Widget buildDefaultPersonSVG(BuildContext context) {

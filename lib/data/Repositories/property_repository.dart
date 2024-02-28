@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../utils/api.dart';
 import '../../utils/constant.dart';
 import '../../utils/hive_utils.dart';
@@ -68,6 +70,43 @@ class PropertyRepository {
         .map((e) => PropertyModel.fromMap(e))
         .toList();
 
+    return DataOutput(total: response['total'] ?? 0, modelList: modelList);
+  }
+
+  Future<DataOutput<PropertyModel>> fetchAllProperties(
+      {required int offset}) async {
+    Map<String, dynamic> parameters = {
+      Api.offset: offset,
+      Api.limit: Constant.loadLimit,
+      "current_user": HiveUtils.getUserId()
+    };
+    List<PropertyModel> modelList = [];
+
+    Map<String, dynamic> response =
+        await Api.get(url: Api.apiGetProprty, queryParameters: parameters);
+
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('all_properties');
+
+    try {
+      QuerySnapshot firestoreSnapshot = await users.get();
+
+      // Iterate over Firestore documents and add them to the modelList
+      for (var firestoreDoc in firestoreSnapshot.docs) {
+        PropertyModel firestoreModel = PropertyModel.fromMap(firestoreDoc.data() as Map<String, dynamic>);
+        modelList.add(firestoreModel);
+      }
+
+      // Add data from the other API to the modelList
+      List<PropertyModel> apiModelList =
+      (response['data']).map((e) => PropertyModel.fromMap(e)).toList();
+      modelList.addAll(apiModelList);
+      return DataOutput(total: response['total'] ?? 0, modelList: modelList);
+    } catch (e) {
+      print('Error fetching Firestore data: $e');
+    }
+
+    // If there's an error fetching Firestore data, return the API data
     return DataOutput(total: response['total'] ?? 0, modelList: modelList);
   }
 
