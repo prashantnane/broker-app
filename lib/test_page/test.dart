@@ -4,6 +4,8 @@ import 'package:ebroker/test_page/db.dart';
 import 'package:ebroker/test_page/show_all_property_page.dart';
 import 'package:flutter/material.dart';
 
+import '../app/routes.dart';
+
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
 
@@ -26,10 +28,10 @@ class _TestPageState extends State<TestPage> {
           SizedBox(height: 10),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AddPropertyPage()));
+                Navigator.pushNamed(
+                  context,
+                  Routes.selectPropertyTypeScreen,
+                );
               },
               child: Text('Add Sample Property')),
           SizedBox(height: 10),

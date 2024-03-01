@@ -19,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../data/cubits/property/create_property_cubit.dart';
 import '../../../../data/helper/widgets.dart';
 import '../../../../database.dart';
+import '../../../../test_page/db.dart';
 import '../../../../utils/helper_utils.dart';
 import '../../../../utils/sliver_grid_delegate_with_fixed_cross_axis_count_and_fixed_height.dart';
 import '../../widgets/AnimatedRoutes/blur_page_route.dart';
@@ -52,8 +53,6 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
   var _oldSize;
 
   Future<void> _handleAddProperty() async {
-
-
     Map<String, dynamic>? parameters = widget.apiParameters;
 
     ///adding facility data to api payload
@@ -66,23 +65,108 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //       .read<CreatePropertyCubit>()
     //       .create(parameters: parameters);
     // }
-    bool success = await DatabaseMethods().addProperty(parameters!);
-    
-    if(success) {
+
+    bool success1 = await DatabaseMethods().addProperty(parameters!);
+    print('this is parameters[title] ${parameters['title']}');
+
+    bool success2 = await addSampleProperty(PropertyModel(
+      id: 1,
+      title: parameters['title'],
+      price: parameters['price'],
+      customerName: parameters['title'],
+      customerEmail: parameters['title'],
+      customerProfile: parameters['title'],
+      customerNumber: parameters['title'],
+      rentduration: parameters['title'],
+      category: Categorys.fromMap(
+        {
+          "id": 13,
+          "category": "Land",
+          "image":
+              "https://dev-ebroker.thewrteam.in/images/category/1677740868.9774.svg",
+          "slug_id": "land"
+        },
+      ),
+      builtUpArea: '',
+      plotArea: '',
+      hectaArea: '',
+      acre: '',
+      houseType: '',
+      furnished: '',
+      unitType: UnitType.fromMap(
+        {"id": 13, "measurement": "land"},
+      ),
+      description: parameters['description'],
+      address: parameters['title'],
+      clientAddress: parameters['client_address'],
+      properyType: parameters['property_type'],
+      titleImage: parameters['title_image'],
+      titleimagehash: parameters['title'],
+      postCreated: parameters['title'],
+      gallery: [],
+      totalView: 10,
+      status: 10,
+      state: parameters['title'],
+      city: parameters['title'],
+      country: parameters['title'],
+      addedBy: 10,
+      inquiry: true,
+      promoted: false,
+      isFavourite: 0,
+      isInterested: 0,
+      favouriteUsers: [],
+      interestedUsers: [],
+      totalInterestedUsers: 0,
+      totalFavouriteUsers: 0,
+      parameters: [
+        Parameter.fromMap(
+          {
+            "id": 13,
+            "name": "Land",
+            "typeOfParameter": "land",
+            "typeValues": '',
+            "image": "",
+            "value": 5,
+          },
+        )
+      ],
+      assignedOutdoorFacility: [
+        AssignedOutdoorFacility.fromJson(
+          {
+            "id": 13,
+            "name": "Land",
+            "propertyId": 0,
+            "facilityId": 0,
+            "distance": 0,
+            "image": "",
+            "createdAt": "",
+            "updatedAt": "",
+          },
+        )
+      ],
+      latitude: parameters['title'],
+      longitude: parameters['title'],
+      threeDImage: parameters['threeD_image'],
+      video: parameters['video_link'],
+      advertisment: "",
+    ));
+
+    if (success2) {
       Widgets.showLoader(context);
-      HelperUtils.showSnackBarMessage(context,
-          UiUtils.getTranslatedLabel(context, "propertyAdded"),
+      HelperUtils.showSnackBarMessage(
+          context, UiUtils.getTranslatedLabel(context, "propertyAdded"),
           type: MessageType.success, onClose: () {
-            Navigator.of(context)
-              ..pop()
-              ..pop()
-              ..pop()
-              ..pop()
-              ..pop();
-          });
-    }else if (!success) {
+        Navigator.of(context)
+          ..pop()
+          ..pop()
+          ..pop()
+          ..pop()
+          ..pop();
+      });
+    } else if (!success2) {
       // Widgets.hideLoder(context);
-      HelperUtils.showSnackBarMessage(context, 'Failed to add Property', type: MessageType.error);
+      HelperUtils.showSnackBarMessage(context, 'Failed to add Property',
+          type: MessageType.error);
     }
   }
 
@@ -517,9 +601,12 @@ class OutdoorFacilityWithController {
 
 class OutdoorFacilityTable extends StatefulWidget {
   final int length;
+
   const OutdoorFacilityTable(
       {super.key, required this.child, required this.length});
+
   final Widget Function(int index) child;
+
   @override
   State<OutdoorFacilityTable> createState() => _OutdoorFacilityTableState();
 }
@@ -533,6 +620,7 @@ class _OutdoorFacilityTableState extends State<OutdoorFacilityTable> {
   late int totalData = widget.length;
   int itemsPerPage = 9;
   int selectedPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(

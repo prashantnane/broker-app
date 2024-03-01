@@ -96,11 +96,13 @@ class PropertyRepository {
         PropertyModel firestoreModel = PropertyModel.fromMap(firestoreDoc.data() as Map<String, dynamic>);
         modelList.add(firestoreModel);
       }
+      print('this is modelList: $modelList');
 
       // Add data from the other API to the modelList
-      List<PropertyModel> apiModelList =
-      (response['data']).map((e) => PropertyModel.fromMap(e)).toList();
-      modelList.addAll(apiModelList);
+      // List<PropertyModel> apiModelList =
+      // (response['data']).map((e) => PropertyModel.fromMap(e)).toList();
+      // modelList.addAll(apiModelList);
+
       return DataOutput(total: response['total'] ?? 0, modelList: modelList);
     } catch (e) {
       print('Error fetching Firestore data: $e');

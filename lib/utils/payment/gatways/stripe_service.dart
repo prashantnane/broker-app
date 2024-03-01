@@ -171,7 +171,7 @@ class StripeService {
       final response = await dio.post(
         StripeService.paymentApiUrl,
         data: parameter,
-        options: Options(headers: StripeService.getHeaders()),
+        options: Options(headers: StripeService.getHeaders(), validateStatus: (_) => true),
       );
 
       return Map.from(response.data);

@@ -1,6 +1,7 @@
 import 'package:ebroker/data/cubits/Personalized/add_update_personalized_interest.dart';
 import 'package:ebroker/data/cubits/Personalized/fetch_personalized_properties.dart';
 import 'package:ebroker/data/cubits/property/fetch_city_property_list.dart';
+import 'package:ebroker/test_page/fetch_all_properties.dart';
 import 'package:ebroker/utils/Network/apiCallTrigger.dart';
 import 'package:flutter/material.dart';
 
@@ -80,6 +81,7 @@ class EntryPointState extends State<EntryPoint> {
           BlocProvider(create: (context) => FetchNearbyPropertiesCubit()),
           BlocProvider(create: (context) => FetchOutdoorFacilityListCubit()),
           BlocProvider(create: (context) => FetchRecentPropertiesCubit()),
+          BlocProvider(create: (context) => FetchAllPropertiesCubit()),
           BlocProvider(create: (context) => PropertyEditCubit()),
           BlocProvider(create: (context) => FetchCityPropertyList()),
           BlocProvider(create: (context) => FetchPersonalizedPropertyList()),

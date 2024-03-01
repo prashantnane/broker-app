@@ -11,7 +11,7 @@ Future<void> fetchData() async {
 
     // Iterate over the documents and access data
     querySnapshot.docs.forEach((doc) {
-      print('User ID: ${doc.id}, Title: ${doc['title']}, Email: ${doc['email']}');
+      // print('User ID: ${doc.id}, Title: ${doc['title']}, Email: ${doc['email']}');
     });
   } catch (e) {
     print('Error fetching data: $e');

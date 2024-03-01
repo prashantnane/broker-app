@@ -99,6 +99,7 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
   final PropertyRepository _propertyRepository = PropertyRepository();
   @override
   void fetch({bool? forceRefresh, bool? loadWithoutDelay}) async {
+    print('inside fetch fn of FetchAllProp');
     try {
       if (forceRefresh != true) {
         if (state is FetchAllPropertiesSuccess) {

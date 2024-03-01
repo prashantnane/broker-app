@@ -34,6 +34,7 @@ import 'payment_gatways.dart';
 
 class SubscriptionPackageListScreen extends StatefulWidget {
   const SubscriptionPackageListScreen({super.key});
+
   static Route route(RouteSettings settings) {
     return BlurredRouter(
       builder: (context) {
@@ -92,7 +93,7 @@ class _SubscriptionPackageListScreenState
       return "";
     }
 
-    return text;
+    return text.toString();
   }
 
   bool isUnlimited(int text, {dynamic remining}) {
@@ -215,6 +216,8 @@ class _SubscriptionPackageListScreenState
                     return const SomethingWentWrong();
                   }
                   if (state is FetchSubscriptionPackagesSuccess) {
+                    print('inside FetchSubscriptionPackagesSuccess if ');
+                    print('this is mySubscriptions : ${mySubscriptions}');
                     if (state.subscriptionPacakges.isEmpty &&
                         mySubscriptions.isEmpty) {
                       return NoDataFound(
@@ -404,6 +407,7 @@ class _SubscriptionPackageListScreenState
                       child: Column(
                         children: [
                           ...mySubscriptions.map((subscription) {
+                            print('this is subscription $subscription');
                             var packageName = subscription['package']['name'];
                             var packagePrice =
                                 subscription['package']['price'].toString();
@@ -447,6 +451,7 @@ class _SubscriptionPackageListScreenState
                             itemBuilder: (context, index) {
                               SubscriptionPackageModel subscriptionPacakge =
                                   state.subscriptionPacakges[index];
+                              print('this is subscriptionPacakge : $subscriptionPacakge');
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
@@ -595,12 +600,14 @@ class _SubscriptionPackageListScreenState
                       width: 60,
                       child: LiquidCircularProgressIndicator(
                         value: double.parse(advertismentRemining) /
-                            advertismentLimit, // Defaults to 0.5.
+                            advertismentLimit,
+                        // Defaults to 0.5.
                         valueColor: AlwaysStoppedAnimation(
                           context.color.teritoryColor.withOpacity(0.3),
-                        ), // Defaults to the current Theme's accentColor.
-                        backgroundColor: Colors
-                            .white, // Defaults to the current Theme's backgroundColor.
+                        ),
+                        // Defaults to the current Theme's accentColor.
+                        backgroundColor: Colors.white,
+                        // Defaults to the current Theme's backgroundColor.
                         borderColor: context.color.teritoryColor,
                         borderWidth: 3.0,
                         direction: Axis.vertical,
@@ -669,12 +676,14 @@ class _SubscriptionPackageListScreenState
                     width: 60,
                     child: LiquidCircularProgressIndicator(
                       value: double.parse(advertismentRemining) /
-                          advertismentLimit, // Defaults to 0.5.
+                          advertismentLimit,
+                      // Defaults to 0.5.
                       valueColor: AlwaysStoppedAnimation(
                         context.color.teritoryColor.withOpacity(0.3),
-                      ), // Defaults to the current Theme's accentColor.
-                      backgroundColor: Colors
-                          .white, // Defaults to the current Theme's backgroundColor.
+                      ),
+                      // Defaults to the current Theme's accentColor.
+                      backgroundColor: Colors.white,
+                      // Defaults to the current Theme's backgroundColor.
                       borderColor: context.color.teritoryColor,
                       borderWidth: 3.0,
                       direction: Axis.vertical,
@@ -820,8 +829,8 @@ class _SubscriptionPackageListScreenState
                       paymentService.setContext(context);
                       paymentService.setPackage(subscriptionPacakge);
                       paymentService.pay();
-                      // PaymentGatways.openEnabled(context,
-                      //     subscriptionPacakge.price, subscriptionPacakge);
+                      PaymentGatways.openEnabled(context,
+                          subscriptionPacakge.price, subscriptionPacakge);
                     },
                   );
                 }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../Ui/screens/home/Widgets/property_horizontal_card.dart';
@@ -24,133 +25,146 @@ class _ShowAllPropertyPageState extends State<ShowAllPropertyPage> {
 
   @override
   void initState() {
-    fetchData();
+    // fetchData();
+    context.read<FetchAllPropertiesCubit>().fetch(forceRefresh: true);
     super.initState();
+  }
+
+  void _onRefresh() {
+    print('inside _onRefresh');
+    context.read<FetchAllPropertiesCubit>().fetch(forceRefresh: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('All Properties')),
-        body:
+    return RefreshIndicator(
+      color: context.color.teritoryColor,
+      triggerMode: RefreshIndicatorTriggerMode.onEdge,
+      onRefresh: () async {
+        _onRefresh();
+      },
+      child: Scaffold(
+          appBar: AppBar(title: Text('All ')),
+          body:
 
-            // Use the data to build your UI
-            // return Column(
-            //
-            //   children: [
-            //     ListView.builder(
-            //       shrinkWrap: true,
-            //       itemCount: snapshot.data!.docs.length,
-            //       itemBuilder: (context, index) {
-            //         var user = snapshot.data!.docs[index];
-            //         return ListTile(
-            //           title: Text(user['title']),
-            //           subtitle: Text(user['customerEmail']),
-            //         );
-            //       },
-            //     ),
-            //   ],
-            // );
-            LayoutBuilder(builder: (context, c) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: sidePadding),
-            child: BlocBuilder<FetchRecentPropertiesCubit,
-                FetchRecentPropertiesState>(builder: (context, state) {
-              log("STATE IS $state");
-              if (state is FetchRecentPropertiesInProgress) {
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        children: [
-                          const ClipRRect(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            child: CustomShimmer(height: 90, width: 90),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                CustomShimmer(
-                                  height: 10,
-                                  width: c.maxWidth - 100,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const CustomShimmer(
-                                  height: 10,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                CustomShimmer(
-                                  height: 10,
-                                  width: c.maxWidth / 1.2,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                CustomShimmer(
-                                  height: 10,
-                                  width: c.maxWidth / 4,
-                                ),
-                              ],
+              // Use the data to build your UI
+              // return Column(
+              //
+              //   children: [
+              //     ListView.builder(
+              //       shrinkWrap: true,
+              //       itemCount: snapshot.data!.docs.length,
+              //       itemBuilder: (context, index) {
+              //         var user = snapshot.data!.docs[index];
+              //         return ListTile(
+              //           title: Text(user['title']),
+              //           subtitle: Text(user['customerEmail']),
+              //         );
+              //       },
+              //     ),
+              //   ],
+              // );
+              LayoutBuilder(builder: (context, c) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: sidePadding),
+              child: BlocBuilder<FetchAllPropertiesCubit,
+                  FetchAllPropertiesState>(builder: (context, state) {
+                log("STATE IS $state");
+                if (state is FetchAllPropertiesInProgress) {
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            const ClipRRect(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                              child: CustomShimmer(height: 90, width: 90),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  shrinkWrap: true,
-                  itemCount: 5,
-                );
-              }
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomShimmer(
+                                    height: 10,
+                                    width: c.maxWidth - 100,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const CustomShimmer(
+                                    height: 10,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomShimmer(
+                                    height: 10,
+                                    width: c.maxWidth / 1.2,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomShimmer(
+                                    height: 10,
+                                    width: c.maxWidth / 4,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    shrinkWrap: true,
+                    itemCount: 5,
+                  );
+                }
 
-              if (state is FetchRecentPropertiesSuccess) {
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    PropertyModel modal = state.properties[index];
-                    modal = context.watch<PropertyEditCubit>().get(modal);
-                    return GestureDetector(
-                        onTap: () {
-                          HelperUtils.goToNextPage(
-                            Routes.propertyDetails,
-                            context,
-                            false,
-                            args: {
-                              'propertyData': modal,
-                              'propertiesList': state.properties,
-                              'fromMyProperty': false,
-                            },
-                          );
-                        },
-                        child: PropertyHorizontalCard(
-                          property: modal,
-                          additionalImageWidth: 10,
-                        ));
-                  },
-                  itemCount: state.properties.length.clamp(0, 4),
-                  shrinkWrap: true,
-                );
-              }
-              if (state is FetchRecentPropertiesFailur) {
+                if (state is FetchAllPropertiesSuccess) {
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      PropertyModel modal = state.properties[index];
+                      modal = context.watch<PropertyEditCubit>().get(modal);
+                      return GestureDetector(
+                          onTap: () {
+                            HelperUtils.goToNextPage(
+                              Routes.propertyDetails,
+                              context,
+                              false,
+                              args: {
+                                'propertyData': modal,
+                                'propertiesList': state.properties,
+                                'fromMyProperty': false,
+                              },
+                            );
+                          },
+                          child: PropertyHorizontalCard(
+                            property: modal,
+                            additionalImageWidth: 10,
+                          ));
+                    },
+                    itemCount: state.properties.length.clamp(0, 4),
+                    shrinkWrap: true,
+                  );
+                }
+                if (state is FetchAllPropertiesFailur) {
+                  return Container();
+                }
+
                 return Container();
-              }
-
-              return Container();
-            }),
-          );
-        }));
+              }),
+            );
+          })),
+    );
   }
 }

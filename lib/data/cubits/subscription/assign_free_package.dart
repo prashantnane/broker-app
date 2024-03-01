@@ -23,7 +23,7 @@ class AssignFreePackageCubit extends Cubit<AssignFreePackageState> {
   void assign(int packageId) async {
     try {
       emit(AssignFreePackageInProgress());
-      await _subscriptionRepository.assignFreePackage(packageId);
+      // await _subscriptionRepository.assignFreePackage(packageId);
       emit(AssignFreePackageSuccess());
     } catch (e) {
       emit(AssignFreePackageFail(e.toString()));

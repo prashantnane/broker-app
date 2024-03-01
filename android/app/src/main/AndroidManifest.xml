@@ -29,7 +29,8 @@
         android:fullBackupOnly="false"
         android:icon="@mipmap/ic_launcher"
         android:label="eBroker"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
