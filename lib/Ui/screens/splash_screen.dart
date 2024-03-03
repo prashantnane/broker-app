@@ -30,7 +30,6 @@ import '../../app/app.dart';
 import '../../data/cubits/auth/auth_state_cubit.dart';
 import '../../data/cubits/category/fetch_category_cubit.dart';
 import '../../data/cubits/outdoorfacility/fetch_outdoor_facility_list.dart';
-import '../../data/cubits/subscription/get_subsctiption_package_limits_cubit.dart';
 import '../../utils/constant.dart';
 import '../../utils/hive_keys.dart';
 import '../../utils/hive_utils.dart';
@@ -175,22 +174,27 @@ class SplashScreenState extends State<SplashScreen>
         );
       });
     } else if (authenticationState == AuthenticationState.authenticated) {
+      print('inside AuthenticationState.authenticated');
       Future.delayed(Duration.zero, () {
         Navigator.of(context)
             .pushReplacementNamed(Routes.main, arguments: {'from': "main"});
       });
     } else if (authenticationState == AuthenticationState.unAuthenticated) {
+      print('inside AuthenticationState.unauthenticated');
       if (Hive.box(HiveKeys.userDetailsBox).get("isGuest") == true) {
+        print('inside AuthenticationState.unauthenticated if');
         Future.delayed(Duration.zero, () {
           Navigator.of(context)
               .pushReplacementNamed(Routes.main, arguments: {"from": "splash"});
         });
       } else {
+        print('inside AuthenticationState.unauthenticated else');
         Future.delayed(Duration.zero, () {
           Navigator.of(context).pushReplacementNamed(Routes.login);
         });
       }
     } else if (authenticationState == AuthenticationState.firstTime) {
+      print('inside AuthenticationState.firstTime');
       Future.delayed(Duration.zero, () {
         Navigator.of(context).pushReplacementNamed(Routes.onboarding);
       });
@@ -215,18 +219,9 @@ class SplashScreenState extends State<SplashScreen>
             log("SYSTEM SETTING FAILUR IS ${state.errorMessage}");
           }
           if (state is FetchSystemSettingsSuccess) {
-            var setting = context
-                .read<FetchSystemSettingsCubit>()
-                .getSetting(SystemSetting.subscription);
-            if ((setting as List).isNotEmpty) {
-              if ((setting[0] as Map).containsKey("package_id")) {
-                Constant.subscriptionPackageId =
-                    setting[0]['package_id'].toString();
-                context.read<GetSubsctiptionPackageLimitsCubit>().getLimits(
-                      setting[0]['package_id'].toString(),
-                    );
-              }
-            }
+            print('inside FetchSystemSettingsSuccess if');
+
+
 
             if (state.settings['data'].containsKey("demo_mode")) {
               Constant.isDemoModeOn = state.settings['data']['demo_mode'];

@@ -94,14 +94,7 @@ class FetchSystemSettingsCubit extends Cubit<FetchSystemSettingsState>
   dynamic getSetting(SystemSetting selected) {
     if (state is FetchSystemSettingsSuccess) {
       Map settings = (state as FetchSystemSettingsSuccess).settings['data'];
-      if (selected == SystemSetting.subscription) {
-        //check if we have subscribed to any package if true then return this data otherwise return empty list
-        if (settings['subscription'] == true) {
-          return settings['package']['user_purchased_package'] as List;
-        } else {
-          return [];
-        }
-      }
+
 
       if (selected == SystemSetting.language) {
         return settings['languages'];

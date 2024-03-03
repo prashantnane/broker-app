@@ -294,13 +294,7 @@ class HomeScreenState extends State<HomeScreen>
                   homeStateListener.setNetworkState(setState, true);
 
                   setState(() {});
-                  var setting = context
-                      .read<FetchSystemSettingsCubit>()
-                      .getSetting(SystemSetting.subscription);
-                  if (setting.length != 0) {
-                    String packageId = setting[0]['package_id'].toString();
-                    Constant.subscriptionPackageId = packageId;
-                  }
+
                 }
               },
               builder: (context, state) {
@@ -359,23 +353,27 @@ class HomeScreenState extends State<HomeScreen>
                           } else if (section ==
                               HomeScreenSections.NearbyProperties) {
                             return buildNearByProperties();
-                          } else if (section ==
-                              HomeScreenSections.FeaturedProperties) {
-                            return featuredProperties(homeScreenState, context);
-                          } else if (section ==
-                              HomeScreenSections.PersonalizedFeed) {
-                            return const PersonalizedPropertyWidget();
-                          } else if (section ==
+                          }
+                          // else if (section ==
+                          //     HomeScreenSections.FeaturedProperties) {
+                          //   return featuredProperties(homeScreenState, context);
+                          // } else if (section ==
+                          //     HomeScreenSections.PersonalizedFeed) {
+                          //   return const PersonalizedPropertyWidget();
+                          // }
+                          else if (section ==
                               HomeScreenSections.RecentlyAdded) {
                             return const RecentPropertiesSectionWidget();
-                          } else if (section ==
-                              HomeScreenSections.MostLikedProperties) {
-                            return mostLikedProperties(
-                                homeScreenState, context);
-                          } else if (section == HomeScreenSections.MostViewed) {
-                            return mostViewedProperties(
-                                homeScreenState, context);
-                          } else if (section ==
+                          }
+                          // else if (section ==
+                          //     HomeScreenSections.MostLikedProperties) {
+                          //   return mostLikedProperties(
+                          //       homeScreenState, context);
+                          // } else if (section == HomeScreenSections.MostViewed) {
+                          //   return mostViewedProperties(
+                          //       homeScreenState, context);
+                          // }
+                          else if (section ==
                               HomeScreenSections.PopularCities) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(

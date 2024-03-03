@@ -751,7 +751,7 @@ class PropertyDetailsState extends State<PropertyDetails>
                                               ),
                                             ),
                                           ),
-                                          advertismentLable()
+
                                         ],
                                       ),
                                     ),
@@ -1344,26 +1344,6 @@ class PropertyDetailsState extends State<PropertyDetails>
     );
   }
 
-  Widget advertismentLable() {
-    if (property?.promoted == false || property?.promoted == null) {
-      return const SizedBox.shrink();
-    }
-
-    return PositionedDirectional(
-        start: 20,
-        top: 20,
-        child: Container(
-          width: 83,
-          height: 32,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: context.color.teritoryColor,
-              borderRadius: BorderRadius.circular(4)),
-          child: Text(UiUtils.getTranslatedLabel(context, 'featured'))
-              .color(context.color.buttonColor)
-              .size(context.font.small),
-        ));
-  }
 
   // Future<void> _delayedPop(BuildContext context) async {
   //   unawaited(

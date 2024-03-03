@@ -83,7 +83,6 @@ class Constant {
   static const String notificationChannel = AppSettings.notificationChannel;
   static int uploadImageQuality = AppSettings.uploadImageQuality; //0 to 100
 
-  static String? subscriptionPackageId;
   static PropertyFilterModel? propertyFilter;
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static String typeRent = "rent";

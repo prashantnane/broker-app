@@ -135,6 +135,7 @@ class MainActivityState extends State<MainActivity>
   @override
   void initState() {
     super.initState();
+    print('inside initState of main');
     GuestChecker.setContext(context);
     GuestChecker.set(isGuest: HiveUtils.isGuest());
     FetchSystemSettingsCubit settings =
@@ -192,6 +193,7 @@ class MainActivityState extends State<MainActivity>
   }
 
   void initPageController() {
+    print('inside initPageController');
     pageCntrlr = PageController(initialPage: 0)
       ..addListener(() {
         _pageHistory.insert(0, pageCntrlr.page);
@@ -467,28 +469,28 @@ class MainActivityState extends State<MainActivity>
     super.dispose();
   }
 
-  Future<void> checkForMaintenanceMode() async {
-    Map<String, String> body = {
-      Api.type: Api.maintenanceMode,
-    };
-
-    var response = await HelperUtils.sendApiRequest(
-      Api.apiGetSystemSettings,
-      body,
-      true,
-      context,
-    );
-    var getdata = json.decode(response);
-    print("Setiing : $getdata");
-    if (getdata != null) {
-      if (!getdata[Api.error]) {
-        Constant.maintenanceMode = getdata['data'].toString();
-        if (Constant.maintenanceMode == "1") {
-          setState(() {});
-        }
-      }
-    }
-  }
+  // Future<void> checkForMaintenanceMode() async {
+  //   Map<String, String> body = {
+  //     Api.type: Api.maintenanceMode,
+  //   };
+  //
+  //   var response = await HelperUtils.sendApiRequest(
+  //     Api.apiGetSystemSettings,
+  //     body,
+  //     true,
+  //     context,
+  //   );
+  //   var getdata = json.decode(response);
+  //   print("Setiing : $getdata");
+  //   if (getdata != null) {
+  //     if (!getdata[Api.error]) {
+  //       Constant.maintenanceMode = getdata['data'].toString();
+  //       if (Constant.maintenanceMode == "1") {
+  //         setState(() {});
+  //       }
+  //     }
+  //   }
+  // }
 
   late List<Widget> pages = [
     HomeScreen(from: widget.from),
@@ -505,6 +507,8 @@ class MainActivityState extends State<MainActivity>
       child: WillPopScope(
         onWillPop: () async {
           ///Navigation history
+          print('this is pageCntrlr: $pageCntrlr');
+          print('this is pages: $pages');
           int length = navigationStack.length;
           if (length == 1 && navigationStack[0] == 0) {
             DateTime now = DateTime.now();
@@ -540,6 +544,7 @@ class MainActivityState extends State<MainActivity>
                 onPageChanged: onItemSwipe,
                 children: pages,
               ),
+
               if (Constant.maintenanceMode == "1")
                 Container(
                   color: Theme.of(context).colorScheme.primaryColor,

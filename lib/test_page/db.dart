@@ -29,6 +29,7 @@ Future addSampleProperty(PropertyModel property) async {
     // Add the data to Firestore
     await properties.add(propertyData);
 
+    print('this is properties List : $properties');
     print("Property Added");
 
     return true; // Success

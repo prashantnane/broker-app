@@ -69,7 +69,6 @@ class EntryPointState extends State<EntryPoint> {
           BlocProvider(create: (context) => LikedPropertiesCubit()),
           BlocProvider(create: (context) => EnquiryIdsLocalCubit()),
           BlocProvider(create: (context) => AddToFavoriteCubitCubit()),
-          BlocProvider(create: (context) => FetchSubscriptionPackagesCubit()),
           BlocProvider(create: (context) => RemoveFavoriteCubit()),
           BlocProvider(create: (context) => GetApiKeysCubit()),
           BlocProvider(create: (context) => FetchCityCategoryCubit()),
@@ -86,7 +85,6 @@ class EntryPointState extends State<EntryPoint> {
           BlocProvider(create: (context) => FetchCityPropertyList()),
           BlocProvider(create: (context) => FetchPersonalizedPropertyList()),
           BlocProvider(create: (context) => AddUpdatePersonalizedInterest()),
-          BlocProvider(create: (context) => GetSubsctiptionPackageLimitsCubit())
         ],
         child: Builder(builder: (BuildContext context) {
           return const App();
@@ -150,7 +148,6 @@ class _AppState extends State<App> {
             AppSettings.stripeCurrency = state.stripeCurrency;
             AppSettings.stripePublishableKey = state.stripePublishableKey;
             AppSettings.stripeSecrateKey = state.stripeSecretKey;
-            paystack.init(AppSettings.paystackKey);
           }
         },
         child: BlocBuilder<LanguageCubit, LanguageState>(

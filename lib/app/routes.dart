@@ -10,8 +10,6 @@ import 'package:ebroker/Ui/screens/proprties/AddProperyScreens/select_outdoor_fa
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Ui/screens/Advertisement/create_advertisement_screen.dart';
-import '../Ui/screens/Advertisement/my_advertisment_screen.dart';
 import '../Ui/screens/Articles/article_details.dart';
 import '../Ui/screens/Articles/articles_screen.dart';
 import '../Ui/screens/Converter/area_converter.dart';
@@ -37,9 +35,6 @@ import '../Ui/screens/settings/notification_detail.dart';
 import '../Ui/screens/settings/notifications.dart';
 import '../Ui/screens/settings/profile_setting.dart';
 import '../Ui/screens/splash_screen.dart';
-import '../Ui/screens/subscription/packages_list.dart';
-import '../Ui/screens/subscription/subscribe_screen.dart';
-import '../Ui/screens/subscription/transaction_history_screen.dart';
 import '../Ui/screens/userprofile/edit_profile.dart';
 import '../Ui/screens/widgets/AnimatedRoutes/blur_page_route.dart';
 import '../Ui/screens/widgets/maintenance_mode.dart';
@@ -160,14 +155,8 @@ class Routes {
 
       case articleDetailsScreenRoute:
         return ArticleDetails.route(routeSettings);
-      case subscriptionPackageListRoute:
-        return SubscriptionPackageListScreen.route(routeSettings);
-      case subscriptionScreen:
-        return SubscriptionScreen.route(routeSettings);
       case favoritesScreen:
         return FavoritesScreen.route(routeSettings);
-      case createAdvertismentScreenRoute:
-        return CreateAdvertisementScreen.route(routeSettings);
       case promotedPropertiesScreen:
         return PromotedPropertiesScreen.route(routeSettings);
       case mostViewedPropertiesScreen:
@@ -179,11 +168,7 @@ class Routes {
       case addCustomerScreen:
         return AddCustomer.route(routeSettings);
 
-      case transactionHistory:
-        return TransactionHistory.route(routeSettings);
 
-      case myAdvertisment:
-        return MyAdvertismentScreen.route(routeSettings);
       case personalizedPropertyScreen:
         return PersonalizedPropertyScreen.route(routeSettings);
       case dashboard:

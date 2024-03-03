@@ -261,7 +261,6 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
         "property_type": widget.properyDetails == null
             ? (Constant.addProperty['propertyType'] as PropertyType).value
             : widget.properyDetails?['propType'],
-        "package_id": Constant.subscriptionPackageId,
         "threeD_image": v360Image,
         "video_link": _videoLinkController.text,
         if ((widget.properyDetails == null

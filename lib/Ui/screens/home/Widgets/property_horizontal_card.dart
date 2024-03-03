@@ -51,10 +51,7 @@ class PropertyHorizontalCard extends StatelessWidget {
         .toString()
         .formatAmount(prefix: true));
 
-    if (property.rentduration != "" && property.rentduration != null) {
-      rentPrice =
-          ("$rentPrice / ") + (rentDurationMap[property.rentduration] ?? "");
-    }
+
 
     return BlocProvider(
       create: (context) => AddToFavoriteCubitCubit(),
@@ -92,45 +89,38 @@ class PropertyHorizontalCard extends StatelessWidget {
                                       width: 100 + (additionalImageWidth ?? 0),
                                       fit: BoxFit.cover,
                                     ),
-                                    // Text(property.promoted.toString()),
-                                    if (property.promoted ?? false)
-                                      const PositionedDirectional(
-                                          start: 5,
-                                          top: 5,
-                                          child: PromotedCard(
-                                              type: PromoteCardType.icon)),
-                                    PositionedDirectional(
-                                      bottom: 6,
-                                      start: 6,
-                                      child: Container(
-                                        height: 19,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                            color: context.color.secondaryColor
-                                                .withOpacity(0.7),
-                                            borderRadius:
-                                                BorderRadius.circular(4)),
-                                        child: BackdropFilter(
-                                          filter: ImageFilter.blur(
-                                              sigmaX: 2, sigmaY: 3),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            child: Center(
-                                              child: Text(
-                                                property.properyType!
-                                                    .translate(context),
-                                              )
-                                                  .color(
-                                                    context.color.textColorDark,
-                                                  )
-                                                  .bold()
-                                                  .size(context.font.smaller),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+
+                                    // PositionedDirectional(
+                                    //   bottom: 6,
+                                    //   start: 6,
+                                    //   child: Container(
+                                    //     height: 19,
+                                    //     clipBehavior: Clip.antiAlias,
+                                    //     decoration: BoxDecoration(
+                                    //         color: context.color.secondaryColor
+                                    //             .withOpacity(0.7),
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(4)),
+                                    //     child: BackdropFilter(
+                                    //       filter: ImageFilter.blur(
+                                    //           sigmaX: 2, sigmaY: 3),
+                                    //       child: Padding(
+                                    //         padding: const EdgeInsets.symmetric(
+                                    //             horizontal: 8.0),
+                                    //         child: Center(
+                                    //           child: Text(
+                                    //             'nul'
+                                    //           )
+                                    //               .color(
+                                    //                 context.color.textColorDark,
+                                    //               )
+                                    //               .bold()
+                                    //               .size(context.font.smaller),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -216,17 +206,7 @@ class PropertyHorizontalCard extends StatelessWidget {
                                         ),
                                     ],
                                   ),
-                                  if (property.properyType
-                                          .toString()
-                                          .toLowerCase() ==
-                                      "rent") ...[
-                                    Text(
-                                      rentPrice,
-                                    )
-                                        .size(context.font.large)
-                                        .color(context.color.teritoryColor)
-                                        .bold(weight: FontWeight.w700),
-                                  ] else ...[
+
                                     Text(
                                       property.price!
                                           .priceFormate(
@@ -241,7 +221,7 @@ class PropertyHorizontalCard extends StatelessWidget {
                                         .size(context.font.large)
                                         .color(context.color.teritoryColor)
                                         .bold(weight: FontWeight.w700),
-                                  ],
+
                                   Text(
                                     property.title!.firstUpperCase(),
                                   )

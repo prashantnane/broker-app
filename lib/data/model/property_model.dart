@@ -368,6 +368,7 @@ class Categorys {
 }
 
 class Parameter {
+
   Parameter({
     this.id,
     this.name,

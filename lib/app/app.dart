@@ -158,21 +158,5 @@ void loadInitialData(BuildContext context,
     }
   });
 
-//    // }
 
-  var setting = context
-      .read<FetchSystemSettingsCubit>()
-      .getSetting(SystemSetting.subscription);
-
-  ///This will fetch settings if it is not available
-  if (setting == null) {
-    context.read<FetchSystemSettingsCubit>().fetchSettings(isAnonymouse: false);
-  }
-  if (setting != null) {
-    //This will set package id if subscription is available
-    if (setting.length != 0) {
-      String packageId = setting[0]['package_id'].toString();
-      Constant.subscriptionPackageId = packageId;
-    }
-  }
 }

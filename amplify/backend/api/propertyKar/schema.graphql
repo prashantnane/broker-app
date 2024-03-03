@@ -1,0 +1,28 @@
+type Property @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String
+  price: String
+  customerName: String
+  customerEmail: String
+  customerProfile: String
+  customerNumber: String
+  category: AWSJSON
+  description: String
+  address: String
+  clientAddress: String
+  propertyType: String
+  titleImage: String
+  postCreated: String
+  gallery: [AWSJSON]
+  state: String
+  city: String
+  country: String
+  addedBy: Int
+  isFavourite: Boolean
+  isInterested: Boolean
+  assignedOutdoorFacility: [AWSJSON]
+  latitude: String
+  longitude: String
+  threeDImage: String
+  video: String
+}
