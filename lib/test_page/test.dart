@@ -2,6 +2,7 @@ import 'package:ebroker/main.dart';
 import 'package:ebroker/test_page/add_property_page.dart';
 import 'package:ebroker/test_page/db.dart';
 import 'package:ebroker/test_page/show_all_property_page.dart';
+import 'package:ebroker/test_page/show_category_page.dart';
 import 'package:flutter/material.dart';
 
 import '../app/routes.dart';
@@ -40,7 +41,14 @@ class _TestPageState extends State<TestPage> {
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => ShowAllPropertyPage()));
-          }, child: Text('Show all Properties')),
+          }, child: Text('Show all Properties')),SizedBox(height: 10),
+          ElevatedButton(onPressed: () async {
+            final categories = await categoryRepository.fetchCategories(offset: 0);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => ShowCategoryPage()));
+          }, child: Text('Show all Categories')),
         ],
       ),
     );

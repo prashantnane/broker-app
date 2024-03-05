@@ -5,6 +5,8 @@ import 'package:ebroker/test_page/fetch_all_properties.dart';
 import 'package:ebroker/utils/Network/apiCallTrigger.dart';
 import 'package:flutter/material.dart';
 
+import 'data/cubits/category/category_bloc.dart';
+import 'data/cubits/category/category_repository.dart';
 import 'exports/main_export.dart';
 
 /////////////
@@ -17,6 +19,7 @@ class EntryPoint extends StatefulWidget {
   const EntryPoint({
     Key? key,
   }) : super(key: key);
+
   @override
   EntryPointState createState() => EntryPointState();
 }
@@ -28,6 +31,8 @@ class EntryPointState extends State<EntryPoint> {
     ChatGlobals.init();
   }
 
+  final CategoryRepository categoryRepository = CategoryRepository();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -38,6 +43,9 @@ class EntryPointState extends State<EntryPoint> {
           BlocProvider(create: (context) => CompanyCubit()),
           BlocProvider(create: (context) => PropertyCubit()),
           BlocProvider(create: (context) => FetchCategoryCubit()),
+          BlocProvider(
+              create: (context) =>
+                  CategoryBloc(categoryRepository: categoryRepository)),
           BlocProvider(create: (context) => HouseTypeCubit()),
           BlocProvider(create: (context) => SearchPropertyCubit()),
           BlocProvider(create: (context) => DeleteAccountCubit()),
@@ -94,6 +102,7 @@ class EntryPointState extends State<EntryPoint> {
 
 class App extends StatefulWidget {
   const App({super.key});
+
   @override
   State<App> createState() => _AppState();
 }
@@ -153,10 +162,10 @@ class _AppState extends State<App> {
         child: BlocBuilder<LanguageCubit, LanguageState>(
           builder: (context, languageState) {
             return MaterialApp(
-              initialRoute: Routes
-                  .splash, // App will start from here splash screen is first screen,
-              navigatorKey: Constant
-                  .navigatorKey, //This navigator key is used for Navigate users through notification
+              initialRoute: Routes.splash,
+              // App will start from here splash screen is first screen,
+              navigatorKey: Constant.navigatorKey,
+              //This navigator key is used for Navigate users through notification
               title: Constant.appName,
               debugShowCheckedModeBanner: false,
               onGenerateRoute: Routes.onGenerateRouted,
@@ -180,8 +189,8 @@ class _AppState extends State<App> {
                         1.0, //set text scale factor to 1 so that this will not resize app's text while user change their system settings text scale
                   ),
                   child: Directionality(
-                    textDirection:
-                        direction, //This will convert app direction according to language
+                    textDirection: direction,
+                    //This will convert app direction according to language
                     child: DevicePreview(
                       enabled: false,
 
