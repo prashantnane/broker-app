@@ -5,10 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../data/cubits/category/fetch_category_cubit.dart';
+import '../../../../data/cubits/category/fetch_category_cubit.dart';
 import '../../../../data/cubits/outdoorfacility/fetch_outdoor_facility_list.dart';import '../../../../data/cubits/system/fetch_system_settings_cubit.dart';
 import '../../../../data/helper/widgets.dart';
-import '../../../../data/model/category.dart';
 import '../../../../data/model/system_settings_model.dart';
+import '../../../../models/CategoryModel.dart';
 import '../../../../utils/Extensions/extensions.dart';
 import '../../../../utils/constant.dart';
 import '../../../../utils/helper_utils.dart';
@@ -34,7 +35,7 @@ class SelectPropertyType extends StatefulWidget {
 
 class _SelectPropertyTypeState extends State<SelectPropertyType> {
   int? selectedIndex;
-  Category? selectedCategory;
+  CategoryModel? selectedCategory;
   bool isLimitFetched = false;
   bool isDialogeShown = false;
   @override
@@ -87,6 +88,17 @@ class _SelectPropertyTypeState extends State<SelectPropertyType> {
               disabled: selectedCategory == null,
               onPressed: () {
 
+                  Constant.addProperty.addAll({"category": selectedCategory});
+
+                  if (selectedCategory != null) {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    //   return SelectOutdoorFacility();
+                    // },));
+                    //TODO:
+                    Navigator.pushNamed(
+                        context, Routes.addPropertyDetailsScreen);
+                  }
+
               },
               height: 48.rh(context),
               fontSize: context.font.large,
@@ -107,7 +119,7 @@ class _SelectPropertyTypeState extends State<SelectPropertyType> {
             ),
             BlocBuilder<FetchCategoryCubit, FetchCategoryState>(
               builder: (context, state) {
-                if (state is FetchCategoryInProgress) {}
+                if (state is FetchCategoryInitial) {}
                 if (state is FetchCategoryFailure) {
                   return Center(
                     child: Text(state.errorMessage),
@@ -139,7 +151,7 @@ class _SelectPropertyTypeState extends State<SelectPropertyType> {
     );
   }
 
-  Widget buildTypeCard(int index, BuildContext context, Category category) {
+  Widget buildTypeCard(int index, BuildContext context, CategoryModel category) {
     return GestureDetector(
       onTap: () {
         selectedCategory = category;

@@ -29,6 +29,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../app/app.dart';
 import '../../data/cubits/auth/auth_state_cubit.dart';
 import '../../data/cubits/category/fetch_category_cubit.dart';
+import '../../data/cubits/category/fetch_category_cubit.dart';
 import '../../data/cubits/outdoorfacility/fetch_outdoor_facility_list.dart';
 import '../../utils/constant.dart';
 import '../../utils/hive_keys.dart';

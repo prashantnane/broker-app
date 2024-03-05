@@ -13,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../app/routes.dart';
 import '../../../data/cubits/outdoorfacility/fetch_outdoor_facility_list.dart';
 import '../../../data/cubits/property/delete_property_cubit.dart';
-import '../../../data/model/category.dart';
+import '../../../models/CategoryModel.dart';
 import '../../../utils/AppIcon.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/helper_utils.dart';
@@ -149,15 +149,15 @@ class _PropertyListDashboardState extends State<PropertyListDashboard>
                                           .read<FetchOutdoorFacilityListCubit>()
                                           .fetch();
                                       Constant.addProperty.addAll({
-                                        "category": Category(
-                                          category: model?.category!.category,
-                                          id: model?.category?.id!.toString(),
-                                          image: model?.category?.image,
-                                          parameterTypes: {
-                                            "parameters": model?.parameters
-                                                ?.map((e) => e.toMap())
-                                                .toList()
-                                          },
+                                        "category": CategoryModel(
+                                          category: model.category!.category,
+                                          id: model.category?.id!.toString(),
+                                          image: model.category?.image,
+                                          // parameterTypes: {
+                                          //   "parameters": model?.parameters
+                                          //       ?.map((e) => e.toMap())
+                                          //       .toList()
+                                          // },
                                         )
                                       });
                                       // log("GOING THROW IT ${property?.parameters}");

@@ -1,9 +1,10 @@
+import 'package:ebroker/models/CategoryModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/routes.dart';
 import '../../../data/cubits/category/fetch_category_cubit.dart';
-import '../../../data/model/category.dart';
+import '../../../data/cubits/category/fetch_category_cubit.dart';
 import '../../../utils/Extensions/extensions.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/helper_utils.dart';
@@ -55,7 +56,7 @@ class _CategoryListState extends State<CategoryList>
           // if (state is FetchCategorySuccess) {}
         }),
         builder: (context, state) {
-          if (state is FetchCategoryInProgress) {
+          if (state is FetchCategoryInitial) {
             return UiUtils.progress();
           }
           if (state is FetchCategorySuccess) {
@@ -74,7 +75,7 @@ class _CategoryListState extends State<CategoryList>
                         childAspectRatio: MediaQuery.of(context).size.width /
                             (MediaQuery.of(context).size.height / 3.5)),
                     itemBuilder: (context, index) {
-                      Category category = state.categories[index];
+                      CategoryModel category = state.categories[index];
 
                       return Padding(
                         padding: const EdgeInsets.all(1.5),

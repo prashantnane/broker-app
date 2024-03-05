@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/cubits/category/fetch_category_cubit.dart';
+import '../../../../data/cubits/category/fetch_category_cubit.dart';
 import '../../../../data/cubits/property/fetch_most_liked_properties.dart';
 import '../../../../data/cubits/property/fetch_most_viewed_properties_cubit.dart';
 import '../../../../data/cubits/property/fetch_nearby_property_cubit.dart';

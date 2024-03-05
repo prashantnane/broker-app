@@ -10,8 +10,8 @@ import '../Ui/screens/main_activity.dart';
 import '../Ui/screens/proprties/AddProperyScreens/add_property_details.dart';
 import '../Ui/screens/widgets/AnimatedRoutes/blur_page_route.dart';
 import '../Ui/screens/widgets/panaroma_image_view.dart';
-import '../data/model/category.dart';
 import '../exports/main_export.dart';
+import '../models/CategoryModel.dart';
 import '../utils/AppIcon.dart';
 import '../utils/helper_utils.dart';
 import '../utils/imagePicker.dart';
@@ -81,7 +81,7 @@ class _AddPropertyPageState extends State<AddPropertyPage> {
               ),
               BlocBuilder<FetchCategoryCubit, FetchCategoryState>(
                 builder: (context, state) {
-                  if (state is FetchCategoryInProgress) {}
+                  if (state is FetchCategoryInitial) {}
                   if (state is FetchCategoryFailure) {
                     return Center(
                       child: Text(state.errorMessage),
@@ -644,7 +644,7 @@ class _AddPropertyPageState extends State<AddPropertyPage> {
     });
   }
 
-  Widget buildTypeCard(int index, BuildContext context, Category category) {
+  Widget buildTypeCard(int index, BuildContext context, CategoryModel category) {
     return GestureDetector(
       onTap: () {
         selectedCategory = category;

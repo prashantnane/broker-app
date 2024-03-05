@@ -3,27 +3,26 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:ebroker/data/Repositories/category_repository.dart';
-import 'package:ebroker/data/model/category.dart';
-import 'package:ebroker/data/model/data_output.dart';
 import 'package:ebroker/utils/helper_utils.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
+import '../../../models/CategoryModel.dart';
 import '../../../settings.dart';
 import '../../../utils/Network/networkAvailability.dart';
+import '../../model/data_output.dart';
+import '../../Repositories/category_repository.dart';
 
 abstract class FetchCategoryState {}
 
 class FetchCategoryInitial extends FetchCategoryState {}
 
-class FetchCategoryInProgress extends FetchCategoryState {}
 
 class FetchCategorySuccess extends FetchCategoryState {
   final int total;
   final int offset;
   final bool isLoadingMore;
   final bool hasError;
-  final List<Category> categories;
+  final List<CategoryModel> categories;
   FetchCategorySuccess({
     required this.total,
     required this.offset,
@@ -37,7 +36,7 @@ class FetchCategorySuccess extends FetchCategoryState {
     int? offset,
     bool? isLoadingMore,
     bool? hasError,
-    List<Category>? categories,
+    List<CategoryModel>? categories,
   }) {
     return FetchCategorySuccess(
       total: total ?? this.total,
@@ -64,9 +63,9 @@ class FetchCategorySuccess extends FetchCategoryState {
       offset: map['offset'] as int,
       isLoadingMore: map['isLoadingMore'] as bool,
       hasError: map['hasError'] as bool,
-      categories: List<Category>.from(
-        (map['categories']).map<Category>(
-          (x) => Category.fromMap(x as Map<String, dynamic>),
+      categories: List<CategoryModel>.from(
+        (map['categories']).map<CategoryModel>(
+              (x) => CategoryModel.fromJson(x as Map<String, dynamic>),
         ),
       ),
     );
@@ -90,7 +89,7 @@ class FetchCategoryFailure extends FetchCategoryState {
 }
 
 class FetchCategoryCubit extends Cubit<FetchCategoryState> with HydratedMixin {
-  FetchCategoryCubit() : super(FetchCategoryInitial());
+  FetchCategoryCubit({required CategoryRepository categoryRepository}) : super(FetchCategoryInitial());
 
   final CategoryRepository _categoryRepository = CategoryRepository();
 
@@ -104,55 +103,55 @@ class FetchCategoryCubit extends Cubit<FetchCategoryState> with HydratedMixin {
                   ? 0
                   : AppSettings.hiddenAPIProcessDelay));
         } else {
-          emit(FetchCategoryInProgress());
+          emit(FetchCategoryInitial());
         }
       } else {
-        emit(FetchCategoryInProgress());
+        emit(FetchCategoryInitial());
       }
 
       if (forceRefresh == true) {
-        DataOutput<Category> categories =
-            await _categoryRepository.fetchCategories(offset: 0);
+        List<CategoryModel> categories =
+        await _categoryRepository.fetchCategoriesRepository(offset: 0);
 
         List<String> list =
-            categories.modelList.map((element) => element.image!).toList();
+        categories.map((element) => element.image!).toList();
         await HelperUtils.precacheSVG(list);
 
         emit(FetchCategorySuccess(
-            total: categories.total,
-            categories: categories.modelList,
+            total: categories.length,
+            categories: categories,
             offset: 0,
             hasError: false,
             isLoadingMore: false));
       } else {
         if (state is! FetchCategorySuccess) {
-          DataOutput<Category> categories =
-              await _categoryRepository.fetchCategories(offset: 0);
+          List<CategoryModel> categories =
+          await _categoryRepository.fetchCategoriesRepository(offset: 0);
 
           List<String> list =
-              categories.modelList.map((element) => element.image!).toList();
+          categories.map((element) => element.image!).toList();
           await HelperUtils.precacheSVG(list);
 
           emit(FetchCategorySuccess(
-              total: categories.total,
-              categories: categories.modelList,
+              total: categories.length,
+              categories: categories,
               offset: 0,
               hasError: false,
               isLoadingMore: false));
         } else {
           await CheckInternet.check(
             onInternet: () async {
-              DataOutput<Category> categories =
-                  await _categoryRepository.fetchCategories(offset: 0);
+              List<CategoryModel> categories =
+              await _categoryRepository.fetchCategoriesRepository(offset: 0);
 
-              List<String> list = categories.modelList
+              List<String> list = categories
                   .map((element) => element.image!)
                   .toList();
               await HelperUtils.precacheSVG(list);
 
               emit(FetchCategorySuccess(
-                  total: categories.total,
-                  categories: categories.modelList,
+                  total: categories.length,
+                  categories: categories,
                   offset: 0,
                   hasError: false,
                   isLoadingMore: false));
@@ -173,12 +172,12 @@ class FetchCategoryCubit extends Cubit<FetchCategoryState> with HydratedMixin {
     }
   }
 
-  List<Category> getCategories() {
+  List<CategoryModel> getCategories() {
     if (state is FetchCategorySuccess) {
       return (state as FetchCategorySuccess).categories;
     }
 
-    return <Category>[];
+    return <CategoryModel>[];
   }
 
   Future<void> fetchCategoriesMore() async {
@@ -188,12 +187,12 @@ class FetchCategoryCubit extends Cubit<FetchCategoryState> with HydratedMixin {
           return;
         }
         emit((state as FetchCategorySuccess).copyWith(isLoadingMore: true));
-        DataOutput<Category> result = await _categoryRepository.fetchCategories(
+        List<CategoryModel> result = await _categoryRepository.fetchCategoriesRepository(
           offset: (state as FetchCategorySuccess).categories.length,
         );
 
         FetchCategorySuccess categoryState = (state as FetchCategorySuccess);
-        categoryState.categories.addAll(result.modelList);
+        categoryState.categories.addAll(result);
 
         List<String> list =
             categoryState.categories.map((e) => e.image!).toList();
@@ -204,7 +203,7 @@ class FetchCategoryCubit extends Cubit<FetchCategoryState> with HydratedMixin {
             hasError: false,
             categories: categoryState.categories,
             offset: (state as FetchCategorySuccess).categories.length,
-            total: result.total));
+            total: result.length));
       }
     } catch (e) {
       emit((state as FetchCategorySuccess)

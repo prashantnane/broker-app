@@ -13,6 +13,7 @@ import 'package:ebroker/data/cubits/category/fetch_cities_category.dart';
 import 'package:ebroker/data/cubits/property/fetch_city_property_list.dart';
 import 'package:ebroker/data/cubits/property/fetch_nearby_property_cubit.dart';
 import 'package:ebroker/data/cubits/property/fetch_recent_properties.dart';
+import 'package:ebroker/models/CategoryModel.dart';
 import 'package:ebroker/test_page/test.dart';
 import 'package:ebroker/utils/guestChecker.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -25,6 +26,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../app/app.dart';
 import '../../../app/routes.dart';
 import '../../../data/cubits/category/fetch_category_cubit.dart';
+import '../../../data/cubits/category/fetch_category_cubit.dart';
 import '../../../data/cubits/favorite/add_to_favorite_cubit.dart';
 import '../../../data/cubits/favorite/fetch_favorites_cubit.dart';
 import '../../../data/cubits/property/fetch_home_properties_cubit.dart';
@@ -35,7 +37,6 @@ import '../../../data/cubits/slider_cubit.dart';
 import '../../../data/cubits/system/fetch_system_settings_cubit.dart';
 import '../../../data/cubits/system/get_api_keys_cubit.dart';
 import '../../../data/helper/design_configs.dart';
-import '../../../data/model/category.dart';
 import '../../../data/model/property_model.dart';
 import '../../../data/model/system_settings_model.dart';
 import '../../../settings.dart';
@@ -286,7 +287,7 @@ class HomeScreenState extends State<HomeScreen>
             return BlocConsumer<FetchSystemSettingsCubit,
                 FetchSystemSettingsState>(
               listener: (context, state) {
-                if (state is FetchCategoryInProgress) {
+                if (state is FetchCategoryInitial) {
                   homeStateListener.setNetworkState(setState, true);
                   setState(() {});
                 }
@@ -949,7 +950,7 @@ class HomeScreenState extends State<HomeScreen>
               }
             },
             builder: (context, state) {
-              if (state is FetchCategoryInProgress) {
+              if (state is FetchCategoryInitial) {
                 return const CategoryShimmer();
               }
               if (state is FetchCategoryFailure) {
@@ -967,7 +968,7 @@ class HomeScreenState extends State<HomeScreen>
                   itemCount: state.categories.length
                       .clamp(0, Constant.maxCategoryLength),
                   itemBuilder: (context, index) {
-                    Category category = state.categories[index];
+                    CategoryModel category = state.categories[index];
                     Constant.propertyFilter = null;
                     if (index == (Constant.maxCategoryLength - 1)) {
                       return Padding(
@@ -1012,7 +1013,7 @@ class HomeScreenState extends State<HomeScreen>
   }
 
   Widget buildCategoryCard(
-      BuildContext context, Category category, bool? frontSpacing) {
+      BuildContext context, CategoryModel category, bool? frontSpacing) {
     return CategoryCard(
         frontSpacing: frontSpacing,
         onTapCategory: (category) {

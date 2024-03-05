@@ -5,8 +5,8 @@ import 'package:ebroker/test_page/fetch_all_properties.dart';
 import 'package:ebroker/utils/Network/apiCallTrigger.dart';
 import 'package:flutter/material.dart';
 
-import 'data/cubits/category/category_bloc.dart';
-import 'data/cubits/category/category_repository.dart';
+import 'data/cubits/category/fetch_category_cubit.dart';
+import 'data/Repositories/category_repository.dart';
 import 'exports/main_export.dart';
 
 /////////////
@@ -42,10 +42,9 @@ class EntryPointState extends State<EntryPoint> {
           BlocProvider(create: (context) => SliderCubit()),
           BlocProvider(create: (context) => CompanyCubit()),
           BlocProvider(create: (context) => PropertyCubit()),
-          BlocProvider(create: (context) => FetchCategoryCubit()),
           BlocProvider(
               create: (context) =>
-                  CategoryBloc(categoryRepository: categoryRepository)),
+                  FetchCategoryCubit(categoryRepository: categoryRepository)),
           BlocProvider(create: (context) => HouseTypeCubit()),
           BlocProvider(create: (context) => SearchPropertyCubit()),
           BlocProvider(create: (context) => DeleteAccountCubit()),

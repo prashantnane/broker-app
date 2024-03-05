@@ -10,8 +10,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../data/Repositories/property_repository.dart';
-import '../../../../data/model/category.dart';
 import '../../../../data/model/property_model.dart';
+import '../../../../models/CategoryModel.dart';
 import '../../../../utils/AppIcon.dart';
 import '../../../../utils/Extensions/extensions.dart';
 import '../../../../utils/constant.dart';
@@ -255,7 +255,7 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
         "remove_gallery_images": removedImageId,
         // "category_id": 1,
         "category_id": widget.properyDetails == null
-            ? (Constant.addProperty['category'] as Category).id
+            ? (Constant.addProperty['category'] as CategoryModel).id
             : widget.properyDetails?['catId'],
         // "property_type": 1,
         "property_type": widget.properyDetails == null

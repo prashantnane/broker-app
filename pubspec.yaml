@@ -25,12 +25,13 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter    
-  flutter_paystack: ^1.0.7  #
+  flutter_paystack: ^1.0.7
   amplify_auth_cognito: ^1.1.1
   amplify_authenticator: ^1.2.0
   amplify_core: ^1.1.1
   amplify_flutter: ^1.1.1
   amplify_storage_s3: ^1.6.0
+  amplify_api: ^1.1.1
   cupertino_icons: ^1.0.2
   firebase_core: ^2.8.0
   firebase_auth: ^4.3.0
@@ -51,7 +52,6 @@ dependencies:
   country_code_picker: ^2.0.2
   country_picker: ^2.0.19 
   sms_autofill: ^2.2.0
-  connectivity_plus: ^2.3.7
   hive: ^2.2.1
   hive_flutter: ^1.1.0
   dio: ^4.0.6

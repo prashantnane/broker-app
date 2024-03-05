@@ -63,15 +63,15 @@ class _CategoryInterestChooseState extends State<CategoryInterestChoose>
           children: List.generate(
               (context.watch<FetchCategoryCubit>().getCategories().length),
               (index) {
-            Category categorie =
+            CategoryModel categorie =
                 context.watch<FetchCategoryCubit>().getCategories()[index];
             bool isSelected =
-                selectedCategoryId.contains(int.parse(categorie.id!));
+                selectedCategoryId.contains(int.parse(categorie.id));
             return Padding(
               padding: const EdgeInsets.all(3.0),
               child: GestureDetector(
                 onTap: () {
-                  selectedCategoryId.addOrRemove(int.parse(categorie.id!));
+                  selectedCategoryId.addOrRemove(int.parse(categorie.id));
                   widget.onInteraction.call(selectedCategoryId);
                   setState(() {});
                 },

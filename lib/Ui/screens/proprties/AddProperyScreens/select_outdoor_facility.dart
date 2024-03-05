@@ -16,6 +16,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/cubits/property/add_property_cubit.dart';
 import '../../../../data/cubits/property/create_property_cubit.dart';
 import '../../../../data/helper/widgets.dart';
 import '../../../../database.dart';
@@ -66,8 +67,9 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //       .create(parameters: parameters);
     // }
 
+
     bool success1 = await DatabaseMethods().addProperty(parameters!);
-    print('this is parameters[title] ${parameters['title']}');
+    // print('this is parameters[title] ${parameters['title']}');
 
     bool success2 = await addSampleProperty(PropertyModel(
       id: 1,
@@ -103,7 +105,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       titleImage: parameters['title_image'],
       titleimagehash: parameters['title'],
       postCreated: parameters['title'],
-      gallery: [],
+      gallery: [Gallery.fromMap({"id": 13, "image": parameters['gallery_images'].toString(), 'imageUrl': ''})] ,
       totalView: 10,
       status: 10,
       state: parameters['title'],
@@ -150,6 +152,89 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       video: parameters['video_link'],
       advertisment: "",
     ));
+
+    final newData = PropertyModel(
+      id: 1,
+      title: parameters['title'],
+      price: parameters['price'],
+      customerName: parameters['title'],
+      customerEmail: parameters['title'],
+      customerProfile: parameters['title'],
+      customerNumber: parameters['title'],
+      rentduration: parameters['title'],
+      category: Categorys.fromMap(
+        {
+          "id": 13,
+          "category": "Land",
+          "image":
+          "https://dev-ebroker.thewrteam.in/images/category/1677740868.9774.svg",
+          "slug_id": "land"
+        },
+      ),
+      builtUpArea: '',
+      plotArea: '',
+      hectaArea: '',
+      acre: '',
+      houseType: '',
+      furnished: '',
+      unitType: UnitType.fromMap(
+        {"id": 13, "measurement": "land"},
+      ),
+      description: parameters['description'],
+      address: parameters['title'],
+      clientAddress: parameters['client_address'],
+      properyType: parameters['property_type'],
+      titleImage: parameters['title_image'],
+      titleimagehash: parameters['title'],
+      postCreated: parameters['title'],
+      gallery: [Gallery.fromMap({"id": 13, "image": parameters['gallery_images'].toString(), 'imageUrl': ''})] ,
+      totalView: 10,
+      status: 10,
+      state: parameters['title'],
+      city: parameters['title'],
+      country: parameters['title'],
+      addedBy: 10,
+      inquiry: true,
+      promoted: false,
+      isFavourite: 0,
+      isInterested: 0,
+      favouriteUsers: [],
+      interestedUsers: [],
+      totalInterestedUsers: 0,
+      totalFavouriteUsers: 0,
+      parameters: [
+        Parameter.fromMap(
+          {
+            "id": 13,
+            "name": "Land",
+            "typeOfParameter": "land",
+            "typeValues": '',
+            "image": "",
+            "value": 5,
+          },
+        )
+      ],
+      assignedOutdoorFacility: [
+        AssignedOutdoorFacility.fromJson(
+          {
+            "id": 13,
+            "name": "Land",
+            "propertyId": 0,
+            "facilityId": 0,
+            "distance": 0,
+            "image": "",
+            "createdAt": "",
+            "updatedAt": "",
+          },
+        )
+      ],
+      latitude: parameters['title'],
+      longitude: parameters['title'],
+      threeDImage: parameters['threeD_image'],
+      video: parameters['video_link'],
+      advertisment: "",
+    );
+    context.read<AddPropertyCubit>().addProperty(AddDataEvent(newData));
 
     if (success2) {
       Widgets.showLoader(context);

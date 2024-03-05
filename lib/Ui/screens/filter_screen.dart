@@ -3,7 +3,6 @@ import 'package:ebroker/Ui/screens/widgets/AnimatedRoutes/blur_page_route.dart';
 import 'package:ebroker/Ui/screens/widgets/BottomSheets/choose_location_bottomsheet.dart';
 import 'package:ebroker/app/routes.dart';
 import 'package:ebroker/data/cubits/category/fetch_category_cubit.dart';
-import 'package:ebroker/data/model/category.dart';
 import 'package:ebroker/data/model/propery_filter_model.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:ebroker/utils/responsiveSize.dart';
@@ -11,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../data/cubits/category/fetch_category_cubit.dart';
 import '../../data/model/google_place_model.dart';
+import '../../models/CategoryModel.dart';
 import '../../utils/api.dart';
 import '../../utils/constant.dart';
 import '../../utils/ui_utils.dart';
@@ -173,7 +174,7 @@ class FilterScreenState extends State<FilterScreen> {
                 selectedcategoryName = "";
               } else {
                 selectedcategoryName =
-                    (selectedCategory as Category).category ?? "";
+                    (selectedCategory as CategoryModel).category ?? "";
               }
             }
 
@@ -217,9 +218,9 @@ class FilterScreenState extends State<FilterScreen> {
                     BlocBuilder<FetchCategoryCubit, FetchCategoryState>(
                       builder: (context, state) {
                         if (state is FetchCategorySuccess) {
-                          List<Category> categoriesList =
+                          List<CategoryModel> categoriesList =
                               List.from(state.categories);
-                          categoriesList.insert(0, Category(id: ""));
+                          categoriesList.insert(0, CategoryModel(id: ""));
                           return SizedBox(
                             height: 50,
                             child: ListView(

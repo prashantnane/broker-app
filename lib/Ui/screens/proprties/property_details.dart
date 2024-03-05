@@ -48,7 +48,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../data/cubits/chatCubits/send_message.dart';
 import '../../../data/cubits/outdoorfacility/fetch_outdoor_facility_list.dart';
 import '../../../data/helper/widgets.dart';
-import '../../../data/model/category.dart';
+import '../../../models/CategoryModel.dart';
 import '../../../settings.dart';
 import '../../../utils/guestChecker.dart';
 import '../../../utils/helper_utils.dart';
@@ -1453,15 +1453,15 @@ class PropertyDetailsState extends State<PropertyDetails>
                           // padding: const EdgeInsets.symmetric(horizontal: 1),
                           outerPadding: const EdgeInsets.all(1), onPressed: () {
                         Constant.addProperty.addAll({
-                          "category": Category(
+                          "category": CategoryModel(
                             category: property?.category!.category,
                             id: property?.category?.id!.toString(),
                             image: property?.category?.image,
-                            parameterTypes: {
-                              "parameters": property?.parameters
-                                  ?.map((e) => e.toMap())
-                                  .toList()
-                            },
+                            // parameterTypes: {
+                            //   "parameters": property?.parameters
+                            //       ?.map((e) => e.toMap())
+                            //       .toList()
+                            // },
                           )
                         });
                         log("GOING THROW IT ${property?.parameters}");

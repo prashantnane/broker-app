@@ -1,5 +1,9 @@
 import 'dart:developer';
 
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:ebroker/Ui/screens/widgets/Erros/something_went_wrong.dart';
 import 'package:ebroker/exports/main_export.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,13 +15,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../amplifyconfiguration.dart';
 import '../data/Repositories/personalized_feed_repository.dart';
 import '../data/Repositories/system_repository.dart';
 import '../data/cubits/Personalized/fetch_personalized_properties.dart';
+import '../data/cubits/category/fetch_category_cubit.dart';
 import '../data/model/Personalized/personalized_settings.dart';
 import '../data/model/system_settings_model.dart';
 import '../firebase_options.dart';
 import '../main.dart';
+import '../models/ModelProvider.dart';
 import '../utils/api.dart';
 import '../utils/guestChecker.dart';
 import '../utils/hive_keys.dart';
@@ -25,10 +32,26 @@ import '../utils/hive_keys.dart';
 PersonalizedInterestSettings personalizedInterestSettings =
     PersonalizedInterestSettings.empty();
 
+
+Future<void> _configureAmplify() async {
+  try {
+    await Amplify.addPlugins([
+      // AmplifyDataStore(modelProvider: ModelProvider.instance),
+      AmplifyAPI(modelProvider: ModelProvider.instance),
+    ]);
+
+    await Amplify.configure(amplifyconfig);
+    safePrint('Successfully configured');
+  } on Exception catch (e) {
+    safePrint('Error configuring Amplify: $e');
+  }
+}
+
 void initApp() async {
   ///Note: this file's code is very necessary and sensitive if you change it, this might affect whole app , So change it carefully.
   ///This must be used do not remove this line
   WidgetsFlutterBinding.ensureInitialized();
+  await _configureAmplify();
 Api.initInterceptors();
   ///This is the widget to show uncaught runtime error in this custom widget so that user can know in that screen something is wrong instead of grey screen
   if (kReleaseMode) {

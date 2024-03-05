@@ -1,3 +1,4 @@
+import 'package:ebroker/exports/main_export.dart';
 import 'package:ebroker/main.dart';
 import 'package:ebroker/test_page/add_property_page.dart';
 import 'package:ebroker/test_page/db.dart';
@@ -6,6 +7,8 @@ import 'package:ebroker/test_page/show_category_page.dart';
 import 'package:flutter/material.dart';
 
 import '../app/routes.dart';
+import '../data/cubits/category/fetch_category_cubit.dart';
+import '../data/Repositories/category_repository.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
@@ -15,7 +18,7 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
-
+  final CategoryRepository categoryRepository = CategoryRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +39,28 @@ class _TestPageState extends State<TestPage> {
               },
               child: Text('Add Sample Property')),
           SizedBox(height: 10),
-          ElevatedButton(onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => ShowAllPropertyPage()));
-          }, child: Text('Show all Properties')),SizedBox(height: 10),
-          ElevatedButton(onPressed: () async {
-            final categories = await categoryRepository.fetchCategories(offset: 0);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => ShowCategoryPage()));
-          }, child: Text('Show all Categories')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            ShowAllPropertyPage()));
+              },
+              child: Text('Show all Properties')),
+          SizedBox(height: 10),
+          ElevatedButton(
+              onPressed: () async {
+                // await categoryRepository.fetchCategories(offset: 0);
+                context
+                    .read<FetchCategoryCubit>()
+                    .fetchCategories(loadWithoutDelay: true);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => ShowCategoryPage()));
+              },
+              child: Text('Show all Categories')),
         ],
       ),
     );

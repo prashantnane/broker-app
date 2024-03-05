@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../Ui/screens/home/Widgets/property_horizontal_card.dart';
 import '../Ui/screens/home/home_screen.dart';
 import '../Ui/screens/widgets/shimmerLoadingContainer.dart';
-import '../data/cubits/category/category_bloc.dart';
+import '../data/cubits/category/fetch_category_cubit.dart';
 import '../data/model/property_model.dart';
 import '../exports/main_export.dart';
 import '../utils/helper_utils.dart';
@@ -27,12 +27,12 @@ class _ShowCategoryPageState extends State<ShowCategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('All Category')),
-      body: BlocBuilder<CategoryBloc, CategoryState>(
+      body: BlocBuilder<FetchCategoryCubit, FetchCategoryState>(
         builder: (context, state) {
-          if (state is CategoryInitialState) {
+          if (state is FetchCategoryInitial) {
             // Initial state, maybe show a loading indicator
             return CircularProgressIndicator();
-          } else if (state is CategoryLoadedState) {
+          } else if (state is FetchCategorySuccess) {
             // Categories loaded, display them
             final categories = state.categories;
             return ListView.builder(

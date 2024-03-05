@@ -1,17 +1,17 @@
 import 'dart:developer';
 
-import 'package:ebroker/data/model/category.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:ebroker/utils/responsiveSize.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../data/helper/design_configs.dart';
+import '../../../../models/CategoryModel.dart';
 import '../../../../utils/ui_utils.dart';
 
 class CategoryCard extends StatelessWidget {
   final bool? frontSpacing;
-  final Function(Category category) onTapCategory;
-  final Category category;
+  final Function(CategoryModel category) onTapCategory;
+  final CategoryModel category;
   const CategoryCard(
       {super.key,
       required this.frontSpacing,

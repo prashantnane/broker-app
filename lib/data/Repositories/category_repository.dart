@@ -1,24 +1,55 @@
-import '../../utils/api.dart';
+import 'dart:convert';
+import 'package:amplify_core/amplify_core.dart';
+
+import '../../models/CategoryModel.dart';
 import '../../utils/constant.dart';
-import '../model/category.dart';
-import '../model/data_output.dart';
 
 class CategoryRepository {
-  Future<DataOutput<Category>> fetchCategories({
-    required int offset,
-  }) async {
-    Map<String, dynamic> parameters = {
-      Api.offset: offset,
-      Api.limit: Constant.loadLimit,
-    };
-    Map<String, dynamic> response =
-        await Api.get(url: Api.apiGetCategories, queryParameters: parameters);
+  Future<List<CategoryModel>> fetchCategoriesRepository({required int offset}) async {
+    print('listening to fetchCategories');
+    try {
+      final request = GraphQLRequest<String>(
+        document: '''
+          query GetCategories {
+            listCategories {
+              items {
+                id
+                category
+                image
+                parameterTypes
+               }
+            }
+          }
+        ''',
+        variables: {
+          'offset': offset,
+          'limit': Constant.loadLimit, // Adjust based on your requirements
+        },
+      );
 
-    List<Category> modelList = (response['data'] as List).map(
-      (e) {
-        return Category.fromJson(e);
-      },
-    ).toList();
-    return DataOutput(total: response['total'] ?? 0, modelList: modelList);
+      final response = await Amplify.API.query(request: request).response;
+      // print('this is response from category repo: ${response.data}');
+
+      if (response.data != null) {
+        Map<String, dynamic> data = json.decode(response.data!);
+
+        final List<dynamic> categoryList = data['listCategories']['items'];
+        // print('this data from category repo: ${data}');
+
+        List<CategoryModel> modelList = categoryList.map(
+          (e) {
+            return CategoryModel.fromJson(e);
+          },
+        ).toList();
+
+        print('this is modelList from category repository: $modelList');
+
+        return modelList;
+      } else {
+        throw Exception('Failed to fetch categories');
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 }
