@@ -1,9 +1,15 @@
+import 'dart:io';
+
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:ebroker/exports/main_export.dart';
+import 'package:aws_common/vm.dart';
 import 'package:ebroker/main.dart';
 import 'package:ebroker/test_page/add_property_page.dart';
 import 'package:ebroker/test_page/db.dart';
 import 'package:ebroker/test_page/show_all_property_page.dart';
 import 'package:ebroker/test_page/show_category_page.dart';
+import 'package:ebroker/test_page/verification_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../app/routes.dart';
@@ -17,8 +23,48 @@ class TestPage extends StatefulWidget {
   State<TestPage> createState() => _TestPageState();
 }
 
+Future<void> publishSNSMessage() async {
+  try {
+    // Replace 'your-topic-arn' with the ARN of your SNS topic
+    final topicArn = 'arn:aws:sns:ap-south-1:381492011065:propertyKar.fifo';
+    final message = 'Hello from Flutter!';
+
+    final response = await Amplify.API.mutate(
+      request: GraphQLRequest<String>(
+        document: '''
+            mutation PublishSNSMessage(\$topicArn: String!, \$message: String!) {
+              publishSNSMessage(topicArn: \$topicArn, message: \$message)
+            }
+          ''',
+        variables: {'topicArn': topicArn, 'message': message},
+      ),
+    );
+
+    print('SNS Message published successfully. Response: $response');
+  } catch (e) {
+    print('Error publishing SNS message: $e');
+  }
+}
+
+Future<void> uploadFileToS3(String filePath, String s3Key) async {
+  try {
+    final localFile = File(filePath);
+
+    // Upload file to S3
+    await Amplify.Storage.uploadFile(
+      key: s3Key, // Unique key for your S3 object
+      localFile: AWSFilePlatform.fromFile(localFile),
+    );
+
+    print('File uploaded to S3 successfully.');
+  } catch (e) {
+    print('Error uploading file to S3: $e');
+  }
+}
+
 class _TestPageState extends State<TestPage> {
   final CategoryRepository categoryRepository = CategoryRepository();
+  final TextEditingController phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,19 +96,64 @@ class _TestPageState extends State<TestPage> {
               child: Text('Show all Properties')),
           SizedBox(height: 10),
           ElevatedButton(
-              onPressed: () async {
-                // await categoryRepository.fetchCategories(offset: 0);
-                context
-                    .read<FetchCategoryCubit>()
-                    .fetchCategories(loadWithoutDelay: true);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => ShowCategoryPage()));
+              onPressed: () {
+                uploadFileToS3(
+                    '/data/user/0/com.ebroker.wrteam/cache/9c1d9c99-dcc6-4cc9-84f7-855a2e607a83/1000060214.jpg',
+                    'upload/file.png');
               },
               child: Text('Show all Categories')),
+          SizedBox(height: 10),
+          Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                await publishSNSMessage();
+              },
+              child: Text('Publish SNS Message'),
+            ),
+          ),
+          TextField(
+            controller: phoneNumberController,
+            decoration: InputDecoration(labelText: 'Phone Number'),
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () async {
+              final phoneNumber = phoneNumberController.text.trim();
+              await signUpWithPhoneNumber(phoneNumber);
+            },
+            child: Text('Sign Up'),
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> signUpWithPhoneNumber(String phoneNumber) async {
+    try {
+      // Start the sign-up process
+      final SignUpResult res = await Amplify.Auth.signUp(
+        username: phoneNumber,
+        password: 'prashant', // Replace with a secure password
+        options: SignUpOptions(
+          userAttributes: {
+            CognitoUserAttributeKey.email: 'email@email.com',
+            CognitoUserAttributeKey.phoneNumber: phoneNumber
+          },
+        ),
+      );
+
+      // If signUp is successful, navigate to the verification screen
+      if (res.isSignUpComplete) {
+        // Navigate to the verification screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VerificationScreen(phoneNumber: phoneNumber),
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error signing up: $e');
+    }
   }
 }

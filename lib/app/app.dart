@@ -36,6 +36,8 @@ PersonalizedInterestSettings personalizedInterestSettings =
 Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugins([
+      AmplifyAuthCognito(),
+      AmplifyStorageS3(),
       // AmplifyDataStore(modelProvider: ModelProvider.instance),
       AmplifyAPI(modelProvider: ModelProvider.instance),
     ]);

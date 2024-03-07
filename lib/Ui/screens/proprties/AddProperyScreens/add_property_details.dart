@@ -235,7 +235,7 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
       }).toList()
         ..removeWhere((element) => element == null);
 
-      log(list.toString());
+      log('this is list of images: ${list.toString()}');
       // print('this is list: ${list}');
       // return;
 
@@ -985,6 +985,7 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
     return _pickTitleImage.listenChangesInUI((context, file) {
       Widget currentWidget = Container();
       if (titleImageURL != "") {
+        print('this is titleImageURL: $titleImageURL');
         currentWidget = GestureDetector(
           onTap: () {
             UiUtils.showFullScreenImage(context,

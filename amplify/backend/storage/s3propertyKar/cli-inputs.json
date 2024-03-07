@@ -1,0 +1,14 @@
+{
+  "resourceName": "s3propertyKar",
+  "policyUUID": "18eeae95",
+  "bucketName": "properties",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

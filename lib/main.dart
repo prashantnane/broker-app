@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'data/cubits/category/fetch_category_cubit.dart';
 import 'data/Repositories/category_repository.dart';
+import 'data/cubits/property/add_property_cubit.dart';
 import 'exports/main_export.dart';
 
 /////////////
@@ -41,11 +42,14 @@ class EntryPointState extends State<EntryPoint> {
           BlocProvider(create: (context) => LoginCubit()),
           BlocProvider(create: (context) => SliderCubit()),
           BlocProvider(create: (context) => CompanyCubit()),
+          BlocProvider(create: (context) => HouseTypeCubit()),
           BlocProvider(create: (context) => PropertyCubit()),
           BlocProvider(
               create: (context) =>
                   FetchCategoryCubit(categoryRepository: categoryRepository)),
-          BlocProvider(create: (context) => HouseTypeCubit()),
+          BlocProvider(
+              create: (context) =>
+                  AddPropertyCubit(),),
           BlocProvider(create: (context) => SearchPropertyCubit()),
           BlocProvider(create: (context) => DeleteAccountCubit()),
           BlocProvider(create: (context) => TopViewedPropertyCubit()),

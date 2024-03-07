@@ -10,6 +10,26 @@
       "StackName": "amplify-propertykar-staging-63826",
       "StackId": "arn:aws:cloudformation:ap-south-1:381492011065:stack/amplify-propertykar-staging-63826/a3c48a70-d928-11ee-8366-024f9f783e89",
       "AmplifyAppId": "d2ikwssf1qaezf"
+    },
+    "categories": {
+      "auth": {
+        "propertykar22028769": {},
+        "propertykarac7cacbe": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "S3Trigger2526d06a": {
+          "deploymentBucketName": "amplify-propertykar-staging-63826-deployment",
+          "s3Key": "amplify-builds/S3Trigger2526d06a-544b526a4d61594a5461-build.zip"
+        }
+      },
+      "api": {
+        "propertyKar": {}
+      },
+      "storage": {
+        "propertyKar": {},
+        "s3propertyKar": {}
+      }
     }
   }
 }
