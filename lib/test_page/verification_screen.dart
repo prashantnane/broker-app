@@ -9,6 +9,7 @@ class VerificationScreen extends StatelessWidget {
   final String phoneNumber;
 
   VerificationScreen({required this.phoneNumber});
+
   Future<void> confirmSignUp(String phoneNumber, String confirmationCode) async {
     try {
       // Confirm the sign-up process
@@ -25,6 +26,7 @@ class VerificationScreen extends StatelessWidget {
       print('Error confirming sign up: $e');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:ebroker/exports/main_export.dart';
 import 'package:aws_common/vm.dart';
 import 'package:ebroker/main.dart';
@@ -123,20 +124,68 @@ class _TestPageState extends State<TestPage> {
             },
             child: Text('Sign Up'),
           ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed:
+              uploadWithOptions
+            ,
+            child: Text('upload img'),
+          ),
+
         ],
       ),
     );
   }
 
+  Future<void> uploadWithOptions() async {
+    // When uploading data, use `StorageUploadDataOptions`
+    final uploadDataOperation = Amplify.Storage.uploadData(
+      data: S3DataPayload.string(
+        'example',
+        contentType: 'text/plain',
+      ),
+      key: 'example.txt',
+      options: const StorageUploadDataOptions(
+        metadata: {
+          'project': 'ExampleProject',
+        },
+        pluginOptions: S3UploadDataPluginOptions(
+          getProperties: true,
+        ),
+      ),
+    );
+    final uploadDataResult = await uploadDataOperation.result;
+    safePrint(
+      'Uploaded data with metadata: ${uploadDataResult.uploadedItem.metadata}',
+    );
+
+    // When uploading a file, use `StorageUploadFileOptions`
+    final uploadFileOperation = Amplify.Storage.uploadFile(
+      localFile: AWSFile.fromPath('/data/user/0/com.ebroker.wrteam/cache/scaled_1000060226.jpg'),
+      key: 'example.txt',
+      options: const StorageUploadFileOptions(
+        metadata: {
+          'project': 'ExampleProject',
+        },
+        pluginOptions: S3UploadFilePluginOptions(
+          getProperties: true,
+        ),
+      ),
+    );
+    final uploadFileResult = await uploadFileOperation.result;
+    safePrint(
+      'Uploaded file with metadata: ${uploadFileResult.uploadedItem.metadata}',
+    );
+  }
   Future<void> signUpWithPhoneNumber(String phoneNumber) async {
     try {
       // Start the sign-up process
       final SignUpResult res = await Amplify.Auth.signUp(
         username: phoneNumber,
-        password: 'prashant', // Replace with a secure password
+        password: 'prashant',
         options: SignUpOptions(
           userAttributes: {
-            CognitoUserAttributeKey.email: 'email@email.com',
+            CognitoUserAttributeKey.email: 'naneprashant99@gmail.com',
             CognitoUserAttributeKey.phoneNumber: phoneNumber
           },
         ),
