@@ -118,14 +118,6 @@ class _TestPageState extends State<TestPage> {
           ),
           SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () async {
-              final phoneNumber = phoneNumberController.text.trim();
-              await signUpWithPhoneNumber(phoneNumber);
-            },
-            child: Text('Sign Up'),
-          ),
-          SizedBox(height: 16),
-          ElevatedButton(
             onPressed:
               uploadWithOptions
             ,
@@ -177,6 +169,7 @@ class _TestPageState extends State<TestPage> {
       'Uploaded file with metadata: ${uploadFileResult.uploadedItem.metadata}',
     );
   }
+
   Future<void> signUpWithPhoneNumber(String phoneNumber) async {
     try {
       // Start the sign-up process

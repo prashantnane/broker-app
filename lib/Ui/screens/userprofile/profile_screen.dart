@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:amplify_core/amplify_core.dart';
 import 'package:ebroker/Ui/screens/Personalized/personalized_property_screen.dart';
 import 'package:ebroker/Ui/screens/main_activity.dart';
 import 'package:ebroker/data/model/user_model.dart';
@@ -883,17 +884,18 @@ class _ProfileScreenState extends State<ProfileScreen>
             onAccept: () async {
               Future.delayed(
                 Duration.zero,
-                () {
-                  HiveUtils.clear();
-                  Constant.favoritePropertyList.clear();
-                  context.read<UserDetailsCubit>().clear();
-                  context.read<LikedPropertiesCubit>().state.liked.clear();
-
-                  context.read<LikedPropertiesCubit>().clear();
-                  HiveUtils.logoutUser(
-                    context,
-                    onLogout: () {},
-                  );
+                () async {
+                  await Amplify.Auth.signOut();
+                  // HiveUtils.clear();
+                  // Constant.favoritePropertyList.clear();
+                  // context.read<UserDetailsCubit>().clear();
+                  // context.read<LikedPropertiesCubit>().state.liked.clear();
+                  //
+                  // context.read<LikedPropertiesCubit>().clear();
+                  // HiveUtils.logoutUser(
+                  //   context,
+                  //   onLogout: () {},
+                  // );
                 },
               );
             },

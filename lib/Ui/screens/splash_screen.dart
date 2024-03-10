@@ -239,15 +239,7 @@ class SplashScreenState extends State<SplashScreen>
             backgroundColor: context.color.teritoryColor,
             body: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: UiUtils.getSvg(
-                        AppIcons.splashLogo,
-                      )),
-                ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Align(

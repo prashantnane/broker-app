@@ -183,30 +183,31 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState?.save();
       bool check = _checkIfLocationIsChosen();
-      if (check == false) {
-        Future.delayed(
-          Duration.zero,
-          () {
-            UiUtils.showBlurredDialoge(
-              context,
-              sigmaX: 5,
-              sigmaY: 5,
-              dialoge: BlurredDialogBox(
-                svgImagePath: AppIcons.warning,
-                title: UiUtils.getTranslatedLabel(context, "incomplete"),
-                showCancleButton: false,
-                onAccept: () async {},
-                acceptTextColor: context.color.buttonColor,
-                content: Text(
-                  UiUtils.getTranslatedLabel(context, "addressError"),
-                ),
-              ),
-            );
-          },
-        );
-
-        return;
-      } else if (titleImage == null && titleImageURL == "") {
+      // if (check == false) {
+      //   Future.delayed(
+      //     Duration.zero,
+      //     () {
+      //       UiUtils.showBlurredDialoge(
+      //         context,
+      //         sigmaX: 5,
+      //         sigmaY: 5,
+      //         dialoge: BlurredDialogBox(
+      //           svgImagePath: AppIcons.warning,
+      //           title: UiUtils.getTranslatedLabel(context, "incomplete"),
+      //           showCancleButton: false,
+      //           onAccept: () async {},
+      //           acceptTextColor: context.color.buttonColor,
+      //           content: Text(
+      //             UiUtils.getTranslatedLabel(context, "addressError"),
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //   );
+      //
+      //   return;
+      // } else
+        if (titleImage == null && titleImageURL == "") {
         Future.delayed(
           Duration.zero,
           () {
@@ -411,62 +412,62 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
                           child: Text(UiUtils.getTranslatedLabel(
                               context, "addressLbl"))),
                       // const Spacer(),
-                      Expanded(
-                        flex: 3,
-                        child: ChooseLocationFormField(
-                          initialValue: false,
-                          validator: (bool? value) {
-                            //Check if it has already data so we will not validate it.
-                            if ((widget.properyDetails != null)) {
-                              return null;
-                            }
-
-                            if (value == true) {
-                              return null;
-                            } else {
-                              return "Select location";
-                            }
-                          },
-                          build: (state) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  // color: context.color.teritoryColor,
-                                  border: Border.all(
-                                      width: 1.5,
-                                      color: state.hasError
-                                          ? Colors.red
-                                          : Colors.transparent),
-                                  borderRadius: BorderRadius.circular(9)),
-                              child: MaterialButton(
-                                  height: 30,
-                                  onPressed: () {
-                                    _onTapChooseLocation.call(state);
-                                  },
-                                  child: FittedBox(
-                                    fit: BoxFit.fitWidth,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        UiUtils.getSvg(AppIcons.location,
-                                            color:
-                                                context.color.textLightColor),
-                                        const SizedBox(
-                                          width: 3,
-                                        ),
-                                        Text(
-                                          UiUtils.getTranslatedLabel(
-                                              context, "chooseLocation"),
-                                        )
-                                            .size(context.font.normal)
-                                            .color(context.color.teritoryColor)
-                                            .underline(),
-                                      ],
-                                    ),
-                                  )),
-                            );
-                          },
-                        ),
-                      )
+                      // Expanded(
+                      //   flex: 3,
+                      //   child: ChooseLocationFormField(
+                      //     initialValue: false,
+                      //     validator: (bool? value) {
+                      //       //Check if it has already data so we will not validate it.
+                      //       if ((widget.properyDetails != null)) {
+                      //         return null;
+                      //       }
+                      //
+                      //       if (value == true) {
+                      //         return null;
+                      //       } else {
+                      //         return "Select location";
+                      //       }
+                      //     },
+                      //     build: (state) {
+                      //       return Container(
+                      //         decoration: BoxDecoration(
+                      //             // color: context.color.teritoryColor,
+                      //             border: Border.all(
+                      //                 width: 1.5,
+                      //                 color: state.hasError
+                      //                     ? Colors.red
+                      //                     : Colors.transparent),
+                      //             borderRadius: BorderRadius.circular(9)),
+                      //         child: MaterialButton(
+                      //             height: 30,
+                      //             onPressed: () {
+                      //               _onTapChooseLocation.call(state);
+                      //             },
+                      //             child: FittedBox(
+                      //               fit: BoxFit.fitWidth,
+                      //               child: Row(
+                      //                 mainAxisSize: MainAxisSize.min,
+                      //                 children: [
+                      //                   UiUtils.getSvg(AppIcons.location,
+                      //                       color:
+                      //                           context.color.textLightColor),
+                      //                   const SizedBox(
+                      //                     width: 3,
+                      //                   ),
+                      //                   Text(
+                      //                     UiUtils.getTranslatedLabel(
+                      //                         context, "chooseLocation"),
+                      //                   )
+                      //                       .size(context.font.normal)
+                      //                       .color(context.color.teritoryColor)
+                      //                       .underline(),
+                      //                 ],
+                      //               ),
+                      //             )),
+                      //       );
+                      //     },
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

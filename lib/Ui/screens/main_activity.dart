@@ -74,16 +74,15 @@ List<ScrollController> controllerList = [
 
 //
 class MainActivity extends StatefulWidget {
-  final String from;
-  const MainActivity({Key? key, required this.from}) : super(key: key);
+  // final String from;
+  const MainActivity({Key? key}) : super(key: key);
 
   @override
   State<MainActivity> createState() => MainActivityState();
 
   static Route route(RouteSettings routeSettings) {
-    Map arguments = routeSettings.arguments as Map;
     return BlurredRouter(
-        builder: (_) => MainActivity(from: arguments['from'] as String));
+        builder: (_) => MainActivity());
   }
 }
 
@@ -493,7 +492,7 @@ class MainActivityState extends State<MainActivity>
   // }
 
   late List<Widget> pages = [
-    HomeScreen(from: widget.from),
+    HomeScreen(),
     const ChatListScreen(),
     const Text(""),
     const PropertiesScreen(),
