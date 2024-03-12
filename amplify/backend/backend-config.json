@@ -66,24 +66,6 @@
       "service": "Cognito-UserPool-Groups"
     }
   },
-  "parameters": {
-    "AMPLIFY_function_S3Trigger2526d06a_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "S3Trigger2526d06a"
-        }
-      ]
-    },
-    "AMPLIFY_function_S3Trigger2526d06a_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "S3Trigger2526d06a"
-        }
-      ]
-    }
-  },
   "storage": {
     "s3propertyKar": {
       "dependsOn": [],

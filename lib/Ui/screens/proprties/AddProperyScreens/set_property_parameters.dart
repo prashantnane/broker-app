@@ -226,10 +226,8 @@ class _SetProeprtyParametersScreenState
               ///Multipart image of title image
               final mimeType = lookupMimeType((titleImage as File).path);
               var extension = mimeType!.split("/");
-              apiParameters!['title_image'] = await MultipartFile.fromFile(
-                  (titleImage as File).path,
-                  contentType: h.MediaType('image', extension[1]),
-                  filename: (titleImage as File).path.split("/").last).toString();
+              apiParameters!['title_image'] =
+                  (titleImage as File).path;
             }
 
 //set 360 deg image

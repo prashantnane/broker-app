@@ -69,35 +69,15 @@ class AddPropertyCubit extends Cubit<AddPropertyState> {
     print('listening to addPropertyToDb');
     bool success = false;
     final key = 'unique-key-for-your-image.jpg';
-    final awsFile = AWSFilePlatform.fromFile(property.titleImage as File);
+    final awsFile = AWSFilePlatform.fromFile(File(property.titleImage!));
+      print('this is awsFile from add_property : $awsFile');
     try {
       final request = ModelMutations.create(property);
       final response = await Amplify.API.mutate(request: request).response;
       final propertyData = response.data;
       final statuscode = response.hasErrors;
 
-      // Create a dummy file
-      final exampleString = 'Example file contents';
-      final tempDir = await getTemporaryDirectory();
-      final exampleFile = File(tempDir.path + '/example.txt')
-        ..createSync()
-        ..writeAsStringSync(exampleString);
 
-      // await Amplify.Storage.uploadFile(
-      //   key: key,
-      //   localFile: awsFile,
-      // );
-      final result = await Amplify.Storage.uploadData(
-        data: S3DataPayload.string(property.titleImage!),
-        key: 'ExampleKey',
-        onProgress: (progress) {
-          safePrint('Transferred bytes: ${progress.transferredBytes}');
-        },
-      ).result;
-
-      safePrint('Uploaded data to location: ${result.uploadedItem.key}');
-
-      print('this is awsFile from add_property : $awsFile');
 
       if (propertyData == null) {
         safePrint('errors: ${response.errors}');
