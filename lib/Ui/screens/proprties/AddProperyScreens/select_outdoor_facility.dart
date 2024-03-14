@@ -8,6 +8,7 @@ import 'package:ebroker/Ui/screens/widgets/custom_text_form_field.dart';
 import 'package:ebroker/data/cubits/outdoorfacility/fetch_outdoor_facility_list.dart';
 import 'package:ebroker/data/model/outdoor_facility.dart';
 import 'package:ebroker/data/model/property_model.dart';
+import 'package:ebroker/test_page/test.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:ebroker/utils/responsiveSize.dart';
 import 'package:ebroker/utils/ui_utils.dart';
@@ -155,6 +156,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //   advertisment: "",
     // ));
 
+    uploadFileToS3(parameters['title_image'], 'unique-key-for-your-image.jpg');
     final newData = Property(
 
       title: parameters['title'],
