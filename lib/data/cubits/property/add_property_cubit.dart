@@ -65,19 +65,32 @@ class AddPropertyCubit extends Cubit<AddPropertyState> {
     emit(AddPropertyProgress());
   }
 
+  Future<String?> uploadFileToS3(String filePath, String s3Key) async {
+    try {
+      final localFile = File(filePath);
+
+      // Upload file to S3
+      final result = await Amplify.Storage.uploadFile(
+        key: s3Key, // Unique key for your S3 object
+        localFile: AWSFilePlatform.fromFile(localFile),
+      );
+
+      print('File uploaded to S3 successfully.');
+      return result.operationId;
+    } catch (e) {
+      print('Error uploading file to S3: $e');
+    }
+    
+  }
+
   Future<bool> addPropertyToDb(Property property) async {
     print('listening to addPropertyToDb');
     bool success = false;
-    final key = 'unique-key-for-your-image.jpg';
-    final awsFile = AWSFilePlatform.fromFile(File(property.titleImage!));
-      print('this is awsFile from add_property : $awsFile');
     try {
       final request = ModelMutations.create(property);
       final response = await Amplify.API.mutate(request: request).response;
       final propertyData = response.data;
       final statuscode = response.hasErrors;
-
-
 
       if (propertyData == null) {
         safePrint('errors: ${response.errors}');

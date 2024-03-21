@@ -47,21 +47,21 @@ Future<void> publishSNSMessage() async {
   }
 }
 
-Future<void> uploadFileToS3(String filePath, String s3Key) async {
-  try {
-    final localFile = File(filePath);
-
-    // Upload file to S3
-    await Amplify.Storage.uploadFile(
-      key: s3Key, // Unique key for your S3 object
-      localFile: AWSFilePlatform.fromFile(localFile),
-    );
-
-    print('File uploaded to S3 successfully.');
-  } catch (e) {
-    print('Error uploading file to S3: $e');
-  }
-}
+// Future<void> uploadFileToS3(String filePath, String s3Key) async {
+//   try {
+//     final localFile = File(filePath);
+//
+//     // Upload file to S3
+//     final result = await Amplify.Storage.uploadFile(
+//       key: s3Key, // Unique key for your S3 object
+//       localFile: AWSFilePlatform.fromFile(localFile),
+//     );
+//
+//     print('File uploaded to S3 successfully.');
+//   } catch (e) {
+//     print('Error uploading file to S3: $e');
+//   }
+// }
 
 class _TestPageState extends State<TestPage> {
   final CategoryRepository categoryRepository = CategoryRepository();
@@ -98,9 +98,9 @@ class _TestPageState extends State<TestPage> {
           SizedBox(height: 10),
           ElevatedButton(
               onPressed: () {
-                uploadFileToS3(
-                    '/data/user/0/com.ebroker.wrteam/cache/9c1d9c99-dcc6-4cc9-84f7-855a2e607a83/1000060214.jpg',
-                    'upload/file.png');
+                // uploadFileToS3(
+                //     '/data/user/0/com.ebroker.wrteam/cache/9c1d9c99-dcc6-4cc9-84f7-855a2e607a83/1000060214.jpg',
+                //     'upload/file.png');
               },
               child: Text('Show all Categories')),
           SizedBox(height: 10),

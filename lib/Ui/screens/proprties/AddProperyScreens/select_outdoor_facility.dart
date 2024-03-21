@@ -1,13 +1,15 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
 // ignore_for_file: invalid_use_of_visible_for_testing_member
-
+import 'dart:io';
 import 'dart:developer';
 
+import 'package:amplify_core/amplify_core.dart';
 import 'package:ebroker/Ui/screens/widgets/custom_text_form_field.dart';
 import 'package:ebroker/data/cubits/outdoorfacility/fetch_outdoor_facility_list.dart';
 import 'package:ebroker/data/model/outdoor_facility.dart';
 import 'package:ebroker/data/model/property_model.dart';
+import 'package:aws_common/vm.dart';
 import 'package:ebroker/test_page/test.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:ebroker/utils/responsiveSize.dart';
@@ -55,6 +57,24 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
   Map<int, TextEditingController> distanceFieldList = {};
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var _oldSize;
+
+  Future<String?> uploadFileToS3(String filePath, String s3Key) async {
+  try {
+    final localFile = File(filePath);
+
+    // Upload file to S3
+    final result = await Amplify.Storage.uploadFile(
+      key: s3Key, // Unique key for your S3 object
+      localFile: AWSFilePlatform.fromFile(localFile),
+    );
+
+    print('File uploaded to S3 successfully.');
+    return s3Key;
+
+  } catch (e) {
+    print('Error uploading file to S3: $e');
+  }
+}
 
   Future<void> _handleAddProperty() async {
     Map<String, dynamic>? parameters = widget.apiParameters;
@@ -156,7 +176,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //   advertisment: "",
     // ));
 
-    uploadFileToS3(parameters['title_image'], 'unique-key-for-your-image.jpg');
+    Future<String?> titleImage = uploadFileToS3(parameters['title_image'], parameters['title']);
     final newData = Property(
 
       title: parameters['title'],
@@ -180,7 +200,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       description: parameters['description'],
       address: parameters['title'],
       clientAddress: parameters['client_address'],
-      titleImage: parameters['title_image'],
+      titleImage: titleImage.toString(),
       postCreated: parameters['title'],
       // gallery: [Gallery.fromMap({"id": 13, "image": parameters['gallery_images'].toString(), 'imageUrl': ''})] ,
 
