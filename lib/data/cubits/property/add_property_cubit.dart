@@ -91,7 +91,7 @@ class AddPropertyCubit extends Cubit<AddPropertyState> {
       final response = await Amplify.API.mutate(request: request).response;
       final propertyData = response.data;
       final statuscode = response.hasErrors;
-
+      print('this is propertyDtat: $propertyData');
       if (propertyData == null) {
         safePrint('errors: ${response.errors}');
       } else {

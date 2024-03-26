@@ -3,6 +3,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 import 'dart:io';
 import 'dart:developer';
+import 'dart:math' as mt;
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:ebroker/Ui/screens/widgets/custom_text_form_field.dart';
@@ -12,6 +13,7 @@ import 'package:ebroker/data/model/property_model.dart';
 import 'package:aws_common/vm.dart';
 import 'package:ebroker/test_page/test.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
+import 'package:ebroker/utils/convertJsonToAwsJson.dart';
 import 'package:ebroker/utils/responsiveSize.dart';
 import 'package:ebroker/utils/ui_utils.dart';
 import 'package:flutter/material.dart';
@@ -58,18 +60,18 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var _oldSize;
 
-  Future<String?> uploadFileToS3(String filePath, String s3Key) async {
+  Future<void> uploadFileToS3(String filePath, String s3Key) async {
   try {
     final localFile = File(filePath);
 
     // Upload file to S3
-    final result = await Amplify.Storage.uploadFile(
+    await Amplify.Storage.uploadFile(
       key: s3Key, // Unique key for your S3 object
       localFile: AWSFilePlatform.fromFile(localFile),
     );
 
     print('File uploaded to S3 successfully.');
-    return s3Key;
+
 
   } catch (e) {
     print('Error uploading file to S3: $e');
@@ -176,7 +178,17 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //   advertisment: "",
     // ));
 
-    Future<String?> titleImage = uploadFileToS3(parameters['title_image'], parameters['title']);
+    // mt.Random random = new mt.Random();
+    // int id = random.nextInt(100);
+    //
+    // String gallery = mapToEscapedJson({"id": id, "image": parameters['gallery_images'].toString(), 'imageUrl': ''});
+    // print('this is gallery : $gallery');
+
+    String titleImage = parameters['title'] + "_" + parameters['price'];
+    String threeDImage = parameters['threeD_image'] + "_" + parameters['price'];
+
+    uploadFileToS3(parameters['title_image'], titleImage);
+    uploadFileToS3(parameters['threeD_image'], threeDImage);
     final newData = Property(
 
       title: parameters['title'],
@@ -200,9 +212,9 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       description: parameters['description'],
       address: parameters['title'],
       clientAddress: parameters['client_address'],
-      titleImage: titleImage.toString(),
+      titleImage: titleImage,
       postCreated: parameters['title'],
-      // gallery: [Gallery.fromMap({"id": 13, "image": parameters['gallery_images'].toString(), 'imageUrl': ''})] ,
+      gallery: parameters['gallery_images'],
 
       state: parameters['title'],
       city: parameters['title'],
@@ -238,9 +250,10 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       // ],
       latitude: parameters['title'],
       longitude: parameters['title'],
-      threeDImage: parameters['threeD_image'],
+      threeDImage: threeDImage,
       video: parameters['video_link'],
     );
+    print('this is parameters[gallery_images]: ${parameters['gallery_images']}');
     context.read<AddPropertyCubit>().addProperty(context, newData);
 
     // if (success3) {

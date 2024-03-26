@@ -3,6 +3,7 @@
 import 'dart:collection';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math' as mt;
 
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
@@ -19,6 +20,7 @@ import '../../../../data/cubits/property/fetch_my_properties_cubit.dart';
 import '../../../../data/helper/widgets.dart';
 import '../../../../utils/Extensions/extensions.dart';
 import '../../../../utils/constant.dart';
+import '../../../../utils/convertJsonToAwsJson.dart';
 import '../../../../utils/helper_utils.dart';
 import '../../../../utils/responsiveSize.dart';
 import '../../../../utils/ui_utils.dart';
@@ -30,8 +32,10 @@ import '../Property tab/sell_rent_screen.dart';
 class SetProeprtyParametersScreen extends StatefulWidget {
   final Map propertyDetails;
   final bool isUpdate;
+
   const SetProeprtyParametersScreen(
       {super.key, required this.propertyDetails, required this.isUpdate});
+
   static Route route(RouteSettings settings) {
     Map? argument = settings.arguments as Map?;
 
@@ -60,6 +64,7 @@ class _SetProeprtyParametersScreenState
   File? t360degImage;
   Map<String, dynamic>? apiParameters;
   var paramaeterUI = [];
+
   @override
   void initState() {
     apiParameters = Map.from(widget.propertyDetails);
@@ -209,25 +214,27 @@ class _SetProeprtyParametersScreenState
             //TODO: TODO
             apiParameters!.addAll(assembleDynamicFieldsParameters());
 
-            /// Multipartimage of gallery images
-            List gallery = [];
+            List<String> gallery = [];
             await Future.forEach(
               galleryImage,
               (dynamic item) async {
-                var multipartFile = await MultipartFile.fromFile(item.path);
-                if (!multipartFile.isFinalized) {
-                  gallery.add(multipartFile.toString());
-                }
+                // var multipartFile = await MultipartFile.fromFile(item.path);
+                mt.Random random = new mt.Random();
+                int id = random.nextInt(100);
+                String galleryJson = mapToEscapedJson(
+                    {"id": id, "image": (item as File).path, 'imageUrl': ''});
+                gallery.add(galleryJson);
               },
             );
             apiParameters!['gallery_images'] = gallery;
+            print('this is gallery: $gallery');
 
             if (titleImage != null) {
-              ///Multipart image of title image
               final mimeType = lookupMimeType((titleImage as File).path);
               var extension = mimeType!.split("/");
-              apiParameters!['title_image'] =
-                  (titleImage as File).path;
+              apiParameters!['title_image'] = (titleImage as File).path;
+              print(
+                  'this is apiParameters![title_image]: ${apiParameters!['title_image']}');
             }
 
 //set 360 deg image
@@ -236,10 +243,7 @@ class _SetProeprtyParametersScreenState
               final mimeType = lookupMimeType(t360degImage!.path);
               var extension = mimeType!.split("/");
 
-              apiParameters!['threeD_image'] = await MultipartFile.fromFile(
-                  t360degImage?.path ?? "",
-                  contentType: h.MediaType('image', extension[1]),
-                  filename: t360degImage?.path.split("/").last).toString();
+              apiParameters!['threeD_image'] = t360degImage?.path.toString();
             }
 
             Future.delayed(
