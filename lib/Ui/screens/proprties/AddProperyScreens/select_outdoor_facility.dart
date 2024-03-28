@@ -184,11 +184,14 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     // String gallery = mapToEscapedJson({"id": id, "image": parameters['gallery_images'].toString(), 'imageUrl': ''});
     // print('this is gallery : $gallery');
 
-    String titleImage = parameters['title'] + "_" + parameters['price'];
-    String threeDImage = parameters['threeD_image'] + "_" + parameters['price'];
+    String titleImage = "title_${parameters['title']}_${parameters['price']}";
+    String threeDImage = "threeD_${parameters['threeD_image']}_${parameters['price']}";
 
     uploadFileToS3(parameters['title_image'], titleImage);
     uploadFileToS3(parameters['threeD_image'], threeDImage);
+
+    print('this is parameters[gallery_images] : ${parameters['gallery_images']}');
+
     final newData = Property(
 
       title: parameters['title'],
@@ -210,15 +213,15 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       //   {"id": 13, "measurement": "land"},
       // ),
       description: parameters['description'],
-      address: parameters['title'],
+      address: parameters['address'],
       clientAddress: parameters['client_address'],
       titleImage: titleImage,
       postCreated: parameters['title'],
       gallery: parameters['gallery_images'],
 
-      state: parameters['title'],
-      city: parameters['title'],
-      country: parameters['title'],
+      state: parameters['state'],
+      city: parameters['city'],
+      country: parameters['country'],
       addedBy: 10,
       isFavourite: false,
       isInterested: false,
@@ -248,12 +251,11 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       //     },
       //   )
       // ],
-      latitude: parameters['title'],
-      longitude: parameters['title'],
+      latitude: parameters['latitude'],
+      longitude: parameters['longitude'],
       threeDImage: threeDImage,
       video: parameters['video_link'],
     );
-    print('this is parameters[gallery_images]: ${parameters['gallery_images']}');
     context.read<AddPropertyCubit>().addProperty(context, newData);
 
     // if (success3) {

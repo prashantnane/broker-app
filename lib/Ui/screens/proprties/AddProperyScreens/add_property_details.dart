@@ -163,13 +163,13 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails> {
   }
 
   void _onTapContinue() async {
-    File? titleImage;
+    String? titleImage;
     File? v360Image;
     if (_pickTitleImage.pickedFile != null) {
       // final mimeType = lookupMimeType(_pickTitleImage.pickedFile!.path);
       // var extension = mimeType!.split("/");
 
-      titleImage = _pickTitleImage.pickedFile;
+      titleImage = _pickTitleImage.pickedFile?.path;
       print('this is titleImage $titleImage');
     }
 

@@ -60,7 +60,7 @@ class _SetProeprtyParametersScreenState
   List<ValueNotifier> disposableFields = [];
   final GlobalKey<FormState> _formKey = GlobalKey();
   List galleryImage = [];
-  File? titleImage;
+  String? titleImage;
   File? t360degImage;
   Map<String, dynamic>? apiParameters;
   var paramaeterUI = [];
@@ -230,9 +230,9 @@ class _SetProeprtyParametersScreenState
             print('this is gallery: $gallery');
 
             if (titleImage != null) {
-              final mimeType = lookupMimeType((titleImage as File).path);
-              var extension = mimeType!.split("/");
-              apiParameters!['title_image'] = (titleImage as File).path;
+              // final mimeType = lookupMimeType((titleImage)!.path);
+              // var extension = mimeType!.split("/");
+              apiParameters!['title_image'] = (titleImage);
               print(
                   'this is apiParameters![title_image]: ${apiParameters!['title_image']}');
             }

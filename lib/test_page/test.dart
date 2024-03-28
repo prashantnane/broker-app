@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
@@ -130,6 +131,47 @@ class _TestPageState extends State<TestPage> {
   }
 
   Future<void> uploadWithOptions() async {
+    // When uploading data, use `StorageUploadDataOptions`
+    final uploadDataOperation = Amplify.Storage.uploadData(
+      data: S3DataPayload.string(
+        'example',
+        contentType: 'text/plain',
+      ),
+      key: 'example.txt',
+      options: const StorageUploadDataOptions(
+        metadata: {
+          'project': 'ExampleProject',
+        },
+        pluginOptions: S3UploadDataPluginOptions(
+          getProperties: true,
+        ),
+      ),
+    );
+    final uploadDataResult = await uploadDataOperation.result;
+    safePrint(
+      'Uploaded data with metadata: ${uploadDataResult.uploadedItem.metadata}',
+    );
+
+    // When uploading a file, use `StorageUploadFileOptions`
+    final uploadFileOperation = Amplify.Storage.uploadFile(
+      localFile: AWSFile.fromPath('path/to/example.txt'),
+      key: 'example.txt',
+      options: const StorageUploadFileOptions(
+        metadata: {
+          'project': 'ExampleProject',
+        },
+        pluginOptions: S3UploadFilePluginOptions(
+          getProperties: true,
+        ),
+      ),
+    );
+    final uploadFileResult = await uploadFileOperation.result;
+    safePrint(
+      'Uploaded file with metadata: ${uploadFileResult.uploadedItem.metadata}',
+    );
+  }
+
+  Future<void> uploadWithOptions1() async {
     // When uploading data, use `StorageUploadDataOptions`
     final uploadDataOperation = Amplify.Storage.uploadData(
       data: S3DataPayload.string(
