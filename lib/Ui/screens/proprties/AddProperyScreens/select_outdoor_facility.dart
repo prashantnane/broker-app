@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
 // ignore_for_file: invalid_use_of_visible_for_testing_member
+import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
 import 'dart:math' as mt;
@@ -21,10 +22,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/Repositories/category_repository.dart';
 import '../../../../data/cubits/property/add_property_cubit.dart';
 import '../../../../data/cubits/property/create_property_cubit.dart';
 import '../../../../data/helper/widgets.dart';
 import '../../../../database.dart';
+import '../../../../models/CategoryModel.dart';
 import '../../../../models/Property.dart';
 import '../../../../test_page/db.dart';
 import '../../../../utils/helper_utils.dart';
@@ -60,23 +63,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var _oldSize;
 
-  Future<void> uploadFileToS3(String filePath, String s3Key) async {
-  try {
-    final localFile = File(filePath);
 
-    // Upload file to S3
-    await Amplify.Storage.uploadFile(
-      key: s3Key, // Unique key for your S3 object
-      localFile: AWSFilePlatform.fromFile(localFile),
-    );
-
-    print('File uploaded to S3 successfully.');
-
-
-  } catch (e) {
-    print('Error uploading file to S3: $e');
-  }
-}
 
   Future<void> _handleAddProperty() async {
     Map<String, dynamic>? parameters = widget.apiParameters;
@@ -184,11 +171,20 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     // String gallery = mapToEscapedJson({"id": id, "image": parameters['gallery_images'].toString(), 'imageUrl': ''});
     // print('this is gallery : $gallery');
 
-    String titleImage = "title_${parameters['title']}_${parameters['price']}";
-    String threeDImage = "threeD_${parameters['threeD_image']}_${parameters['price']}";
 
-    uploadFileToS3(parameters['title_image'], titleImage);
-    uploadFileToS3(parameters['threeD_image'], threeDImage);
+
+    final CategoryRepository _categoryRepository = CategoryRepository();
+    Map<String, dynamic> categoryJson =
+    await _categoryRepository.fetchCategoryById(parameters['category_id']);
+    String? categoryAwsJson = mapToEscapedJson(categoryJson);
+
+    print('this is category : $categoryAwsJson');
+
+    String titleImage = "title_${parameters['title']}_${parameters['price']}";
+    String threeDImage = "threeD_${parameters['title']}_${parameters['price']}";
+
+    context.read<AddPropertyCubit>().uploadFileToS3(parameters['title_image'], titleImage);
+    context.read<AddPropertyCubit>().uploadFileToS3(parameters['threeD_image'], threeDImage);
 
     print('this is parameters[gallery_images] : ${parameters['gallery_images']}');
 
@@ -200,15 +196,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       customerEmail: parameters['title'],
       customerProfile: parameters['title'],
       customerNumber: parameters['title'],
-      // category: Categorys.fromMap(
-      //   {
-      //     "id": 13,
-      //     "category": "Land",
-      //     "image":
-      //     "https://dev-ebroker.thewrteam.in/images/category/1677740868.9774.svg",
-      //     "slug_id": "land"
-      //   },
-      // ),
+      category: json.encode(categoryJson),
       // unitType: UnitType.fromMap(
       //   {"id": 13, "measurement": "land"},
       // ),

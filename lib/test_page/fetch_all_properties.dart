@@ -4,10 +4,12 @@ import 'package:ebroker/Ui/screens/proprties/viewAll.dart';
 import 'package:ebroker/data/Repositories/property_repository.dart';
 import 'package:ebroker/data/model/data_output.dart';
 import 'package:ebroker/data/model/property_model.dart';
+import 'package:ebroker/test_page/viewAllTest.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../../../settings.dart';
 import '../../../utils/Network/networkAvailability.dart';
+import '../models/Property.dart';
 
 abstract class FetchAllPropertiesState {}
 
@@ -16,14 +18,14 @@ class FetchAllProepertiesInitial extends FetchAllPropertiesState {}
 class FetchAllPropertiesInProgress extends FetchAllPropertiesState {}
 
 class FetchAllPropertiesSuccess extends FetchAllPropertiesState
-    implements PropertySuccessStateWireframe {
+    implements PropertySuccessStateWireframeTest {
   final int total;
   final int offset;
   @override
   final bool isLoadingMore;
   final bool hasError;
-  @override
-  final List<PropertyModel> properties;
+  // @override
+  final List<Property> properties;
 
   FetchAllPropertiesSuccess({
     required this.total,
@@ -38,7 +40,7 @@ class FetchAllPropertiesSuccess extends FetchAllPropertiesState
     int? offset,
     bool? isLoadingMore,
     bool? hasError,
-    List<PropertyModel>? properties,
+    List<Property>? properties,
   }) {
     return FetchAllPropertiesSuccess(
       total: total ?? this.total,
@@ -50,7 +52,7 @@ class FetchAllPropertiesSuccess extends FetchAllPropertiesState
   }
 
   @override
-  set properties(List<PropertyModel> _properties) {
+  set properties(List<Property> _properties) {
     // TODO: implement properties
   }
 
@@ -75,9 +77,8 @@ class FetchAllPropertiesSuccess extends FetchAllPropertiesState
       offset: map['offset'] as int,
       isLoadingMore: map['isLoadingMore'] as bool,
       hasError: map['hasError'] as bool,
-      properties: (map['properties'] as List)
-          .map((e) => PropertyModel.fromMap(e))
-          .toList(),
+      properties: map['properties']
+
     );
   }
 }
@@ -127,7 +128,7 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
       //   }
       // }
       if (forceRefresh == true) {
-        DataOutput<PropertyModel> result =
+        DataOutput<Property> result =
         await _propertyRepository.fetchAllProperties(offset: 0);
         // log("API RESULT IS $result");
         emit(
@@ -140,7 +141,7 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
         );
       } else {
         if (state is! FetchAllPropertiesSuccess) {
-          DataOutput<PropertyModel> result =
+          DataOutput<Property> result =
           await _propertyRepository.fetchAllProperties(offset: 0);
           emit(
             FetchAllPropertiesSuccess(
@@ -153,7 +154,7 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
         } else {
           await CheckInternet.check(
             onInternet: () async {
-              DataOutput<PropertyModel> result =
+              DataOutput<Property> result =
               await _propertyRepository.fetchAllProperties(offset: 0);
               emit(
                 FetchAllPropertiesSuccess(
@@ -195,17 +196,17 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
       }
       emit((state as FetchAllPropertiesSuccess)
           .copyWith(isLoadingMore: true));
-      DataOutput<PropertyModel> result =
+      DataOutput<Property> result =
       await _propertyRepository.fetchAllProperties(
         offset: (state as FetchAllPropertiesSuccess).properties.length,
       );
-      FetchAllPropertiesSuccess propertymodelState =
+      FetchAllPropertiesSuccess propertyState =
       (state as FetchAllPropertiesSuccess);
-      propertymodelState.properties.addAll(result.modelList);
+      propertyState.properties.addAll(result.modelList);
       emit(FetchAllPropertiesSuccess(
           isLoadingMore: false,
           hasError: false,
-          properties: propertymodelState.properties,
+          properties: propertyState.properties,
           offset: (state as FetchAllPropertiesSuccess).properties.length,
           total: result.total));
     }

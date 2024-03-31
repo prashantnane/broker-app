@@ -1,4 +1,4 @@
-
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
@@ -17,6 +17,9 @@ import 'package:flutter/material.dart';
 import '../app/routes.dart';
 import '../data/cubits/category/fetch_category_cubit.dart';
 import '../data/Repositories/category_repository.dart';
+import '../data/cubits/property/add_property_cubit.dart';
+import '../models/Property.dart';
+import '../utils/convertJsonToAwsJson.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
@@ -119,96 +122,76 @@ class _TestPageState extends State<TestPage> {
           ),
           SizedBox(height: 16),
           ElevatedButton(
-            onPressed:
-              uploadWithOptions
-            ,
-            child: Text('upload img'),
-          ),
+            onPressed: () async {
+              final CategoryRepository _categoryRepository =
+                  CategoryRepository();
+              Map<String, dynamic> categoryJson = await _categoryRepository
+                  .fetchCategoryById("9fec9628-4375-4c3a-b79c-8a27915b6865");
+              String categoryAwsJson = mapToEscapedJson(categoryJson);
 
+              print('this is category data: $categoryAwsJson');
+
+              final newData = Property(
+                title: "parameters['title']",
+                price: "parameters['price']",
+                customerName: "parameters['title']",
+                customerEmail: "parameters['title']",
+                customerProfile: "parameters['title']",
+                customerNumber: "parameters['title']",
+                category: json.encode(categoryJson),
+                // unitType: UnitType.fromMap(
+                //   {"id": 13, "measurement": "land"},
+                // ),
+                description: "parameters['description']",
+                address: "parameters['address']",
+                clientAddress: "parameters['client_address']",
+                titleImage: "titleImage",
+                postCreated: "parameters['title']",
+                gallery: ["parameters[gallery_images]"],
+
+                state: "parameters['state']",
+                city: "parameters['city']",
+                country: "parameters['country']",
+                addedBy: 10,
+                isFavourite: false,
+                isInterested: false,
+                // parameters: [
+                //   Parameter.fromMap(
+                //     {
+                //       "id": 13,
+                //       "name": "Land",
+                //       "typeOfParameter": "land",
+                //       "typeValues": '',
+                //       "image": "",
+                //       "value": 5,
+                //     },
+                //   )
+                // ],
+                // assignedOutdoorFacility: [
+                //   AssignedOutdoorFacility.fromJson(
+                //     {
+                //       "id": 13,
+                //       "name": "Land",
+                //       "propertyId": 0,
+                //       "facilityId": 0,
+                //       "distance": 0,
+                //       "image": "",
+                //       "createdAt": "",
+                //       "updatedAt": "",
+                //     },
+                //   )
+                // ],
+                latitude: "parameters['latitude']",
+                longitude: " parameters['longitude']",
+                threeDImage: " threeDImage",
+                video: "parameters['video_link']",
+              );
+              context.read<AddPropertyCubit>().addProperty(context, newData);
+            },
+            child: Text('add data'),
+          ),
         ],
       ),
-    );
-  }
-
-  Future<void> uploadWithOptions() async {
-    // When uploading data, use `StorageUploadDataOptions`
-    final uploadDataOperation = Amplify.Storage.uploadData(
-      data: S3DataPayload.string(
-        'example',
-        contentType: 'text/plain',
-      ),
-      key: 'example.txt',
-      options: const StorageUploadDataOptions(
-        metadata: {
-          'project': 'ExampleProject',
-        },
-        pluginOptions: S3UploadDataPluginOptions(
-          getProperties: true,
-        ),
-      ),
-    );
-    final uploadDataResult = await uploadDataOperation.result;
-    safePrint(
-      'Uploaded data with metadata: ${uploadDataResult.uploadedItem.metadata}',
-    );
-
-    // When uploading a file, use `StorageUploadFileOptions`
-    final uploadFileOperation = Amplify.Storage.uploadFile(
-      localFile: AWSFile.fromPath('path/to/example.txt'),
-      key: 'example.txt',
-      options: const StorageUploadFileOptions(
-        metadata: {
-          'project': 'ExampleProject',
-        },
-        pluginOptions: S3UploadFilePluginOptions(
-          getProperties: true,
-        ),
-      ),
-    );
-    final uploadFileResult = await uploadFileOperation.result;
-    safePrint(
-      'Uploaded file with metadata: ${uploadFileResult.uploadedItem.metadata}',
-    );
-  }
-
-  Future<void> uploadWithOptions1() async {
-    // When uploading data, use `StorageUploadDataOptions`
-    final uploadDataOperation = Amplify.Storage.uploadData(
-      data: S3DataPayload.string(
-        'example',
-        contentType: 'text/plain',
-      ),
-      key: 'example.txt',
-      options: const StorageUploadDataOptions(
-        metadata: {
-          'project': 'ExampleProject',
-        },
-        pluginOptions: S3UploadDataPluginOptions(
-          getProperties: true,
-        ),
-      ),
-    );
-    final uploadDataResult = await uploadDataOperation.result;
-    safePrint(
-      'Uploaded data with metadata: ${uploadDataResult.uploadedItem.metadata}',
-    );
-
-    // When uploading a file, use `StorageUploadFileOptions`
-    final uploadFileOperation = Amplify.Storage.uploadFile(
-      localFile: AWSFile.fromPath('/data/user/0/com.ebroker.wrteam/cache/scaled_1000060226.jpg'),
-      key: 'example.txt',
-      options: const StorageUploadFileOptions(
-        metadata: {
-          'project': 'ExampleProject',
-        },
-        pluginOptions: S3UploadFilePluginOptions(
-          getProperties: true,
-        ),
-      ),
-    );
-    final uploadFileResult = await uploadFileOperation.result;
-    safePrint(
-      'Uploaded file with metadata: ${uploadFileResult.uploadedItem.metadata}',
     );
   }
 

@@ -65,22 +65,22 @@ class AddPropertyCubit extends Cubit<AddPropertyState> {
     emit(AddPropertyProgress());
   }
 
-  Future<String?> uploadFileToS3(String filePath, String s3Key) async {
+  Future<void> uploadFileToS3(String filePath, String s3Key) async {
     try {
       final localFile = File(filePath);
 
       // Upload file to S3
-      final result = await Amplify.Storage.uploadFile(
+      await Amplify.Storage.uploadFile(
         key: s3Key, // Unique key for your S3 object
         localFile: AWSFilePlatform.fromFile(localFile),
       );
 
       print('File uploaded to S3 successfully.');
-      return result.operationId;
+
+
     } catch (e) {
       print('Error uploading file to S3: $e');
     }
-    
   }
 
   Future<bool> addPropertyToDb(Property property) async {
@@ -92,17 +92,57 @@ class AddPropertyCubit extends Cubit<AddPropertyState> {
       final propertyData = response.data;
       final statuscode = response.hasErrors;
       print('this is propertyDtat: $propertyData');
+      success = true;
       if (propertyData == null) {
         safePrint('errors: ${response.errors}');
+        success = false;
       } else {
         safePrint('Mutation result: ${propertyData.id}');
       }
-      success = true;
     } on Exception catch (error) {
       debugPrint(
         error.toString(),
       );
+      success = false;
     }
     return success;
   }
+
+  // Future<void> fetchProperties(String doctorID) async {
+  //   try {
+  //     final gqlrequest = GraphQLRequest<String>(
+  //       document: '''
+  //       query fetchDoctor {
+  //       getDoctor(id: "$doctorID") {
+  //   id
+  //   name
+  //   phoneNumber
+  //   specialization
+  //   email
+  //   currentPlanID
+  //   currentValidity
+  //   currentCredits
+  //   }
+  //   }''',
+  //     );
+  //
+  //     final response = await Amplify.API.query(request: gqlrequest).response;
+  //     Map<String, dynamic> responseMap = json.decode(response.data!);
+  //     ref.read(doctorDetailsProvider.notifier).state =
+  //         Doctor(
+  //           id: responseMap['getDoctor']['id'],
+  //           name: responseMap['getDoctor']['name'],
+  //           email: responseMap['getDoctor']['email'],
+  //           specialization: responseMap['getDoctor']['specialization'],
+  //           phoneNumber: responseMap['getDoctor']['phoneNumber'],
+  //           currentValidity: responseMap['getDoctor']['currentValidity'],
+  //           currentPlanID: responseMap['getDoctor']['currentPlanID'],
+  //           currentCredits: responseMap['getDoctor']['currentCredits'],
+  //         ) ;
+  //   } on Exception catch (error) {
+  //     debugPrint(
+  //       error.toString(),
+  //     );
+  //   }
+  // }
 }

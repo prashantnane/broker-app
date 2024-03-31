@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ebroker/test_page/propertyHorizontalCard.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ import '../Ui/screens/home/home_screen.dart';
 import '../Ui/screens/widgets/shimmerLoadingContainer.dart';
 import '../data/model/property_model.dart';
 import '../exports/main_export.dart';
+import '../models/Property.dart';
 import '../utils/helper_utils.dart';
 import 'db.dart';
 import 'fetch_all_properties.dart';
@@ -133,8 +135,8 @@ class _ShowAllPropertyPageState extends State<ShowAllPropertyPage> {
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      PropertyModel modal = state.properties[index];
-                      modal = context.watch<PropertyEditCubit>().get(modal);
+                      Property modal = state.properties[index];
+                      // modal = context.watch<PropertyEditCubit>().get(modal);
                       return GestureDetector(
                           onTap: () {
                             HelperUtils.goToNextPage(
@@ -148,7 +150,7 @@ class _ShowAllPropertyPageState extends State<ShowAllPropertyPage> {
                               },
                             );
                           },
-                          child: PropertyHorizontalCard(
+                          child: PropertyHorizontalCardTest(
                             property: modal,
                             additionalImageWidth: 10,
                           ));

@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../models/Property.dart';
 import '../../utils/api.dart';
 import '../../utils/constant.dart';
 import '../../utils/hive_utils.dart';
@@ -73,40 +78,107 @@ class PropertyRepository {
     return DataOutput(total: response['total'] ?? 0, modelList: modelList);
   }
 
-  Future<DataOutput<PropertyModel>> fetchAllProperties(
-      {required int offset}) async {
+  Future<DataOutput<Property>> fetchAllProperties({required int offset}) async {
     Map<String, dynamic> parameters = {
       Api.offset: offset,
       Api.limit: Constant.loadLimit,
       "current_user": HiveUtils.getUserId()
     };
-    List<PropertyModel> modelList = [];
+    List<Property> modelList = [];
+
+    print('listening to fetchProperties');
+    try {
+      final request = GraphQLRequest<String>(
+        document: '''
+          query GetProperties {
+            listProperties {
+              items {
+                title
+      price
+      customerName
+      customerEmail
+      customerProfile
+      customerNumber
+      category
+      description
+      address
+      clientAddress
+      propertyType
+      titleImage
+      postCreated
+      gallery
+      state
+      city
+      country
+      addedBy
+      isFavourite
+      isInterested
+      assignedOutdoorFacility
+      latitude
+      longitude
+      threeDImage
+      video
+               }
+            }
+          }
+        ''',
+        // variables: {
+        //   'offset': offset,
+        //   'limit': Constant.loadLimit, // Adjust based on your requirements
+        // },
+      );
+
+      final response = await Amplify.API.query(request: request).response;
+      // print('this is response from category repo: ${response.data}');
+
+      if (response.data != null) {
+        Map<String, dynamic> data = json.decode(response.data!);
+
+        final List<dynamic> propertyList = data['listProperties']['items'];
+        print('this data from property repo: ${data}');
+
+        List<Property> modelList = propertyList.map(
+          (e) {
+            return Property.fromJson(e);
+          },
+        ).toList();
+
+        print('this is modelList from property repository: $modelList');
+
+        return DataOutput(total: 0, modelList: modelList);
+      } else {
+        throw Exception('Failed to fetch categories');
+      }
+    } catch (e) {
+      throw e;
+    }
 
     Map<String, dynamic> response =
         await Api.get(url: Api.apiGetProprty, queryParameters: parameters);
 
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('all_properties');
+    // CollectionReference users =
+    //     FirebaseFirestore.instance.collection('all_properties');
 
-    try {
-      QuerySnapshot firestoreSnapshot = await users.get();
-
-      // Iterate over Firestore documents and add them to the modelList
-      for (var firestoreDoc in firestoreSnapshot.docs) {
-        PropertyModel firestoreModel = PropertyModel.fromMap(firestoreDoc.data() as Map<String, dynamic>);
-        modelList.add(firestoreModel);
-      }
-      print('this is modelList: $modelList');
-
-      // Add data from the other API to the modelList
-      // List<PropertyModel> apiModelList =
-      // (response['data']).map((e) => PropertyModel.fromMap(e)).toList();
-      // modelList.addAll(apiModelList);
-
-      return DataOutput(total: response['total'] ?? 0, modelList: modelList);
-    } catch (e) {
-      print('Error fetching Firestore data: $e');
-    }
+    // try {
+    //   // QuerySnapshot firestoreSnapshot = await users.get();
+    //
+    //   // Iterate over Firestore documents and add them to the modelList
+    //   // for (var firestoreDoc in firestoreSnapshot.docs) {
+    //   //   PropertyModel firestoreModel =
+    //   //       PropertyModel.fromMap(firestoreDoc.data() as Map<String, dynamic>);
+    //   //   modelList.add(firestoreModel);
+    //   // }
+    //   print('this is modelList: $modelList');
+    //
+    //   // Add data from the other API to the modelList
+    //   // List<PropertyModel> apiModelList =
+    //   // (response['data']).map((e) => PropertyModel.fromMap(e)).toList();
+    //   // modelList.addAll(apiModelList);
+    //
+    //   return DataOutput(total: response['total'] ?? 0, modelList: modelList);
+    // } catch (e) {
+    //   print('Error fetching Firestore data: $e');
+    // }
 
     // If there's an error fetching Firestore data, return the API data
     return DataOutput(total: response['total'] ?? 0, modelList: modelList);

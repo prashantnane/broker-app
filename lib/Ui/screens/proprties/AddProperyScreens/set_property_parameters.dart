@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_parser/http_parser.dart' as h;
 import 'package:mime/mime.dart';
 
+import '../../../../data/cubits/property/add_property_cubit.dart';
 import '../../../../data/cubits/property/create_property_cubit.dart';
 import '../../../../data/cubits/property/fetch_my_properties_cubit.dart';
 import '../../../../data/helper/widgets.dart';
@@ -221,9 +222,11 @@ class _SetProeprtyParametersScreenState
                 // var multipartFile = await MultipartFile.fromFile(item.path);
                 mt.Random random = new mt.Random();
                 int id = random.nextInt(100);
-                String galleryJson = mapToEscapedJson(
-                    {"id": id, "image": (item as File).path, 'imageUrl': ''});
-                gallery.add(galleryJson);
+                // String galleryJson = mapToEscapedJson(
+                //     {"id": id, "image": (item as File).path, 'imageUrl': ''});
+                String s3gallery = "gallery_$id";
+                context.read<AddPropertyCubit>().uploadFileToS3((item as File).path, s3gallery);
+                gallery.add((item as File).path);
               },
             );
             apiParameters!['gallery_images'] = gallery;
