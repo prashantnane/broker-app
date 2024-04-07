@@ -12,9 +12,7 @@ type OutdoorFacility @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
   image: String
-  distance: String
-  createdAt: AWSDateTime
-  updatedAt: AWSDateTime
+  facilityId: Int
 }
 
 type Category @model @auth(rules: [{allow: public}]) {
@@ -39,7 +37,7 @@ type Property @model @auth(rules: [{allow: public}]) {
   propertyType: String
   titleImage: String
   postCreated: String
-  gallery: [String]
+  gallery: [AWSJSON]
   state: String
   city: String
   country: String
@@ -51,5 +49,6 @@ type Property @model @auth(rules: [{allow: public}]) {
   longitude: String
   threeDImage: String
   video: String
+  parameters: [AWSJSON]
 }
  

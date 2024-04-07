@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:ebroker/data/Repositories/outdoorfacility.dart';
-import 'package:ebroker/data/model/outdoor_facility.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/OutdoorFacility.dart';
 import '../../model/property_model.dart';
 
 class FetchOutdoorFacilityListState {}
@@ -45,7 +45,7 @@ class FetchOutdoorFacilityListCubit
       emit(FetchOutdoorFacilityListInProgress());
 
       List<OutdoorFacility> facilityList =
-          await _facilityRepository.fetchOutdoorFacilityList();
+          await _facilityRepository.fetchOutdoorFacilityRepository();
       emit(FetchOutdoorFacilityListSucess(outdoorFacilityList: facilityList));
     } catch (error) {
       emit(FetchOutdoorFacilityListFailure(error: error));
@@ -66,7 +66,7 @@ class FetchOutdoorFacilityListCubit
     }
   }
 
-  fillData(List<AssignedOutdoorFacility> facilities) {
+  fillData(List<OutdoorFacility> facilities) {
     if (state is FetchOutdoorFacilityListSucess) {
       List<OutdoorFacility> outdoorFacilityList =
           (state as FetchOutdoorFacilityListSucess).outdoorFacilityList;
@@ -75,8 +75,8 @@ class FetchOutdoorFacilityListCubit
       for (var i = 0; i < facilities.length; i++) {
         newFacility.add(OutdoorFacility(
             name: facilities[i].name,
-            id: facilities[i].id,
-            distance: facilities[i].distance.toString(),
+            // id: facilities[i].id,
+            // distance: facilities[i].distance.toString(),
             image: facilities[i].image));
       }
 

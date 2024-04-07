@@ -98,7 +98,7 @@ class _NearbyInterestState extends State<NearbyInterest>
                 padding: const EdgeInsets.all(3.0),
                 child: GestureDetector(
                   onTap: () {
-                    selectedIds.addOrRemove(facility.id!);
+                    selectedIds.addOrRemove(facility.facilityId!);
                     widget.onInteraction.call(selectedIds);
                     setState(() {});
                   },

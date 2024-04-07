@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:ebroker/Ui/screens/widgets/AnimatedRoutes/blur_page_route.dart';
 import 'package:ebroker/data/Repositories/location_repository.dart';
-import 'package:ebroker/data/model/outdoor_facility.dart';
 import 'package:ebroker/exports/main_export.dart';
 import 'package:ebroker/models/CategoryModel.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
@@ -18,6 +17,7 @@ import '../../../data/cubits/Personalized/fetch_personalized_properties.dart';
 import '../../../data/cubits/category/fetch_category_cubit.dart';
 import '../../../data/helper/widgets.dart';
 import '../../../data/model/google_place_model.dart';
+import '../../../models/OutdoorFacility.dart';
 import '../../../utils/helper_utils.dart';
 
 part 'segments/choose_category.dart';

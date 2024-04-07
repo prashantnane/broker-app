@@ -29,7 +29,7 @@ class OutdoorFacility extends amplify_core.Model {
   final String id;
   final String? _name;
   final String? _image;
-  final String? _distance;
+  final int? _facilityId;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -54,8 +54,8 @@ class OutdoorFacility extends amplify_core.Model {
     return _image;
   }
   
-  String? get distance {
-    return _distance;
+  int? get facilityId {
+    return _facilityId;
   }
   
   amplify_core.TemporalDateTime? get createdAt {
@@ -66,16 +66,14 @@ class OutdoorFacility extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const OutdoorFacility._internal({required this.id, name, image, distance, createdAt, updatedAt}): _name = name, _image = image, _distance = distance, _createdAt = createdAt, _updatedAt = updatedAt;
+  const OutdoorFacility._internal({required this.id, name, image, facilityId, createdAt, updatedAt}): _name = name, _image = image, _facilityId = facilityId, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory OutdoorFacility({String? id, String? name, String? image, String? distance, amplify_core.TemporalDateTime? createdAt, amplify_core.TemporalDateTime? updatedAt}) {
+  factory OutdoorFacility({String? id, String? name, String? image, int? facilityId}) {
     return OutdoorFacility._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       image: image,
-      distance: distance,
-      createdAt: createdAt,
-      updatedAt: updatedAt);
+      facilityId: facilityId);
   }
   
   bool equals(Object other) {
@@ -89,9 +87,7 @@ class OutdoorFacility extends amplify_core.Model {
       id == other.id &&
       _name == other._name &&
       _image == other._image &&
-      _distance == other._distance &&
-      _createdAt == other._createdAt &&
-      _updatedAt == other._updatedAt;
+      _facilityId == other._facilityId;
   }
   
   @override
@@ -105,7 +101,7 @@ class OutdoorFacility extends amplify_core.Model {
     buffer.write("id=" + "$id" + ", ");
     buffer.write("name=" + "$_name" + ", ");
     buffer.write("image=" + "$_image" + ", ");
-    buffer.write("distance=" + "$_distance" + ", ");
+    buffer.write("facilityId=" + (_facilityId != null ? _facilityId!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -113,30 +109,24 @@ class OutdoorFacility extends amplify_core.Model {
     return buffer.toString();
   }
   
-  OutdoorFacility copyWith({String? name, String? image, String? distance, amplify_core.TemporalDateTime? createdAt, amplify_core.TemporalDateTime? updatedAt}) {
+  OutdoorFacility copyWith({String? name, String? image, int? facilityId}) {
     return OutdoorFacility._internal(
       id: id,
       name: name ?? this.name,
       image: image ?? this.image,
-      distance: distance ?? this.distance,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt);
+      facilityId: facilityId ?? this.facilityId);
   }
   
   OutdoorFacility copyWithModelFieldValues({
     ModelFieldValue<String?>? name,
     ModelFieldValue<String?>? image,
-    ModelFieldValue<String?>? distance,
-    ModelFieldValue<amplify_core.TemporalDateTime?>? createdAt,
-    ModelFieldValue<amplify_core.TemporalDateTime?>? updatedAt
+    ModelFieldValue<int?>? facilityId
   }) {
     return OutdoorFacility._internal(
       id: id,
       name: name == null ? this.name : name.value,
       image: image == null ? this.image : image.value,
-      distance: distance == null ? this.distance : distance.value,
-      createdAt: createdAt == null ? this.createdAt : createdAt.value,
-      updatedAt: updatedAt == null ? this.updatedAt : updatedAt.value
+      facilityId: facilityId == null ? this.facilityId : facilityId.value
     );
   }
   
@@ -144,19 +134,19 @@ class OutdoorFacility extends amplify_core.Model {
     : id = json['id'],
       _name = json['name'],
       _image = json['image'],
-      _distance = json['distance'],
+      _facilityId = (json['facilityId'] as num?)?.toInt(),
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'image': _image, 'distance': _distance, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'image': _image, 'facilityId': _facilityId, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
     'id': id,
     'name': _name,
     'image': _image,
-    'distance': _distance,
+    'facilityId': _facilityId,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -165,9 +155,7 @@ class OutdoorFacility extends amplify_core.Model {
   static final ID = amplify_core.QueryField(fieldName: "id");
   static final NAME = amplify_core.QueryField(fieldName: "name");
   static final IMAGE = amplify_core.QueryField(fieldName: "image");
-  static final DISTANCE = amplify_core.QueryField(fieldName: "distance");
-  static final CREATEDAT = amplify_core.QueryField(fieldName: "createdAt");
-  static final UPDATEDAT = amplify_core.QueryField(fieldName: "updatedAt");
+  static final FACILITYID = amplify_core.QueryField(fieldName: "facilityId");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "OutdoorFacility";
     modelSchemaDefinition.pluralName = "OutdoorFacilities";
@@ -198,20 +186,22 @@ class OutdoorFacility extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: OutdoorFacility.DISTANCE,
+      key: OutdoorFacility.FACILITYID,
       isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
     ));
     
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: OutdoorFacility.CREATEDAT,
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
       isRequired: false,
+      isReadOnly: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: OutdoorFacility.UPDATEDAT,
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
       isRequired: false,
+      isReadOnly: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });

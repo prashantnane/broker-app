@@ -7,6 +7,8 @@ import 'dart:developer';
 
 import 'package:ebroker/utils/Extensions/lib/adaptive_type.dart';
 
+import '../../../../data/model/property_model.dart';
+
 class DashboardPropertyModal {
   DashboardPropertyModal(
       {this.id,
@@ -358,72 +360,72 @@ class Categorys {
       };
 }
 
-class Parameter {
-  Parameter({
-    this.id,
-    this.name,
-    this.typeOfParameter,
-    this.typeValues,
-    this.image,
-    this.value,
-  });
+// class Parameter {
+//   Parameter({
+//     this.id,
+//     this.name,
+//     this.typeOfParameter,
+//     this.typeValues,
+//     this.image,
+//     this.value,
+//   });
 
-  final int? id;
-  final String? name;
-  final String? typeOfParameter;
-  final dynamic typeValues;
-  final String? image;
-  final dynamic value;
+  // final int? id;
+  // final String? name;
+  // final String? typeOfParameter;
+  // final dynamic typeValues;
+  // final String? image;
+  // final dynamic value;
+  //
+  // Parameter copyWith({
+  //   int? id,
+  //   String? name,
+  //   String? typeOfParameter,
+  //   dynamic typeValues,
+  //   String? image,
+  //   dynamic value,
+  // }) =>
+  //     Parameter(
+  //       id: id ?? this.id,
+  //       name: name ?? this.name,
+  //       typeOfParameter: typeOfParameter ?? this.typeOfParameter,
+  //       typeValues: typeValues ?? this.typeValues,
+  //       image: image ?? this.image,
+  //       value: value ?? this.value,
+  //     );
+  //
+  // static dynamic ifListConvertToString(dynamic value) {
+  //   if (value is List) {
+  //     return value.join(",");
+  //   }
+  //   return value;
+  // }
+  //
+  // factory Parameter.fromMap(Map<String, dynamic> json) {
+  //   return Parameter(
+  //     id: json["id"],
+  //     name: json["name"],
+  //     typeOfParameter: json["type_of_parameter"],
+  //     typeValues: json["type_values"],
+  //     image: json["image"],
+  //     value: ifListConvertToString(json['value']),
+  //   );
+  // }
 
-  Parameter copyWith({
-    int? id,
-    String? name,
-    String? typeOfParameter,
-    dynamic typeValues,
-    String? image,
-    dynamic value,
-  }) =>
-      Parameter(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        typeOfParameter: typeOfParameter ?? this.typeOfParameter,
-        typeValues: typeValues ?? this.typeValues,
-        image: image ?? this.image,
-        value: value ?? this.value,
-      );
-
-  static dynamic ifListConvertToString(dynamic value) {
-    if (value is List) {
-      return value.join(",");
-    }
-    return value;
-  }
-
-  factory Parameter.fromMap(Map<String, dynamic> json) {
-    return Parameter(
-      id: json["id"],
-      name: json["name"],
-      typeOfParameter: json["type_of_parameter"],
-      typeValues: json["type_values"],
-      image: json["image"],
-      value: ifListConvertToString(json['value']),
-    );
-  }
-
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "name": name,
-        "type_of_parameter": typeOfParameter,
-        "type_values": typeValues,
-        "image": image,
-        "value": value,
-      };
-
-  @override
-  String toString() {
-    return 'Parameter(id: $id, name: $name, typeOfParameter: $typeOfParameter, typeValues: $typeValues, image: $image, value: $value)';
-  }
-}
+//   Map<String, dynamic> toMap() => {
+//         "id": id,
+//         "name": name,
+//         "type_of_parameter": typeOfParameter,
+//         "type_values": typeValues,
+//         "image": image,
+//         "value": value,
+//       };
+//
+//   @override
+//   String toString() {
+//     return 'Parameter(id: $id, name: $name, typeOfParameter: $typeOfParameter, typeValues: $typeValues, image: $image, value: $value)';
+//   }
+// }
 
 class UnitType {
   UnitType({

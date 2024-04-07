@@ -9,8 +9,6 @@ import 'dart:math' as mt;
 import 'package:amplify_core/amplify_core.dart';
 import 'package:ebroker/Ui/screens/widgets/custom_text_form_field.dart';
 import 'package:ebroker/data/cubits/outdoorfacility/fetch_outdoor_facility_list.dart';
-import 'package:ebroker/data/model/outdoor_facility.dart';
-import 'package:ebroker/data/model/property_model.dart';
 import 'package:aws_common/vm.dart';
 import 'package:ebroker/test_page/test.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
@@ -26,8 +24,10 @@ import '../../../../data/Repositories/category_repository.dart';
 import '../../../../data/cubits/property/add_property_cubit.dart';
 import '../../../../data/cubits/property/create_property_cubit.dart';
 import '../../../../data/helper/widgets.dart';
+import '../../../../data/model/property_model.dart';
 import '../../../../database.dart';
 import '../../../../models/CategoryModel.dart';
+import '../../../../models/OutdoorFacility.dart';
 import '../../../../models/Property.dart';
 import '../../../../test_page/db.dart';
 import '../../../../utils/helper_utils.dart';
@@ -58,12 +58,10 @@ class SelectOutdoorFacility extends StatefulWidget {
 
 class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
   final ValueNotifier<List<int>> _selectedIdsList = ValueNotifier([]);
-  List<OutdoorFacility> facilityList = [];
+  List<OutdoorFacility> outdoorFacilityList = [];
   Map<int, TextEditingController> distanceFieldList = {};
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var _oldSize;
-
-
 
   Future<void> _handleAddProperty() async {
     Map<String, dynamic>? parameters = widget.apiParameters;
@@ -79,8 +77,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //       .create(parameters: parameters);
     // }
 
-
-    bool success1 = await DatabaseMethods().addProperty(parameters!);
+    // bool success1 = await DatabaseMethods().addProperty(parameters!);
     // print('this is parameters[title] ${parameters['title']}');
 
     // bool success2 = await addSampleProperty(PropertyModel(
@@ -171,78 +168,59 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     // String gallery = mapToEscapedJson({"id": id, "image": parameters['gallery_images'].toString(), 'imageUrl': ''});
     // print('this is gallery : $gallery');
 
-
+    print("this is parameter data : $parameters");
 
     final CategoryRepository _categoryRepository = CategoryRepository();
     Map<String, dynamic> categoryJson =
-    await _categoryRepository.fetchCategoryById(parameters['category_id']);
-    String? categoryAwsJson = mapToEscapedJson(categoryJson);
+        await _categoryRepository.fetchCategoryById(parameters?['category_id']);
+    // String? categoryAwsJson = mapToEscapedJson(categoryJson);
+    //
+    // print('this is category : $categoryAwsJson');
 
-    print('this is category : $categoryAwsJson');
+    String titleImage = "title_${parameters?['title']}_${parameters?['price']}";
+    String threeDImage =
+        "threeD_${parameters?['title']}_${parameters?['price']}";
 
-    String titleImage = "title_${parameters['title']}_${parameters['price']}";
-    String threeDImage = "threeD_${parameters['title']}_${parameters['price']}";
+    context
+        .read<AddPropertyCubit>()
+        .uploadFileToS3(parameters?['title_image'], titleImage);
+    context
+        .read<AddPropertyCubit>()
+        .uploadFileToS3(parameters?['threeD_image'], threeDImage);
 
-    context.read<AddPropertyCubit>().uploadFileToS3(parameters['title_image'], titleImage);
-    context.read<AddPropertyCubit>().uploadFileToS3(parameters['threeD_image'], threeDImage);
-
-    print('this is parameters[gallery_images] : ${parameters['gallery_images']}');
+    List<String> outdoorFacility = assembleOutdoorFacility();
+    print('this is outdoorFacility: ${outdoorFacility}');
 
     final newData = Property(
-
-      title: parameters['title'],
-      price: parameters['price'],
-      customerName: parameters['title'],
-      customerEmail: parameters['title'],
-      customerProfile: parameters['title'],
-      customerNumber: parameters['title'],
+      title: parameters?['title'],
+      price: parameters?['price'],
+      customerName: parameters?['title'],
+      customerEmail: parameters?['title'],
+      customerProfile: parameters?['title'],
+      customerNumber: parameters?['title'],
       category: json.encode(categoryJson),
       // unitType: UnitType.fromMap(
       //   {"id": 13, "measurement": "land"},
       // ),
-      description: parameters['description'],
-      address: parameters['address'],
-      clientAddress: parameters['client_address'],
+      description: parameters?['description'],
+      address: parameters?['address'],
+      clientAddress: parameters?['client_address'],
       titleImage: titleImage,
-      postCreated: parameters['title'],
-      gallery: parameters['gallery_images'],
+      postCreated: parameters?['title'],
+      gallery: parameters?['gallery_images'],
 
-      state: parameters['state'],
-      city: parameters['city'],
-      country: parameters['country'],
+      state: parameters?['state'],
+      city: parameters?['city'],
+      country: parameters?['country'],
       addedBy: 10,
       isFavourite: false,
       isInterested: false,
-      // parameters: [
-      //   Parameter.fromMap(
-      //     {
-      //       "id": 13,
-      //       "name": "Land",
-      //       "typeOfParameter": "land",
-      //       "typeValues": '',
-      //       "image": "",
-      //       "value": 5,
-      //     },
-      //   )
-      // ],
-      // assignedOutdoorFacility: [
-      //   AssignedOutdoorFacility.fromJson(
-      //     {
-      //       "id": 13,
-      //       "name": "Land",
-      //       "propertyId": 0,
-      //       "facilityId": 0,
-      //       "distance": 0,
-      //       "image": "",
-      //       "createdAt": "",
-      //       "updatedAt": "",
-      //     },
-      //   )
-      // ],
-      latitude: parameters['latitude'],
-      longitude: parameters['longitude'],
+      parameters: parameters?['parameter'],
+      assignedOutdoorFacility: outdoorFacility,
+      latitude: parameters?['latitude'],
+      longitude: parameters?['longitude'],
       threeDImage: threeDImage,
-      video: parameters['video_link'],
+      video: parameters?['video_link'],
     );
     context.read<AddPropertyCubit>().addProperty(context, newData);
 
@@ -269,10 +247,11 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
   void initState() {
     String phoneNumber = _saperateNumber();
     List<AssignedOutdoorFacility> facilities = [];
-    facilities = widget.apiParameters?['assign_facilities'] ?? [];
+    // outdoorFacilityList = widget.apiParameters?['assign_facilities'] ?? [];
 
     // context.read<FetchOutdoorFacilityListCubit>().fetchIfFailed();
-    facilityList = context.read<FetchOutdoorFacilityListCubit>().getList();
+    outdoorFacilityList =
+        context.read<FetchOutdoorFacilityListCubit>().getList();
 
     setState(() {});
     _selectedIdsList.addListener(() {
@@ -281,12 +260,14 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
           if (widget.apiParameters?['isUpdate'] ?? false) {
             List<AssignedOutdoorFacility> match =
                 facilities.where((x) => x.facilityId == element).toList();
-
+            print('this is selectedIdslist: $_selectedIdsList');
             if (match.isNotEmpty) {
               distanceFieldList[element] =
                   TextEditingController(text: match.first.distance.toString());
             } else {
               distanceFieldList[element] = TextEditingController();
+              print(
+                  'this is distanceFieldList[element]: ${distanceFieldList[element]}');
             }
           } else {
             distanceFieldList[element] = TextEditingController();
@@ -297,8 +278,9 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     });
 
     if (widget.apiParameters?['isUpdate'] ?? false) {
-      facilities.forEach((element) {
-        log(facilities.toString(), name: "EHRER");
+      print("this is outdoorFacilityList : $outdoorFacilityList");
+      outdoorFacilityList.forEach((element) {
+        log(outdoorFacilityList.toString(), name: "EHRER");
         if (!_selectedIdsList.value.contains(element)) {
           _selectedIdsList.value.add(element.facilityId!);
           _selectedIdsList.notifyListeners();
@@ -322,24 +304,38 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     return mobileNumber;
   }
 
-  Map<String, dynamic> assembleOutdoorFacility() {
-    Map<String, dynamic> facilitymap = {};
+  List<String> assembleOutdoorFacility() {
+    List<String> facilityList = [];
     for (var i = 0; i < distanceFieldList.entries.length; i++) {
       MapEntry element = distanceFieldList.entries.elementAt(i);
 
-      facilitymap.addAll({
-        "facilities[$i][facility_id]": element.key,
-        "facilities[$i][distance]": element.value.text
-      });
+      for (OutdoorFacility facility in outdoorFacilityList) {
+        // if(parameters.contains(element.key)){
+        //   paramaeters.
+        // }
+        if (facility.facilityId == element.key) {
+          facilityList.add(json.encode({
+            "id": facility.facilityId,
+            "name": facility.name,
+            "image": facility.image,
+            "value": element.value.text
+          }));
+          break; // Exit the loop once the parameter is found
+        }
+      }
+      // facilityList.addAll({
+      //   "facilities[$i][facility_id]": element.key,
+      //   "facilities[$i][distance]": element.value.text
+      // });
     }
-
-    return facilitymap;
+    print('thsis is facilitymap:  $facilityList');
+    return facilityList;
   }
 
   OutdoorFacility getSelectedFacility(int id) {
     try {
-      return facilityList
-          .where((OutdoorFacility element) => element.id == id)
+      return outdoorFacilityList
+          .where((OutdoorFacility element) => element.facilityId == id)
           .first;
     } catch (e) {
       throw "$e";
@@ -358,7 +354,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
         FetchOutdoorFacilityListState>(
       listener: (context, state) {
         if (state is FetchOutdoorFacilityListSucess) {
-          facilityList =
+          outdoorFacilityList =
               context.read<FetchOutdoorFacilityListCubit>().getList();
           setState(() {});
         }
@@ -380,6 +376,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
               distanceFieldList.forEach((element, v) {
                 log(element.toString());
               });
+              print('this is distanceFieldList : $distanceFieldList');
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -428,9 +425,12 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
                       );
                     }
                     if (state is FetchOutdoorFacilityListSucess) {
+                      print(
+                          'thsi is FetchOutdoorFacilityListSucess: $FetchOutdoorFacilityListSucess');
                       return ValueListenableBuilder<List<int>>(
                           valueListenable: _selectedIdsList,
                           builder: (context, List<int> value, child) {
+                            print('this is value; $value');
                             return OutdoorFacilityTable(
                               length: state.outdoorFacilityList.length,
                               child: (index) {
@@ -457,7 +457,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
                                   }
                                 },
                                     isSelected:
-                                        value.contains(outdoorFacilityList.id));
+                                        value.contains(outdoorFacilityList.facilityId));
                               },
                             );
 
@@ -526,12 +526,14 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
 
                               OutdoorFacility facility = getSelectedFacility(
                                   _selectedIdsList.value[index]);
+                              print('this is facility : $facility');
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 3.0),
                                 child: OutdoorFacilityDistanceField(
                                   facility: facility,
-                                  controller: distanceFieldList[facility.id]!,
+                                  controller:
+                                      distanceFieldList[facility.facilityId]!,
                                 ),
                               );
                             })
@@ -554,7 +556,9 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       {required bool isSelected, required Function(int id) onSelect}) {
     return GestureDetector(
       onTap: () {
-        onSelect.call(facility.id!);
+        // onSelect.call(int.parse((facility.facilityId!.substring(1))));
+        onSelect.call(facility.facilityId!);
+        print('this is facility.id!: ${facility.facilityId!}');
       },
       child: Container(
         decoration: BoxDecoration(

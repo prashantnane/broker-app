@@ -3,6 +3,7 @@
 import 'dart:collection';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:convert';
 import 'dart:math' as mt;
 
 import 'package:collection/collection.dart';
@@ -15,10 +16,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_parser/http_parser.dart' as h;
 import 'package:mime/mime.dart';
 
+import '../../../../data/Repositories/parameter_repository.dart';
 import '../../../../data/cubits/property/add_property_cubit.dart';
 import '../../../../data/cubits/property/create_property_cubit.dart';
 import '../../../../data/cubits/property/fetch_my_properties_cubit.dart';
 import '../../../../data/helper/widgets.dart';
+import '../../../../models/CategoryModel.dart';
+import '../../../../models/Parameter.dart';
 import '../../../../utils/Extensions/extensions.dart';
 import '../../../../utils/constant.dart';
 import '../../../../utils/convertJsonToAwsJson.dart';
@@ -75,12 +79,12 @@ class _SetProeprtyParametersScreenState
     Future.delayed(
       Duration.zero,
       () {
-        paramaeterUI = (Constant
-                .addProperty['category']?.parameterTypes!['parameters'] as List)
+        paramaeterUI = ((Constant.addProperty['category'] as CategoryModel)
+                .parameterTypes as List)
             .mapIndexed((index, parameter) => Padding(
                   padding:
                       EdgeInsets.only(top: index == 0 ? 0 : 10, bottom: 10),
-                  child: buildDynamicField(parameter, index),
+                  child: buildDynamicField(json.decode(parameter), index),
                 ))
             .toList()
             .cast();
@@ -161,6 +165,7 @@ class _SetProeprtyParametersScreenState
         "parameters[$i][value]": value
       });
     }
+    fieldsData.clear();
     return parameters;
   }
 
@@ -213,7 +218,47 @@ class _SetProeprtyParametersScreenState
             // if (_formKey.currentState!.validate() == false) return;
 
             //TODO: TODO
-            apiParameters!.addAll(assembleDynamicFieldsParameters());
+            List<String> parameters = [];
+            final ParameterRepository _parameterRepository =
+                ParameterRepository();
+            List<Parameter> parametersList =
+                await _parameterRepository.fetchParameterRepository();
+
+            Map fieldsData = AbstractField.fieldsData;
+            log("ALL PARAMTERS ARE  $fieldsData");
+            for (var i = 0; i < fieldsData.entries.length; i++) {
+              MapEntry element = fieldsData.entries.elementAt(i);
+              var value = element.value;
+              if (value is LinkedHashMap) {
+                value = (value).toString();
+              }
+              if (value == null) {
+                continue;
+              }
+
+              for (Parameter parameter in parametersList) {
+                // if(parameters.contains(element.key)){
+                //   paramaeters.
+                // }
+                if (parameter.parameterId == "P${element.key}") {
+                  parameters.add(json.encode({
+                    "id": parameter.parameterId,
+                    "name": parameter.name,
+                    "image": parameter.image,
+                    'value': value
+                  }));
+                  break; // Exit the loop once the parameter is found
+                }
+              }
+
+              // parameters.addAll({
+              //   "parameters[$i][parameter_id]": element.key,
+              //   "parameters[$i][value]": value
+              // });
+            }
+
+            print("this is parameters : $parameters");
+            apiParameters!['parameter'] = parameters;
 
             List<String> gallery = [];
             await Future.forEach(
@@ -222,11 +267,13 @@ class _SetProeprtyParametersScreenState
                 // var multipartFile = await MultipartFile.fromFile(item.path);
                 mt.Random random = new mt.Random();
                 int id = random.nextInt(100);
-                // String galleryJson = mapToEscapedJson(
-                //     {"id": id, "image": (item as File).path, 'imageUrl': ''});
-                String s3gallery = "gallery_$id";
-                context.read<AddPropertyCubit>().uploadFileToS3((item as File).path, s3gallery);
-                gallery.add((item as File).path);
+                String galleryJson = "gallery_$id";
+                // String s3gallery = "gallery_$id";
+                context
+                    .read<AddPropertyCubit>()
+                    .uploadFileToS3((item as File).path, galleryJson);
+                gallery.add(json
+                    .encode({"id": id, "image": galleryJson, 'imageUrl': ''}));
               },
             );
             apiParameters!['gallery_images'] = gallery;
@@ -267,6 +314,7 @@ class _SetProeprtyParametersScreenState
 
                 Navigator.pushNamed(context, Routes.selectOutdoorFacility,
                     arguments: apiParameters);
+                print('this is apiParameters data at set_prop: $apiParameters');
 
                 // context
                 //     .read<CreatePropertyCubit>()
