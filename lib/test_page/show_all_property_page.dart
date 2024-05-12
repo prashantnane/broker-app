@@ -140,7 +140,7 @@ class _ShowAllPropertyPageState extends State<ShowAllPropertyPage> {
                       return GestureDetector(
                           onTap: () {
                             HelperUtils.goToNextPage(
-                              Routes.propertyDetails,
+                              Routes.propertyDetailsTest,
                               context,
                               false,
                               args: {

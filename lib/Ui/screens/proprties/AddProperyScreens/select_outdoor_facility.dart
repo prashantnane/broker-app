@@ -208,7 +208,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       titleImage: titleImage,
       postCreated: parameters?['title'],
       gallery: parameters?['gallery_images'],
-
+      propertyType: 'sell',
       state: parameters?['state'],
       city: parameters?['city'],
       country: parameters?['country'],
@@ -217,10 +217,13 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       isInterested: false,
       parameters: parameters?['parameter'],
       assignedOutdoorFacility: outdoorFacility,
-      latitude: parameters?['latitude'],
-      longitude: parameters?['longitude'],
+      // latitude: parameters?['latitude'],
+      // longitude: parameters?['longitude'],
+      latitude: 'latitude',
+      longitude: 'longitude',
       threeDImage: threeDImage,
-      video: parameters?['video_link'],
+      // video: parameters?['video_link'],
+      video: 'video_link',
     );
     context.read<AddPropertyCubit>().addProperty(context, newData);
 

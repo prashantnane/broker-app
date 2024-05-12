@@ -33,7 +33,7 @@ class ParameterRepository {
         Map<String, dynamic> data = json.decode(response.data!);
 
         final List<dynamic> parameterList = data['listParameters']['items'];
-        // print('this data from category repo: ${data}');
+        // print('this data from category repo: ${parameterList}');
 
         List<Parameter> modelList = parameterList.map(
           (e) {
@@ -45,7 +45,7 @@ class ParameterRepository {
 
         return modelList;
       } else {
-        throw Exception('Failed to fetch categories');
+        throw Exception('Failed to fetch parameter');
       }
     } catch (e) {
       throw e;

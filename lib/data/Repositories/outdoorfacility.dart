@@ -8,7 +8,7 @@ import '../../utils/api.dart';
 class OutdoorFacilityRepository {
   Future<List<OutdoorFacility>> fetchOutdoorFacilityRepository(
       ) async {
-    print('listening to fetchParameters');
+    print('listening to fetchOutdoorFacility');
     try {
       final request = GraphQLRequest<String>(
         document: '''
@@ -32,7 +32,7 @@ class OutdoorFacilityRepository {
         Map<String, dynamic> data = json.decode(response.data!);
 
         final List<dynamic> parameterList = data['listOutdoorFacilities']['items'];
-        // print('this data from category repo: ${data}');
+        print('this data from category repo: ${parameterList}');
 
         List<OutdoorFacility> modelList = parameterList.map(
               (e) {
@@ -40,11 +40,11 @@ class OutdoorFacilityRepository {
           },
         ).toList();
 
-        print('this is modelList from parameter repository: $modelList');
+        print('this is modelList from outdoorfacility: $modelList');
 
         return modelList;
       } else {
-        throw Exception('Failed to fetch categories');
+        throw Exception('Failed to fetch outdoorfacility');
       }
     } catch (e) {
       throw e;

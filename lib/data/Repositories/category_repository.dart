@@ -47,7 +47,7 @@ class CategoryRepository {
 
         return modelList;
       } else {
-        throw Exception('Failed to fetch categories');
+        throw Exception('Failed to fetch category repo');
       }
     } catch (e) {
       throw e;

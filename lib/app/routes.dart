@@ -39,6 +39,7 @@ import '../Ui/screens/userprofile/edit_profile.dart';
 import '../Ui/screens/widgets/AnimatedRoutes/blur_page_route.dart';
 import '../Ui/screens/widgets/maintenance_mode.dart';
 import '../sandBox/playground.dart';
+import '../test_page/propertyDetails.dart';
 import '../utils/ui_utils.dart';
 
 class Routes {
@@ -58,6 +59,7 @@ class Routes {
   static const chooseAdrs = 'chooseAddress';
   static const propertiesList = 'propertiesList';
   static const propertyDetails = 'PropertyDetails';
+  static const propertyDetailsTest = 'PropertyDetailsTest';
   static const contactUs = 'ContactUs';
   static const profileSettings = 'profileSettings';
   static const myEnquiry = 'MyEnquiry';
@@ -131,6 +133,8 @@ class Routes {
         return PropertiesList.route(routeSettings);
       case propertyDetails:
         return PropertyDetails.route(routeSettings);
+      case propertyDetailsTest:
+        return PropertyDetailsTest.route(routeSettings);
       case contactUs:
         return ContactUs.route(routeSettings);
       case profileSettings:

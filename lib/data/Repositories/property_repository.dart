@@ -88,66 +88,67 @@ class PropertyRepository {
 
     print('listening to fetchProperties');
     try {
-      final request = GraphQLRequest<String>(
-        document: '''
-          query GetProperties {
-            listProperties {
-              items {
-                title
-      price
-      customerName
-      customerEmail
-      customerProfile
-      customerNumber
-      category
-      description
-      address
-      clientAddress
-      propertyType
-      titleImage
-      postCreated
-      gallery
-      state
-      city
-      country
-      addedBy
-      isFavourite
-      isInterested
-      assignedOutdoorFacility
-      latitude
-      longitude
-      threeDImage
-      video
-               }
-            }
-          }
-        ''',
-        // variables: {
-        //   'offset': offset,
-        //   'limit': Constant.loadLimit, // Adjust based on your requirements
-        // },
+      // final request = GraphQLRequest<String>(
+      //   document: '''
+      //     query GetProperties {
+      //       listProperties {
+      //         items {
+      //           id
+      //           title
+      //           price
+      //           customerName
+      //           customerEmail
+      //           customerProfile
+      //           customerNumber
+      //           category
+      //           description
+      //           address
+      //           clientAddress
+      //           propertyType
+      //           titleImage
+      //           postCreated
+      //           gallery
+      //           state
+      //           city
+      //           country
+      //           addedBy
+      //           isFavourite
+      //           isInterested
+      //           assignedOutdoorFacility
+      //           latitude
+      //           longitude
+      //           threeDImage
+      //           video
+      //          }
+      //       }
+      //     }
+      //   ''',
+      // );
+
+      final request = ModelQueries.list(
+        Property.classType,
       );
 
       final response = await Amplify.API.query(request: request).response;
-      // print('this is response from category repo: ${response.data}');
+      print('this is response from property repo: ${response.data}');
 
       if (response.data != null) {
-        Map<String, dynamic> data = json.decode(response.data!);
+        // Map<String, dynamic> data = json.decode(response.data!);
 
-        final List<dynamic> propertyList = data['listProperties']['items'];
-        print('this data from property repo: ${data}');
-
-        List<Property> modelList = propertyList.map(
-          (e) {
-            return Property.fromJson(e);
-          },
-        ).toList();
+        // final List<dynamic> propertyList = data['listProperties']['items'];
+        // print('this data from property repo: ${propertyList}');
+        //
+        // List<Property> modelList = propertyList.map(
+        //   (e) {
+        //     return Property.fromJson(e);
+        //   },
+        // ).toList();
 
         print('this is modelList from property repository: $modelList');
 
         return DataOutput(total: 0, modelList: modelList);
       } else {
-        throw Exception('Failed to fetch categories');
+        throw Exception('Failed to fetch property repo');
       }
     } catch (e) {
       throw e;
