@@ -88,61 +88,62 @@ class PropertyRepository {
 
     print('listening to fetchProperties');
     try {
-      // final request = GraphQLRequest<String>(
-      //   document: '''
-      //     query GetProperties {
-      //       listProperties {
-      //         items {
-      //           id
-      //           title
-      //           price
-      //           customerName
-      //           customerEmail
-      //           customerProfile
-      //           customerNumber
-      //           category
-      //           description
-      //           address
-      //           clientAddress
-      //           propertyType
-      //           titleImage
-      //           postCreated
-      //           gallery
-      //           state
-      //           city
-      //           country
-      //           addedBy
-      //           isFavourite
-      //           isInterested
-      //           assignedOutdoorFacility
-      //           latitude
-      //           longitude
-      //           threeDImage
-      //           video
-      //          }
-      //       }
-      //     }
-      //   ''',
-      // );
-
-      final request = ModelQueries.list(
-        Property.classType,
+      final request = GraphQLRequest<String>(
+        document: '''
+          query GetProperties {
+            listProperties {
+              items {
+                id
+                title
+                price
+                customerName
+                customerEmail
+                customerProfile
+                customerNumber
+                category
+                description
+                address
+                clientAddress
+                propertyType
+                titleImage
+                postCreated
+                gallery
+                state
+                city
+                country
+                addedBy
+                isFavourite
+                isInterested
+                assignedOutdoorFacility
+                latitude
+                longitude
+                threeDImage
+                video
+                parameters
+               }
+            }
+          }
+        ''',
       );
 
+      // final request = ModelQueries.list(
+      //   Property.classType,
+      // );
+
       final response = await Amplify.API.query(request: request).response;
-      print('this is response from property repo: ${response.data}');
+      print('this is response from property repo: ${response}');
 
       if (response.data != null) {
-        // Map<String, dynamic> data = json.decode(response.data!);
+        Map<String, dynamic> data = json.decode(response.data!);
 
-        // final List<dynamic> propertyList = data['listProperties']['items'];
-        // print('this data from property repo: ${propertyList}');
+        final List<dynamic> propertyList = data['listProperties']['items'];
+        print('this data from property repo: ${propertyList}');
         //
-        // List<Property> modelList = propertyList.map(
-        //   (e) {
-        //     return Property.fromJson(e);
-        //   },
-        // ).toList();
+        List<Property> modelList = propertyList.map(
+          (e) {
+            return Property.fromJson(e);
+          },
+        ).toList();
 
         print('this is modelList from property repository: $modelList');
 

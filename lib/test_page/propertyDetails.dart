@@ -141,6 +141,8 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
   List<Gallery>? gallary;
   String youtubeVideoThumbnail = "";
 
+
+
   @override
   void initState() {
     super.initState();
@@ -156,7 +158,11 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
       },
     );
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      gallary = List.from(widget.property!.gallery!);
+      List<Gallery> galleryDecoded = [];
+      for(int i = 0; i < widget.property!.gallery!.length; i++){
+        galleryDecoded.add(jsonDecode(widget.property!.gallery![i]));
+      }
+      gallary = List.from(galleryDecoded);
       if (widget.property?.video != "") {
         injectVideoInGallary();
         setState(() {});
@@ -300,6 +306,17 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
     //   rentPrice =
     //       ("$rentPrice / ") + (rentDurationMap[property!.rentduration] ?? "");
     // }
+
+    // Function to convert a list of JSON strings to a list of maps
+    List<Map<String, dynamic>> convertJsonListToMapList(List<String> jsonList) {
+      return jsonList.map((jsonString) => jsonDecode(jsonString) as Map<String, dynamic>).toList();
+    }
+
+    Map<String, dynamic> decodedCategory = jsonDecode(property!.category!);
+    print('decodedCategory : $decodedCategory');
+
+    // List<Map<String, dynamic>> decodedParameter = convertJsonListToMapList(property!.parameters!);
+    // print('decodedParameter : $decodedParameter');
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(statusBarColor: context.color.secondaryColor),
@@ -764,7 +781,8 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                   ),
                                   Row(children: [
                                     UiUtils.imageType(
-                                        // property?.category!.image ??
+                                      // jsonDecode(property?.category!.image)
+                                      //    ??
                                             "",
                                         width: 18,
                                         height: 18,
@@ -775,7 +793,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                     SizedBox(
                                       width: 158.rw(context),
                                       child: Text(
-                                          // property!.category!.category! ??
+                                          decodedCategory['category'] ??
                                           "")
                                           .setMaxLines(lines: 1)
                                           .size(
@@ -877,8 +895,9 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                     children: List.generate(
                                         property?.parameters?.length ?? 0,
                                         (index) {
-                                      Parameter? parameter = json.decode(property!.parameters![index])
-                                          ;
+                                      Parameter? parameter = jsonDecode(property!.parameters![index]) ;
+                                      print('this is parameter from propertyDetails: $parameter');
+
                                       bool isParameterValueEmpty =
                                           (parameter?.value == "" ||
                                               parameter?.value == "0" ||
