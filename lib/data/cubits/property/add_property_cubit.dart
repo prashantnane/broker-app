@@ -108,6 +108,24 @@ class AddPropertyCubit extends Cubit<AddPropertyState> {
     return success;
   }
 
+  Future<String?> getDownloadUrl(String imgUrl) async {
+    try {
+      final result = await Amplify.Storage.getUrl(
+        // path: const StoragePath.fromString('public/example.txt'),
+        options: const StorageGetUrlOptions(
+          pluginOptions: S3GetUrlPluginOptions(
+            validateObjectExistence: true,
+            expiresIn: Duration(days: 1),
+          ),
+        ), key: imgUrl,
+      ).result;
+      safePrint('downloaded url from s3: ${result.url}');
+      return result.url.toString();
+    } on StorageException catch (e) {
+      safePrint('error getDownloadUrl : ${e.message}');
+    }
+  }
+
   // Future<void> fetchProperties(String doctorID) async {
   //   try {
   //     final gqlrequest = GraphQLRequest<String>(

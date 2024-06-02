@@ -70,6 +70,21 @@ Future<void> publishSNSMessage() async {
 class _TestPageState extends State<TestPage> {
   final CategoryRepository categoryRepository = CategoryRepository();
   final TextEditingController phoneNumberController = TextEditingController();
+  String? imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchImageUrl();
+  }
+
+  Future<void> fetchImageUrl() async {
+    String? url =
+        await context.read<AddPropertyCubit>().getDownloadUrl('acbaf_262');
+    setState(() {
+      imageUrl = url;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,6 +205,9 @@ class _TestPageState extends State<TestPage> {
             },
             child: Text('add data'),
           ),
+          // imageUrl != null
+          //     ? Center(child: Image.network(imageUrl!))
+          //     : CircularProgressIndicator(),
         ],
       ),
     );

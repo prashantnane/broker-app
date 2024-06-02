@@ -184,6 +184,7 @@ class _SelectPropertyTypeState extends State<SelectPropertyType> {
             //       ? context.color.secondaryColor
             //       : context.color.teritoryColor,
             // ),
+
             SizedBox(
               height: 25.rh(context),
               width: 25.rw(context),

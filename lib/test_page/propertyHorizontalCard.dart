@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:ebroker/Ui/screens/widgets/like_button_widget.dart';
@@ -51,7 +52,11 @@ class PropertyHorizontalCardTest extends StatelessWidget {
         .toString()
         .formatAmount(prefix: true));
 
+    // Map<String, dynamic> decodedTitleImage = jsonDecode(property!.titleImage!);
+    // print('decodedTitleImage : $decodedTitleImage');
 
+    Map<String, dynamic> decodedCategory = jsonDecode(property!.category!);
+    // print('decodedCategory : $decodedCategory');
 
     return BlocProvider(
       create: (context) => AddToFavoriteCubitCubit(),
@@ -84,7 +89,7 @@ class PropertyHorizontalCardTest extends StatelessWidget {
                                 child: Stack(
                                   children: [
                                     UiUtils.getImage(
-                                      property.titleImage ?? "",
+                                      property!.titleImage! ?? "",
                                       height: statusButton != null ? 90 : 120,
                                       width: 100 + (additionalImageWidth ?? 0),
                                       fit: BoxFit.cover,
@@ -160,29 +165,28 @@ class PropertyHorizontalCardTest extends StatelessWidget {
                                   Row(
                                     children: [
                                       UiUtils.imageType(
-                                          // property.category!.image ?? "",
-                                        "",
+                                          decodedCategory['image'] ?? "",
                                           width: 18,
                                           height: 18,
                                           color: context.color.teritoryColor),
                                       const SizedBox(
                                         width: 5,
                                       ),
-                                      // Expanded(
-                                      //   child:
-                                      //   Text(property.category!.category!)
-                                      //       .setMaxLines(lines: 1)
-                                      //       .size(
-                                      //     context.font.small
-                                      //         .rf(context),
-                                      //   )
-                                      //       .bold(
-                                      //     weight: FontWeight.w400,
-                                      //   )
-                                      //       .color(
-                                      //     context.color.textLightColor,
-                                      //   ),
-                                      // ),
+                                      Expanded(
+                                        child:
+                                        Text(decodedCategory['category'])
+                                            .setMaxLines(lines: 1)
+                                            .size(
+                                          context.font.small
+                                              .rf(context),
+                                        )
+                                            .bold(
+                                          weight: FontWeight.w400,
+                                        )
+                                            .color(
+                                          context.color.textLightColor,
+                                        ),
+                                      ),
                                       if (showLikeButton ?? true)
                                         Container(
                                           width: 32,

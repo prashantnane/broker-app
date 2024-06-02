@@ -20,6 +20,7 @@ import 'package:ebroker/data/cubits/enquiry/store_enqury_id.dart';
 import 'package:ebroker/data/cubits/favorite/add_to_favorite_cubit.dart';
 import 'package:ebroker/data/cubits/property/Interest/change_interest_in_property_cubit.dart';
 import 'package:ebroker/data/cubits/property/delete_property_cubit.dart';
+
 // import 'package:ebroker/data/cubits/property/fetch_my_properties_cubit.dart';
 import 'package:ebroker/data/cubits/property/set_property_view_cubit.dart';
 import 'package:ebroker/data/cubits/property/update_property_status.dart';
@@ -57,6 +58,8 @@ import '../Ui/screens/analytics/analytics_screen.dart';
 import '../Ui/screens/widgets/AnimatedRoutes/blur_page_route.dart';
 import '../Ui/screens/widgets/all_gallary_image.dart';
 import '../Ui/screens/widgets/video_view_screen.dart';
+import '../data/cubits/property/add_property_cubit.dart';
+import '../data/model/outdoor_facility.dart';
 import '../models/Property.dart';
 import 'fetch_all_properties.dart';
 
@@ -72,6 +75,7 @@ class PropertyDetailsTest extends StatefulWidget {
   final bool? fromCompleteEnquiry;
   final bool fromSlider;
   final bool? fromPropertyAddSuccess;
+
   const PropertyDetailsTest(
       {Key? key,
       this.fromPropertyAddSuccess,
@@ -121,6 +125,7 @@ class PropertyDetailsTest extends StatefulWidget {
 class PropertyDetailsTestState extends State<PropertyDetailsTest>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   FlickManager? flickManager;
+
   // late Property propertyData;
   bool favoriteInProgress = false;
   bool isPlayingYoutubeVideo = false;
@@ -141,14 +146,24 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
   List<Gallery>? gallary;
   String youtubeVideoThumbnail = "";
 
+  // String? titleImageUrl;
 
+  // Future<void> fetchTitleImageUrl(String imageName) async {
+  //   String? url =
+  //       await context.read<AddPropertyCubit>().getDownloadUrl(imageName);
+  //   setState(() {
+  //     titleImageUrl = url;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
+    // fetchTitleImageUrl(widget.property!.titleImage!);
+    // context.read<FetchOutdoorFacilityListCubit>().fetch();
+
     // customListenerForConstant();
     //add title image along with gallary images1
-    context.read<FetchOutdoorFacilityListCubit>().fetch();
 
     Future.delayed(
       const Duration(seconds: 3),
@@ -159,7 +174,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
     );
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       List<Gallery> galleryDecoded = [];
-      for(int i = 0; i < widget.property!.gallery!.length; i++){
+      for (int i = 0; i < widget.property!.gallery!.length; i++) {
         galleryDecoded.add(jsonDecode(widget.property!.gallery![i]));
       }
       gallary = List.from(galleryDecoded);
@@ -309,14 +324,24 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
 
     // Function to convert a list of JSON strings to a list of maps
     List<Map<String, dynamic>> convertJsonListToMapList(List<String> jsonList) {
-      return jsonList.map((jsonString) => jsonDecode(jsonString) as Map<String, dynamic>).toList();
+      return jsonList
+          .map((jsonString) => jsonDecode(jsonString) as Map<String, dynamic>)
+          .toList();
     }
+
+    // Map<String, dynamic> decodedTitleImage = jsonDecode(property!.titleImage!);
+    // print('decodedTitleImage : $decodedTitleImage');
 
     Map<String, dynamic> decodedCategory = jsonDecode(property!.category!);
     print('decodedCategory : $decodedCategory');
 
-    // List<Map<String, dynamic>> decodedParameter = convertJsonListToMapList(property!.parameters!);
-    // print('decodedParameter : $decodedParameter');
+    List<Map<String, dynamic>> decodedParameter =
+        convertJsonListToMapList(property!.parameters!);
+    print('decodedParameter : $decodedParameter');
+
+    List<Map<String, dynamic>> decodedOutdoorFacility =
+        convertJsonListToMapList(property!.assignedOutdoorFacility!);
+    print('decodedOutdoorFacility : $decodedOutdoorFacility');
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(statusBarColor: context.color.secondaryColor),
@@ -376,9 +401,9 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                     //   ),
                     // ),
                     if (property?.addedBy.toString() == HiveUtils.getUserId() &&
-                        property!.propertyType != "Sold"
+                            property!.propertyType != "Sold"
                         // && property?.status == 1
-                    )
+                        )
                       PopupMenuButton<String>(
                         onSelected: (value) async {
                           var action = await UiUtils.showBlurredDialoge(
@@ -403,7 +428,8 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                           width: s.maxWidth / 4,
                                           height: 50,
                                           child: Center(
-                                              child: Text(property!.propertyType!
+                                              child: Text(property!
+                                                      .propertyType!
                                                       .translate(context))
                                                   .color(context
                                                       .color.buttonColor)),
@@ -684,16 +710,17 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                       height: 227.rh(context),
                                       child: Stack(
                                         children: [
-                                          GestureDetector(
+                                          property!.titleImage! != null
+                                              ? GestureDetector(
                                             onTap: () {
                                               // google map doesn't allow blur so we hide it:)
                                               showGoogleMap = false;
                                               setState(() {});
-                                              UiUtils.showFullScreenImage(
+                                               UiUtils.showFullScreenImage(
                                                 context,
                                                 provider: NetworkImage(
-                                                  property!.titleImage!,
-                                                ),
+                                                  property!.titleImage! ,
+                                                      ),
                                                 then: () {
                                                   showGoogleMap = true;
                                                   setState(() {});
@@ -707,7 +734,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                               height: 227.rh(context),
                                               showFullScreenImage: true,
                                             ),
-                                          ),
+                                          ): CircularProgressIndicator() ,
                                           // PositionedDirectional(
                                           //   top: 20,
                                           //   end: 20,
@@ -771,7 +798,6 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                               ),
                                             ),
                                           ),
-
                                         ],
                                       ),
                                     ),
@@ -781,9 +807,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                   ),
                                   Row(children: [
                                     UiUtils.imageType(
-                                      // jsonDecode(property?.category!.image)
-                                      //    ??
-                                            "",
+                                        decodedCategory['image'] ?? "",
                                         width: 18,
                                         height: 18,
                                         color: context.color.teritoryColor),
@@ -793,8 +817,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                     SizedBox(
                                       width: 158.rw(context),
                                       child: Text(
-                                          decodedCategory['category'] ??
-                                          "")
+                                              decodedCategory['category'] ?? "")
                                           .setMaxLines(lines: 1)
                                           .size(
                                             context.font.normal,
@@ -895,14 +918,17 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                     children: List.generate(
                                         property?.parameters?.length ?? 0,
                                         (index) {
-                                      Parameter? parameter = jsonDecode(property!.parameters![index]) ;
-                                      print('this is parameter from propertyDetails: $parameter');
+                                      Map<String, dynamic> parameter =
+                                          jsonDecode(
+                                              property!.parameters![index]);
+                                      print(
+                                          'this is parameter from propertyDetails: $parameter');
 
                                       bool isParameterValueEmpty =
-                                          (parameter?.value == "" ||
-                                              parameter?.value == "0" ||
-                                              parameter?.value == null ||
-                                              parameter?.value == "null");
+                                          (parameter['value'] == "" ||
+                                              parameter['value'] == "0" ||
+                                              parameter['value'] == null ||
+                                              parameter['value'] == "null");
 
                                       ///If it has no value
                                       if (isParameterValueEmpty) {
@@ -940,7 +966,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                                       child: FittedBox(
                                                         child:
                                                             UiUtils.imageType(
-                                                          parameter?.image ??
+                                                          parameter['image'] ??
                                                               "",
                                                           fit: BoxFit.cover,
                                                           color: context.color
@@ -959,22 +985,22 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                                     mainAxisSize:
                                                         MainAxisSize.min,
                                                     children: [
-                                                      Text(parameter?.name ??
+                                                      Text(parameter['name'] ??
                                                               "")
                                                           .size(12)
                                                           .color(context.color
                                                               .textColorDark
                                                               .withOpacity(
                                                                   0.8)),
-                                                      if (parameter
-                                                              ?.typeOfParameter ==
+                                                      if (parameter[
+                                                              'typeOfParameter'] ==
                                                           "file") ...{
                                                         InkWell(
                                                           onTap: () async {
                                                             await urllauncher.launchUrl(
                                                                 Uri.parse(
-                                                                    parameter!
-                                                                        .value),
+                                                                    parameter[
+                                                                        'value']),
                                                                 mode: LaunchMode
                                                                     .externalApplication);
                                                           },
@@ -987,14 +1013,14 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                                               context.color
                                                                   .teritoryColor),
                                                         ),
-                                                      } else if (parameter
-                                                          ?.value is List) ...{
-                                                        Text((parameter?.value
+                                                      } else if (parameter[
+                                                          'value'] is List) ...{
+                                                        Text((parameter['value']
                                                                 as List)
                                                             .join(","))
                                                       } else ...[
-                                                        if (parameter
-                                                                ?.typeOfParameter ==
+                                                        if (parameter[
+                                                                'typeOfParameter'] ==
                                                             "textarea") ...[
                                                           SizedBox(
                                                             width: MediaQuery.of(
@@ -1003,7 +1029,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                                                     .width *
                                                                 0.7,
                                                             child: Text(
-                                                                    "${parameter?.value}")
+                                                                    "${parameter['value']}")
                                                                 .size(14)
                                                                 .bold(
                                                                   weight:
@@ -1012,7 +1038,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                                                 ),
                                                           )
                                                         ] else ...[
-                                                          Text("${parameter?.value}")
+                                                          Text("${parameter['value']}")
                                                               .size(14)
                                                               .bold(
                                                                 weight:
@@ -1064,10 +1090,9 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                         .bold(weight: FontWeight.w600),
                                     const SizedBox(height: 10),
                                   ],
-                                  // OutdoorFacilityListWidget(
-                                  //     outdoorFacilityList: widget.property
-                                  //             ?.assignedOutdoorFacility ??
-                                  //         []),
+                                  OutdoorFacilityListWidget(
+                                      outdoorFacilityList:
+                                          decodedOutdoorFacility ?? []),
                                   Text(UiUtils.getTranslatedLabel(
                                           context, "listedBy"))
                                       .color(context.color.textColorDark)
@@ -1369,7 +1394,6 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
     );
   }
 
-
   // Future<void> _delayedPop(BuildContext context) async {
   //   unawaited(
   //     Navigator.of(context, rootNavigator: true).push(
@@ -1414,7 +1438,8 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
           height: 65.rh(context),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: BlocBuilder<FetchAllPropertiesCubit, FetchAllPropertiesState>(
+            child:
+                BlocBuilder<FetchAllPropertiesCubit, FetchAllPropertiesState>(
               builder: (context, state) {
                 Property? model;
 
@@ -2065,7 +2090,8 @@ class CusomterProfileWidget extends StatelessWidget {
 }
 
 class OutdoorFacilityListWidget extends StatelessWidget {
-  final List<AssignedOutdoorFacility> outdoorFacilityList;
+  final List<Map<String, dynamic>> outdoorFacilityList;
+
   const OutdoorFacilityListWidget({Key? key, required this.outdoorFacilityList})
       : super(key: key);
 
@@ -2088,7 +2114,7 @@ class OutdoorFacilityListWidget extends StatelessWidget {
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       itemCount: outdoorFacilityList.length,
       itemBuilder: (context, index) {
-        AssignedOutdoorFacility facility = outdoorFacilityList[index];
+        Map<String, dynamic> facility = outdoorFacilityList[index];
 
         return Column(
           //crossAxisAlignment: getCrossAxisAlignment(columnIndex),
@@ -2110,7 +2136,7 @@ class OutdoorFacilityListWidget extends StatelessWidget {
                       width: 36,
                       height: 36,
                       child: UiUtils.imageType(
-                        facility.image ?? "",
+                        facility['image'] ?? "",
                         color: context.color.teritoryColor,
                         // fit: BoxFit.cover,
                         width: 20,
@@ -2120,13 +2146,13 @@ class OutdoorFacilityListWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(facility.name ?? "")
+                Text(facility['name'] ?? "")
                     .centerAlign()
                     .size(context.font.normal)
                     .color(context.color.textColorDark)
                     .setMaxLines(lines: 2),
                 const SizedBox(height: 2),
-                Text("${facility.distance} KM")
+                Text("${facility['value']} KM")
                     .centerAlign()
                     .size(context.font.small)
                     .color(context.color.textLightColor)

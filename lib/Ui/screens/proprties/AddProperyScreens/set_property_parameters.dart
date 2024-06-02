@@ -269,11 +269,17 @@ class _SetProeprtyParametersScreenState
                 int id = random.nextInt(100);
                 String galleryJson = "gallery_$id";
                 // String s3gallery = "gallery_$id";
-                context
+
+                await context
                     .read<AddPropertyCubit>()
                     .uploadFileToS3((item as File).path, galleryJson);
+
+                String? url = await context
+                    .read<AddPropertyCubit>()
+                    .getDownloadUrl(galleryJson);
+
                 gallery.add(json
-                    .encode({"id": id, "image": galleryJson, 'imageUrl': ''}));
+                    .encode({"id": id, "image": galleryJson, 'imageUrl': url}));
               },
             );
             apiParameters!['gallery_images'] = gallery;

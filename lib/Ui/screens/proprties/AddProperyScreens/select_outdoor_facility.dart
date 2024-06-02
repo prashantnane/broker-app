@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
 // ignore_for_file: invalid_use_of_visible_for_testing_member
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
@@ -168,7 +169,18 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     // String gallery = mapToEscapedJson({"id": id, "image": parameters['gallery_images'].toString(), 'imageUrl': ''});
     // print('this is gallery : $gallery');
 
-    print("this is parameter data : $parameters");
+    // print("this is parameter data : $parameters");
+    String titleImage = "title_${parameters?['title']}_${parameters?['price']}";
+    String threeDImage =
+        "threeD_${parameters?['title']}_${parameters?['price']}";
+
+    await context
+        .read<AddPropertyCubit>()
+        .uploadFileToS3(parameters?['threeD_image'], threeDImage);
+
+    await context
+        .read<AddPropertyCubit>()
+        .uploadFileToS3(parameters?['title_image'], titleImage);
 
     final CategoryRepository _categoryRepository = CategoryRepository();
     Map<String, dynamic> categoryJson =
@@ -177,16 +189,11 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //
     // print('this is category : $categoryAwsJson');
 
-    String titleImage = "title_${parameters?['title']}_${parameters?['price']}";
-    String threeDImage =
-        "threeD_${parameters?['title']}_${parameters?['price']}";
+    String? titleImageUrl =
+        await context.read<AddPropertyCubit>().getDownloadUrl(titleImage);
 
-    context
-        .read<AddPropertyCubit>()
-        .uploadFileToS3(parameters?['title_image'], titleImage);
-    context
-        .read<AddPropertyCubit>()
-        .uploadFileToS3(parameters?['threeD_image'], threeDImage);
+    String? threeDImageUrl =
+        await context.read<AddPropertyCubit>().getDownloadUrl(threeDImage);
 
     List<String> outdoorFacility = assembleOutdoorFacility();
     print('this is outdoorFacility: ${outdoorFacility}');
@@ -205,7 +212,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       description: parameters?['description'],
       address: parameters?['address'],
       clientAddress: parameters?['client_address'],
-      titleImage: titleImage,
+      titleImage: titleImageUrl,
       postCreated: parameters?['title'],
       gallery: parameters?['gallery_images'],
       propertyType: 'sell',
@@ -221,11 +228,13 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       // longitude: parameters?['longitude'],
       latitude: 'latitude',
       longitude: 'longitude',
-      threeDImage: threeDImage,
+      threeDImage: threeDImageUrl,
       // video: parameters?['video_link'],
       video: 'video_link',
     );
-    context.read<AddPropertyCubit>().addProperty(context, newData);
+
+    Timer(const Duration(seconds: 2),
+        () => context.read<AddPropertyCubit>().addProperty(context, newData));
 
     // if (success3) {
     //   Widgets.showLoader(context);
@@ -459,8 +468,8 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
                                     _selectedIdsList.notifyListeners();
                                   }
                                 },
-                                    isSelected:
-                                        value.contains(outdoorFacilityList.facilityId));
+                                    isSelected: value.contains(
+                                        outdoorFacilityList.facilityId));
                               },
                             );
 

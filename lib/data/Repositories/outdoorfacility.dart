@@ -32,7 +32,7 @@ class OutdoorFacilityRepository {
         Map<String, dynamic> data = json.decode(response.data!);
 
         final List<dynamic> parameterList = data['listOutdoorFacilities']['items'];
-        print('this data from category repo: ${parameterList}');
+        print('this data from OutdoorFacility repo: ${parameterList}');
 
         List<OutdoorFacility> modelList = parameterList.map(
               (e) {
