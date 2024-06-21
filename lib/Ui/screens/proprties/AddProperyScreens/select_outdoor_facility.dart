@@ -174,6 +174,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     String threeDImage =
         "threeD_${parameters?['title']}_${parameters?['price']}";
 
+
     await context
         .read<AddPropertyCubit>()
         .uploadFileToS3(parameters?['threeD_image'], threeDImage);
@@ -182,6 +183,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
         .read<AddPropertyCubit>()
         .uploadFileToS3(parameters?['title_image'], titleImage);
 
+
     final CategoryRepository _categoryRepository = CategoryRepository();
     Map<String, dynamic> categoryJson =
         await _categoryRepository.fetchCategoryById(parameters?['category_id']);
@@ -189,13 +191,16 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     //
     // print('this is category : $categoryAwsJson');
 
-    String? titleImageUrl =
-        await context.read<AddPropertyCubit>().getDownloadUrl(titleImage);
+    final titleImageUrl =
+    await context.read<AddPropertyCubit>().getDownloadUrl(titleImage);
 
-    String? threeDImageUrl =
-        await context.read<AddPropertyCubit>().getDownloadUrl(threeDImage);
+    final threeDImageUrl = "";
+        // await context.read<AddPropertyCubit>().getDownloadUrl(threeDImage);
+
 
     List<String> outdoorFacility = assembleOutdoorFacility();
+    print('this is titleImageUrl: ${titleImageUrl}');
+    print('this is threeDImageUrl: ${threeDImageUrl}');
     print('this is outdoorFacility: ${outdoorFacility}');
 
     final newData = Property(

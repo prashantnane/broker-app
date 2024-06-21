@@ -113,10 +113,10 @@ class AddPropertyCubit extends Cubit<AddPropertyState> {
       final result = await Amplify.Storage.getUrl(
         // path: const StoragePath.fromString('public/example.txt'),
         options: const StorageGetUrlOptions(
-          pluginOptions: S3GetUrlPluginOptions(
-            validateObjectExistence: true,
-            expiresIn: Duration(days: 1),
-          ),
+          // pluginOptions: S3GetUrlPluginOptions(
+          //   validateObjectExistence: true,
+          //   expiresIn: Duration(days: 30),
+          // ),
         ), key: imgUrl,
       ).result;
       safePrint('downloaded url from s3: ${result.url}');
