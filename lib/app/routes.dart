@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ebroker/Ui/screens/Dashboard/dashbord.dart';
 import 'package:ebroker/Ui/screens/Personalized/personalized_property_screen.dart';
+import 'package:ebroker/Ui/screens/auth/amplify_login_screen.dart';
 import 'package:ebroker/Ui/screens/home/view_most_liked_properties.dart';
 import 'package:ebroker/Ui/screens/home/view_nearby_properties.dart';
 import 'package:ebroker/Ui/screens/map/choose_location_map.dart';
@@ -49,6 +50,7 @@ class Routes {
   static const splash = 'splash';
   static const onboarding = 'onboarding';
   static const login = 'login';
+  static const amplifyLogin = 'login2';
   static const completeProfile = 'complete_profile';
   static const main = 'main';
   static const home = 'Home';
@@ -117,6 +119,8 @@ class Routes {
         return MainActivity.route(routeSettings);
       case login:
         return LoginScreen.route(routeSettings);
+      case amplifyLogin:
+        return AmplifyLoginScreen.route(routeSettings);
       case completeProfile:
         return UserProfileScreen.route(routeSettings);
       // case addProperty:

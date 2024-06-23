@@ -238,14 +238,14 @@ class HomeScreenState extends State<HomeScreen>
             ),
             backgroundColor: const Color.fromARGB(0, 0, 0, 0),
             actions: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => TestPage()));
-                  },
-                  child: Text('Test Page')),
+              // ElevatedButton(
+              //     onPressed: () {
+              //       Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //               builder: (BuildContext context) => TestPage()));
+              //     },
+              //     child: Text('Test Page')),
               GuestChecker.updateUI(
                 onChangeStatus: (isGuest) {
                   Widget buildDefaultPersonSVG(BuildContext context) {

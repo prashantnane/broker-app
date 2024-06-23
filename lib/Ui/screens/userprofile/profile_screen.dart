@@ -177,25 +177,25 @@ class _ProfileScreenState extends State<ProfileScreen>
                         GuestChecker.updateUI(
                           onChangeStatus: (bool? isGuest) {
                             log("ISGUEST $isGuest");
-                            if (isGuest == true) {
-                              return MaterialButton(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: context.color.borderColor,
-                                    width: 1.5,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    Routes.login,
-                                    arguments: {"popToCurrent": true},
-                                  );
-                                },
-                                child: const Text("Login"),
-                              );
-                            }
+                            // if (isGuest == true) {
+                            //   return MaterialButton(
+                            //     shape: RoundedRectangleBorder(
+                            //       side: BorderSide(
+                            //         color: context.color.borderColor,
+                            //         width: 1.5,
+                            //       ),
+                            //       borderRadius: BorderRadius.circular(10),
+                            //     ),
+                            //     onPressed: () {
+                            //       Navigator.pushNamed(
+                            //         context,
+                            //         Routes.login,
+                            //         arguments: {"popToCurrent": true},
+                            //       );
+                            //     },
+                            //     child: const Text("Login"),
+                            //   );
+                            // }
 
                             return InkWell(
                               onTap: () {
@@ -568,7 +568,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 const SizedBox(
                   height: 25,
                 ),
-                if (isGuest == false) ...[
+                // if (isGuest == false) ...[
                   UiUtils.buildButton(context, onPressed: () {
                     logOutConfirmWidget();
                   },
@@ -594,7 +594,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                 // Expanded(
                 //   child: profileMenus(),
                 // )
-              ]),
+              // ]
+              ),
             ),
           ),
         ),

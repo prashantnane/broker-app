@@ -20,7 +20,8 @@ class GuestChecker {
     }
 
     if (_isGuest.value == true) {
-      _loginBox();
+      // _loginBox();
+      onNotGuest.call();
     } else {
       onNotGuest.call();
     }
@@ -75,8 +76,9 @@ class GuestChecker {
                   color: _context?.color.teritoryColor,
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, Routes.login,
-                        arguments: {"popToCurrent": true});
+                    Navigator.pushNamed(context, Routes.amplifyLogin,
+                        // arguments: {"popToCurrent": true}
+                    );
                   },
                   child: const Text("Login now").color(
                     _context?.color.buttonColor ?? Colors.white,
