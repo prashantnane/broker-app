@@ -32,11 +32,37 @@ class AmplifyLoginScreen extends StatefulWidget {
 }
 
 class _AmplifyLoginScreenState extends State<AmplifyLoginScreen> {
+  String? _validateUsername(UsernameInput? input) {
+    final username = input?.username;
+    if (username == null || username.isEmpty) {
+      return 'Username cannot be empty';
+    }
+
+    // final containsAmplify = username.contains('amplify');
+    // if (!containsAmplify) {
+    //   return 'Username needs to include amplify';
+    // }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     AppTheme currentTheme = context.watch<AppThemeCubit>().state.appTheme;
 
+    // const stringResolver = AuthStringResolver(
+    //   buttons: LocalizedButtonResolver(),
+    //   dialCodes: LocalizedDialResolver(),
+    //   titles: LocalizedTitleResolver(),
+    //   inputs: LocalizedInputResolver(),
+    // );
+
     return Authenticator(
+      // stringResolver: stringResolver,
+      dialCodeOptions: const DialCodeOptions(defaultDialCode: DialCode.in1),
+      onException: (exception) {
+        print('[ERROR]: $exception');
+      },
       authenticatorBuilder: (BuildContext context, AuthenticatorState state) {
         switch (state.currentStep) {
           case AuthenticatorStep.signIn:
@@ -65,7 +91,8 @@ class _AmplifyLoginScreenState extends State<AmplifyLoginScreen> {
               body: SignUpForm.custom(
                 fields: [
                   SignUpFormField.name(),
-                  SignUpFormField.email(required: true),
+                  SignUpFormField.username( validator: _validateUsername),
+                  SignUpFormField.email(required: true,),
                   // SignUpFormField.phoneNumber(
                   //   required: true,
                   // ),
