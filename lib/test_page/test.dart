@@ -142,9 +142,9 @@ class _TestPageState extends State<TestPage> {
                   CategoryRepository();
               Map<String, dynamic> categoryJson = await _categoryRepository
                   .fetchCategoryById("9fec9628-4375-4c3a-b79c-8a27915b6865");
-              String categoryAwsJson = mapToEscapedJson(categoryJson);
+              // String categoryAwsJson = mapToEscapedJson(categoryJson);
 
-              print('this is category data: $categoryAwsJson');
+              print('this is category data: $categoryJson');
 
               final newData = Property(
                 title: "parameters['title']",

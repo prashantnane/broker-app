@@ -81,6 +81,7 @@ class AddPropertyCubit extends Cubit<AddPropertyState> {
     } catch (e) {
       print('Error uploading file to S3: $e');
     }
+    
   }
 
   Future<bool> addPropertyToDb(Property property) async {
