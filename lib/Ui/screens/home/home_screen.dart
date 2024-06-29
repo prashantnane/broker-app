@@ -40,6 +40,7 @@ import '../../../data/helper/design_configs.dart';
 import '../../../data/model/property_model.dart';
 import '../../../data/model/system_settings_model.dart';
 import '../../../settings.dart';
+import '../../../test_page/show_all_property_page.dart';
 import '../../../utils/AppIcon.dart';
 import '../../../utils/Extensions/extensions.dart';
 import '../../../utils/api.dart';
@@ -280,9 +281,9 @@ class HomeScreenState extends State<HomeScreen>
           ),
           backgroundColor: context.color.primaryColor,
           body: Builder(builder: (context) {
-            if (homeScreenState.state == HomeScreenDataState.fail) {
-              return const SomethingWentWrong();
-            }
+            // if (homeScreenState.state == HomeScreenDataState.fail) {
+            //   return const SomethingWentWrong();
+            // }
 
             return BlocConsumer<FetchSystemSettingsCubit,
                 FetchSystemSettingsState>(
@@ -362,8 +363,12 @@ class HomeScreenState extends State<HomeScreen>
                           //     HomeScreenSections.PersonalizedFeed) {
                           //   return const PersonalizedPropertyWidget();
                           // }
+
                           else if (section ==
                               HomeScreenSections.RecentlyAdded) {
+                            return const ShowAllPropertyPage();
+                          }else if (section ==
+                              HomeScreenSections.Sample) {
                             return const RecentPropertiesSectionWidget();
                           }
                           // else if (section ==
@@ -1043,7 +1048,7 @@ class _RecentPropertiesSectionWidgetState
         FetchRecentPropertiesSuccess,
         FetchRecentPropertiesFailur>();
     ViewAllScreen<FetchRecentPropertiesCubit, FetchRecentPropertiesState>(
-      title: "recentlyAdded".translate(context),
+      title: "sample".translate(context),
       map: statemap,
     ).open(context);
   }
@@ -1067,7 +1072,7 @@ class _RecentPropertiesSectionWidgetState
         if (!isRecentEmpty())
           TitleHeader(
             enableShowAll: false,
-            title: "recentlyAdded".translate(context),
+            title: "sample".translate(context),
             onSeeAll: () {
               _onRecentlyAddedSeeAll();
             },

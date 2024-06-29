@@ -56,6 +56,7 @@ it will call API in background without showing the process and when data availab
     HomeScreenSections.FeaturedProperties,
     HomeScreenSections.PersonalizedFeed,
     HomeScreenSections.RecentlyAdded,
+    HomeScreenSections.Sample,
     HomeScreenSections.MostLikedProperties,
     HomeScreenSections.MostViewed,
     HomeScreenSections.PopularCities
@@ -115,9 +116,9 @@ enum HomeScreenSections {
   PersonalizedFeed,
   NearbyProperties,
   FeaturedProperties,
-  RecentlyAdded,
+  Sample,
   MostLikedProperties,
   PopularCities,
   MostViewed,
-  Category
+  Category, RecentlyAdded
 }

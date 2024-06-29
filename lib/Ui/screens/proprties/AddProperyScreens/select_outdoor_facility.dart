@@ -175,9 +175,9 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
         "threeD_${parameters?['title']}_${parameters?['price']}";
 
 
-    await context
-        .read<AddPropertyCubit>()
-        .uploadFileToS3(parameters?['threeD_image'], threeDImage);
+    // await context
+    //     .read<AddPropertyCubit>()
+    //     .uploadFileToS3(parameters?['threeD_image'], threeDImage);
 
     await context
         .read<AddPropertyCubit>()
@@ -262,7 +262,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
 
   @override
   void initState() {
-    String phoneNumber = _saperateNumber();
+    // String phoneNumber = _saperateNumber();
     List<AssignedOutdoorFacility> facilities = [];
     // outdoorFacilityList = widget.apiParameters?['assign_facilities'] ?? [];
 
