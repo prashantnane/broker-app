@@ -15,8 +15,7 @@ class DatabaseMethods {
       return false; // Failure
     }
   }
-  Future addCustomer(Map<String, dynamic> infoMap) async {
-    try {
+  Future addCustomer(Map<String, dynamic> infoMap) async {    try {
       await FirebaseFirestore.instance
           .collection("customers")
           .doc()

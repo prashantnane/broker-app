@@ -296,77 +296,77 @@ class _ProfileScreenState extends State<ProfileScreen>
                         dividerWithSpacing(),
                       ],
 
-                      customTile(
-                        context,
-                        title: UiUtils.getTranslatedLabel(context, "myAds"),
-                        svgImagePath: AppIcons.promoted,
-                        onTap: () async {
-                          APICallTrigger.trigger();
-                          GuestChecker.check(
-                            onNotGuest: () {
-                              Navigator.pushNamed(
-                                  context, Routes.myAdvertisment);
-                            },
-                          );
-                        },
-                      ),
-                      dividerWithSpacing(),
-                      customTile(
-                        context,
-                        title:
-                            UiUtils.getTranslatedLabel(context, "subscription"),
-                        svgImagePath: AppIcons.subscription,
-                        onTap: () async {
-                          GuestChecker.check(onNotGuest: () {
-                            Navigator.pushNamed(
-                                context, Routes.subscriptionPackageListRoute);
-                          });
-                        },
-                      ),
-                      dividerWithSpacing(),
-                      customTile(
-                        context,
-                        title: UiUtils.getTranslatedLabel(
-                            context, "transactionHistory"),
-                        svgImagePath: AppIcons.transaction,
-                        onTap: () {
-                          GuestChecker.check(onNotGuest: () {
-                            Navigator.pushNamed(
-                                context, Routes.transactionHistory);
-                          });
-                        },
-                      ),
-                      dividerWithSpacing(),
-
-                      customTile(
-                        context,
-                        title: UiUtils.getTranslatedLabel(
-                          context,
-                          "personalized",
-                        ),
-                        svgImagePath: AppIcons.magic,
-                        onTap: () {
-                          GuestChecker.check(onNotGuest: () {
-                            Navigator.pushNamed(
-                                context, Routes.personalizedPropertyScreen,
-                                arguments: {
-                                  "type": PersonalizedVisitType.Normal
-                                });
-                          });
-                        },
-                      ),
-                      dividerWithSpacing(),
-
-                      customTile(
-                        context,
-                        title: UiUtils.getTranslatedLabel(context, "language"),
-                        svgImagePath: AppIcons.language,
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.languageListScreenRoute);
-                        },
-                      ),
-                      dividerWithSpacing(),
+                      // customTile(
+                      //   context,
+                      //   title: UiUtils.getTranslatedLabel(context, "myAds"),
+                      //   svgImagePath: AppIcons.promoted,
+                      //   onTap: () async {
+                      //     APICallTrigger.trigger();
+                      //     GuestChecker.check(
+                      //       onNotGuest: () {
+                      //         Navigator.pushNamed(
+                      //             context, Routes.myAdvertisment);
+                      //       },
+                      //     );
+                      //   },
+                      // ),
+                      // dividerWithSpacing(),
+                      // customTile(
+                      //   context,
+                      //   title:
+                      //       UiUtils.getTranslatedLabel(context, "subscription"),
+                      //   svgImagePath: AppIcons.subscription,
+                      //   onTap: () async {
+                      //     GuestChecker.check(onNotGuest: () {
+                      //       Navigator.pushNamed(
+                      //           context, Routes.subscriptionPackageListRoute);
+                      //     });
+                      //   },
+                      // ),
+                      // dividerWithSpacing(),
+                      // customTile(
+                      //   context,
+                      //   title: UiUtils.getTranslatedLabel(
+                      //       context, "transactionHistory"),
+                      //   svgImagePath: AppIcons.transaction,
+                      //   onTap: () {
+                      //     GuestChecker.check(onNotGuest: () {
+                      //       Navigator.pushNamed(
+                      //           context, Routes.transactionHistory);
+                      //     });
+                      //   },
+                      // ),
+                      // dividerWithSpacing(),
+                      //
+                      // customTile(
+                      //   context,
+                      //   title: UiUtils.getTranslatedLabel(
+                      //     context,
+                      //     "personalized",
+                      //   ),
+                      //   svgImagePath: AppIcons.magic,
+                      //   onTap: () {
+                      //     GuestChecker.check(onNotGuest: () {
+                      //       Navigator.pushNamed(
+                      //           context, Routes.personalizedPropertyScreen,
+                      //           arguments: {
+                      //             "type": PersonalizedVisitType.Normal
+                      //           });
+                      //     });
+                      //   },
+                      // ),
+                      // dividerWithSpacing(),
+                      //
+                      // customTile(
+                      //   context,
+                      //   title: UiUtils.getTranslatedLabel(context, "language"),
+                      //   svgImagePath: AppIcons.language,
+                      //   onTap: () {
+                      //     Navigator.pushNamed(
+                      //         context, Routes.languageListScreenRoute);
+                      //   },
+                      // ),
+                      // dividerWithSpacing(),
                       ValueListenableBuilder(
                           valueListenable: isDarkTheme,
                           builder: (context, v, c) {
@@ -403,18 +403,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                         },
                       ),
                       dividerWithSpacing(),
-                      customTile(
-                        context,
-                        title: UiUtils.getTranslatedLabel(context, "articles"),
-                        svgImagePath: AppIcons.articles,
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.articlesScreenRoute,
-                          );
-                        },
-                      ),
-                      dividerWithSpacing(),
+                      // customTile(
+                      //   context,
+                      //   title: UiUtils.getTranslatedLabel(context, "articles"),
+                      //   svgImagePath: AppIcons.articles,
+                      //   onTap: () {
+                      //     Navigator.pushNamed(
+                      //       context,
+                      //       Routes.articlesScreenRoute,
+                      //     );
+                      //   },
+                      // ),
+                      // dividerWithSpacing(),
                       customTile(
                         context,
                         title: UiUtils.getTranslatedLabel(context, "favorites"),
@@ -427,17 +427,17 @@ class _ProfileScreenState extends State<ProfileScreen>
                         },
                       ),
                       dividerWithSpacing(),
-                      customTile(
-                        context,
-                        title: UiUtils.getTranslatedLabel(
-                            context, "areaConvertor"),
-                        svgImagePath: AppIcons.areaConvertor,
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.areaConvertorScreen);
-                        },
-                      ),
-                      dividerWithSpacing(),
+                      // customTile(
+                      //   context,
+                      //   title: UiUtils.getTranslatedLabel(
+                      //       context, "areaConvertor"),
+                      //   svgImagePath: AppIcons.areaConvertor,
+                      //   onTap: () {
+                      //     Navigator.pushNamed(
+                      //         context, Routes.areaConvertorScreen);
+                      //   },
+                      // ),
+                      // dividerWithSpacing(),
                       customTile(
                         context,
                         title: UiUtils.getTranslatedLabel(context, "shareApp"),

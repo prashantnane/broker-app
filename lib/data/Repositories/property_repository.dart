@@ -96,10 +96,10 @@ class PropertyRepository {
                 id
                 title
                 price
-                customerName
-                customerEmail
-                customerProfile
-                customerNumber
+                brokerName
+                brokerEmail
+                brokerProfile
+                brokerNumber
                 category
                 description
                 address
@@ -115,9 +115,6 @@ class PropertyRepository {
                 isFavourite
                 isInterested
                 assignedOutdoorFacility
-                latitude
-                longitude
-                threeDImage
                 video
                 parameters
                }
@@ -137,6 +134,7 @@ class PropertyRepository {
         Map<String, dynamic> data = json.decode(response.data!);
 
         final List<dynamic> propertyList = data['listProperties']['items'];
+
         print('this data from property repo: ${propertyList}');
         //
         List<Property> modelList = propertyList.map(

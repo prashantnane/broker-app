@@ -21,16 +21,14 @@
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:collection/collection.dart';
 
 
-/** This is an auto generated class representing the Category type in your schema. */
-class Category extends amplify_core.Model {
-  static const classType = const _CategoryModelType();
+/** This is an auto generated class representing the Favorites type in your schema. */
+class Favorites extends amplify_core.Model {
+  static const classType = const _FavoritesModelType();
   final String id;
-  final String? _category;
-  final String? _image;
-  final List<String>? _parameterTypes;
+  final String? _brokerID;
+  final String? _propertyID;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -41,22 +39,18 @@ class Category extends amplify_core.Model {
   @override
   String getId() => id;
   
-  CategoryModelIdentifier get modelIdentifier {
-      return CategoryModelIdentifier(
+  FavoritesModelIdentifier get modelIdentifier {
+      return FavoritesModelIdentifier(
         id: id
       );
   }
   
-  String? get category {
-    return _category;
+  String? get brokerID {
+    return _brokerID;
   }
   
-  String? get image {
-    return _image;
-  }
-  
-  List<String>? get parameterTypes {
-    return _parameterTypes;
+  String? get propertyID {
+    return _propertyID;
   }
   
   amplify_core.TemporalDateTime? get createdAt {
@@ -67,14 +61,13 @@ class Category extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Category._internal({required this.id, category, image, parameterTypes, createdAt, updatedAt}): _category = category, _image = image, _parameterTypes = parameterTypes, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Favorites._internal({required this.id, brokerID, propertyID, createdAt, updatedAt}): _brokerID = brokerID, _propertyID = propertyID, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Category({String? id, String? category, String? image, List<String>? parameterTypes}) {
-    return Category._internal(
+  factory Favorites({String? id, String? brokerID, String? propertyID}) {
+    return Favorites._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
-      category: category,
-      image: image,
-      parameterTypes: parameterTypes != null ? List<String>.unmodifiable(parameterTypes) : parameterTypes);
+      brokerID: brokerID,
+      propertyID: propertyID);
   }
   
   bool equals(Object other) {
@@ -84,11 +77,10 @@ class Category extends amplify_core.Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Category &&
+    return other is Favorites &&
       id == other.id &&
-      _category == other._category &&
-      _image == other._image &&
-      DeepCollectionEquality().equals(_parameterTypes, other._parameterTypes);
+      _brokerID == other._brokerID &&
+      _propertyID == other._propertyID;
   }
   
   @override
@@ -98,11 +90,10 @@ class Category extends amplify_core.Model {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("Category {");
+    buffer.write("Favorites {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("category=" + "$_category" + ", ");
-    buffer.write("image=" + "$_image" + ", ");
-    buffer.write("parameterTypes=" + (_parameterTypes != null ? _parameterTypes!.toString() : "null") + ", ");
+    buffer.write("brokerID=" + "$_brokerID" + ", ");
+    buffer.write("propertyID=" + "$_propertyID" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -110,56 +101,50 @@ class Category extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Category copyWith({String? category, String? image, List<String>? parameterTypes}) {
-    return Category._internal(
+  Favorites copyWith({String? brokerID, String? propertyID}) {
+    return Favorites._internal(
       id: id,
-      category: category ?? this.category,
-      image: image ?? this.image,
-      parameterTypes: parameterTypes ?? this.parameterTypes);
+      brokerID: brokerID ?? this.brokerID,
+      propertyID: propertyID ?? this.propertyID);
   }
   
-  Category copyWithModelFieldValues({
-    ModelFieldValue<String?>? category,
-    ModelFieldValue<String?>? image,
-    ModelFieldValue<List<String>?>? parameterTypes
+  Favorites copyWithModelFieldValues({
+    ModelFieldValue<String?>? brokerID,
+    ModelFieldValue<String?>? propertyID
   }) {
-    return Category._internal(
+    return Favorites._internal(
       id: id,
-      category: category == null ? this.category : category.value,
-      image: image == null ? this.image : image.value,
-      parameterTypes: parameterTypes == null ? this.parameterTypes : parameterTypes.value
+      brokerID: brokerID == null ? this.brokerID : brokerID.value,
+      propertyID: propertyID == null ? this.propertyID : propertyID.value
     );
   }
   
-  Category.fromJson(Map<String, dynamic> json)  
+  Favorites.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _category = json['category'],
-      _image = json['image'],
-      _parameterTypes = json['parameterTypes']?.cast<String>(),
+      _brokerID = json['brokerID'],
+      _propertyID = json['propertyID'],
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'category': _category, 'image': _image, 'parameterTypes': _parameterTypes, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'brokerID': _brokerID, 'propertyID': _propertyID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
     'id': id,
-    'category': _category,
-    'image': _image,
-    'parameterTypes': _parameterTypes,
+    'brokerID': _brokerID,
+    'propertyID': _propertyID,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
 
-  static final amplify_core.QueryModelIdentifier<CategoryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<CategoryModelIdentifier>();
+  static final amplify_core.QueryModelIdentifier<FavoritesModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<FavoritesModelIdentifier>();
   static final ID = amplify_core.QueryField(fieldName: "id");
-  static final CATEGORY = amplify_core.QueryField(fieldName: "category");
-  static final IMAGE = amplify_core.QueryField(fieldName: "image");
-  static final PARAMETERTYPES = amplify_core.QueryField(fieldName: "parameterTypes");
+  static final BROKERID = amplify_core.QueryField(fieldName: "brokerID");
+  static final PROPERTYID = amplify_core.QueryField(fieldName: "propertyID");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Category";
-    modelSchemaDefinition.pluralName = "Categories";
+    modelSchemaDefinition.name = "Favorites";
+    modelSchemaDefinition.pluralName = "Favorites";
     
     modelSchemaDefinition.authRules = [
       amplify_core.AuthRule(
@@ -175,22 +160,15 @@ class Category extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Category.CATEGORY,
+      key: Favorites.BROKERID,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Category.IMAGE,
+      key: Favorites.PROPERTYID,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Category.PARAMETERTYPES,
-      isRequired: false,
-      isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.string.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -209,29 +187,29 @@ class Category extends amplify_core.Model {
   });
 }
 
-class _CategoryModelType extends amplify_core.ModelType<Category> {
-  const _CategoryModelType();
+class _FavoritesModelType extends amplify_core.ModelType<Favorites> {
+  const _FavoritesModelType();
   
   @override
-  Category fromJson(Map<String, dynamic> jsonData) {
-    return Category.fromJson(jsonData);
+  Favorites fromJson(Map<String, dynamic> jsonData) {
+    return Favorites.fromJson(jsonData);
   }
   
   @override
   String modelName() {
-    return 'Category';
+    return 'Favorites';
   }
 }
 
 /**
  * This is an auto generated class representing the model identifier
- * of [Category] in your schema.
+ * of [Favorites] in your schema.
  */
-class CategoryModelIdentifier implements amplify_core.ModelIdentifier<Category> {
+class FavoritesModelIdentifier implements amplify_core.ModelIdentifier<Favorites> {
   final String id;
 
-  /** Create an instance of CategoryModelIdentifier using [id] the primary key. */
-  const CategoryModelIdentifier({
+  /** Create an instance of FavoritesModelIdentifier using [id] the primary key. */
+  const FavoritesModelIdentifier({
     required this.id});
   
   @override
@@ -249,7 +227,7 @@ class CategoryModelIdentifier implements amplify_core.ModelIdentifier<Category> 
   String serializeAsString() => serializeAsMap().values.join('#');
   
   @override
-  String toString() => 'CategoryModelIdentifier(id: $id)';
+  String toString() => 'FavoritesModelIdentifier(id: $id)';
   
   @override
   bool operator ==(Object other) {
@@ -257,7 +235,7 @@ class CategoryModelIdentifier implements amplify_core.ModelIdentifier<Category> 
       return true;
     }
     
-    return other is CategoryModelIdentifier &&
+    return other is FavoritesModelIdentifier &&
       id == other.id;
   }
   

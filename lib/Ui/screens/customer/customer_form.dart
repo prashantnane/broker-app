@@ -887,35 +887,35 @@ class AddCustomerState extends State<AddCustomer> {
 
         return;
       }
-      customerAddProcess();
+      // customerAddProcess();
     }
   }
 
-  customerAddProcess() async {
-    bool success = await DatabaseMethods().addCustomer({
-      "phone": phoneController.text,
-      "name": nameController.text,
-      "email": emailController.text,
-      "address": addressController.text,
-      "min_budget": minBudgetController.text,
-      "max_budget": maxBudgetController.text,
-      "unit_type": unitTypeController.text,
-      "unit_configurations": unitConfigurationsController.text,
-      "property_status": propertyStatusController.text
-    });
-
-    if (success) {
-      Widgets.showLoader(context);
-      HelperUtils.showSnackBarMessage(
-          context, UiUtils.getTranslatedLabel(context, "Customer Added Successfully"),
-          type: MessageType.success, onClose: () {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-      });
-    } else if (!success) {
-      // Widgets.hideLoder(context);
-      HelperUtils.showSnackBarMessage(context, 'Failed to add Customer',
-          type: MessageType.error);
-    }
-  }
+  // customerAddProcess() async {
+  //   bool success = await DatabaseMethods().addCustomer({
+  //     "phone": phoneController.text,
+  //     "name": nameController.text,
+  //     "email": emailController.text,
+  //     "address": addressController.text,
+  //     "min_budget": minBudgetController.text,
+  //     "max_budget": maxBudgetController.text,
+  //     "unit_type": unitTypeController.text,
+  //     "unit_configurations": unitConfigurationsController.text,
+  //     "property_status": propertyStatusController.text
+  //   });
+  //
+  //   if (success) {
+  //     Widgets.showLoader(context);
+  //     HelperUtils.showSnackBarMessage(
+  //         context, UiUtils.getTranslatedLabel(context, "Customer Added Successfully"),
+  //         type: MessageType.success, onClose: () {
+  //       Navigator.of(context).pop();
+  //       Navigator.of(context).pop();
+  //     });
+  //   } else if (!success) {
+  //     // Widgets.hideLoder(context);
+  //     HelperUtils.showSnackBarMessage(context, 'Failed to add Customer',
+  //         type: MessageType.error);
+  //   }
+  // }
 }

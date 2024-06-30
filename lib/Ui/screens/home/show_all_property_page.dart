@@ -1,21 +1,21 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ebroker/test_page/propertyHorizontalCard.dart';
+import 'package:ebroker/Ui/screens/home/Widgets/propertyHorizontalCard.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-import '../Ui/screens/home/Widgets/header_card.dart';
-import '../Ui/screens/home/Widgets/property_horizontal_card.dart';
-import '../Ui/screens/home/home_screen.dart';
-import '../Ui/screens/proprties/viewAll.dart';
-import '../Ui/screens/widgets/shimmerLoadingContainer.dart';
-import '../data/model/property_model.dart';
-import '../exports/main_export.dart';
-import '../models/Property.dart';
-import '../utils/helper_utils.dart';
-import 'db.dart';
-import 'fetch_all_properties.dart';
+import 'Widgets/header_card.dart';
+import 'Widgets/property_horizontal_card.dart';
+import 'home_screen.dart';
+import '../proprties/viewAll.dart';
+import '../widgets/shimmerLoadingContainer.dart';
+import '../../../data/model/property_model.dart';
+import '../../../exports/main_export.dart';
+import '../../../models/Property.dart';
+import '../../../utils/helper_utils.dart';
+import '../../../test_page/db.dart';
+import '../../../test_page/fetch_all_properties.dart';
 
 class ShowAllPropertyPage extends StatefulWidget {
   const ShowAllPropertyPage({super.key});

@@ -9,7 +9,7 @@ import 'package:aws_common/vm.dart';
 import 'package:ebroker/main.dart';
 import 'package:ebroker/test_page/add_property_page.dart';
 import 'package:ebroker/test_page/db.dart';
-import 'package:ebroker/test_page/show_all_property_page.dart';
+import 'package:ebroker/Ui/screens/home/show_all_property_page.dart';
 import 'package:ebroker/test_page/show_category_page.dart';
 import 'package:ebroker/test_page/verification_screen.dart';
 import 'package:flutter/material.dart';
@@ -149,10 +149,10 @@ class _TestPageState extends State<TestPage> {
               final newData = Property(
                 title: "parameters['title']",
                 price: "parameters['price']",
-                customerName: "parameters['title']",
-                customerEmail: "parameters['title']",
-                customerProfile: "parameters['title']",
-                customerNumber: "parameters['title']",
+                brokerName: "parameters['title']",
+                brokerEmail: "parameters['title']",
+                brokerProfile: "parameters['title']",
+                brokerNumber: "parameters['title']",
                 category: json.encode(categoryJson),
                 // unitType: UnitType.fromMap(
                 //   {"id": 13, "measurement": "land"},
@@ -196,9 +196,6 @@ class _TestPageState extends State<TestPage> {
                 //     },
                 //   )
                 // ],
-                latitude: "parameters['latitude']",
-                longitude: " parameters['longitude']",
-                threeDImage: " threeDImage",
                 video: "parameters['video_link']",
               );
               context.read<AddPropertyCubit>().addProperty(context, newData);

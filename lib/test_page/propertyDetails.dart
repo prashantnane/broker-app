@@ -242,17 +242,6 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
     }
   }
 
-  late final CameraPosition _kInitialPlace = CameraPosition(
-    target: LatLng(
-      double.parse(
-        (property?.latitude ?? "0"),
-      ),
-      double.parse(
-        (property?.longitude ?? "0"),
-      ),
-    ),
-    zoom: 14.4746,
-  );
 
   @override
   void dispose() {
@@ -758,46 +747,47 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                           //     property: property!,
                                           //   ),
                                           // ),
-                                          PositionedDirectional(
-                                            bottom: 5,
-                                            end: 18,
-                                            child: Visibility(
-                                              visible:
-                                                  property?.threeDImage != "",
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    BlurredRouter(
-                                                      builder: (context) =>
-                                                          PanaromaImageScreen(
-                                                        imageUrl: property!
-                                                            .threeDImage!,
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: context
-                                                        .color.secondaryColor,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  height: 40.rh(context),
-                                                  width: 40.rw(context),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            5.0),
-                                                    child: UiUtils.getSvg(
-                                                        AppIcons.v360Degree,
-                                                        color: context.color
-                                                            .teritoryColor),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+
+                                          // PositionedDirectional(
+                                          //   bottom: 5,
+                                          //   end: 18,
+                                          //   child: Visibility(
+                                          //     visible:
+                                          //         property?.threeDImage != "",
+                                          //     child: GestureDetector(
+                                          //       onTap: () {
+                                          //         Navigator.push(
+                                          //           context,
+                                          //           BlurredRouter(
+                                          //             builder: (context) =>
+                                          //                 PanaromaImageScreen(
+                                          //               imageUrl: property!
+                                          //                   .threeDImage!,
+                                          //             ),
+                                          //           ),
+                                          //         );
+                                          //       },
+                                          //       child: Container(
+                                          //         decoration: BoxDecoration(
+                                          //           color: context
+                                          //               .color.secondaryColor,
+                                          //           shape: BoxShape.circle,
+                                          //         ),
+                                          //         height: 40.rh(context),
+                                          //         width: 40.rw(context),
+                                          //         child: Padding(
+                                          //           padding:
+                                          //               const EdgeInsets.all(
+                                          //                   5.0),
+                                          //           child: UiUtils.getSvg(
+                                          //               AppIcons.v360Degree,
+                                          //               color: context.color
+                                          //                   .teritoryColor),
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                     ),
@@ -1887,7 +1877,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
   }
 
   _onTapCall() async {
-    var contactNumber = widget.property?.customerNumber;
+    var contactNumber = widget.property?.brokerNumber;
 
     var url = Uri.parse("tel: $contactNumber"); //{contactNumber.data}
     if (await canLaunchUrl(url)) {
@@ -1898,7 +1888,7 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
   }
 
   _onTapMessage() async {
-    var contactNumber = widget.property?.customerNumber;
+    var contactNumber = widget.property?.brokerNumber;
 
     var url = Uri.parse("sms:$contactNumber"); //{contactNumber.data}
     if (await canLaunchUrl(url)) {
@@ -1927,8 +1917,8 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
               ),
             ],
             child: ChatScreen(
-              profilePicture: property?.customerProfile ?? "",
-              userName: property?.customerName ?? "",
+              profilePicture: property?.brokerProfile ?? "",
+              userName: property?.brokerName ?? "",
               propertyImage: property?.titleImage ?? "",
               proeprtyTitle: property?.title ?? "",
               userId: (property?.addedBy).toString(),
@@ -2051,7 +2041,7 @@ class CusomterProfileWidget extends StatelessWidget {
           onTap: () {
             UiUtils.showFullScreenImage(context,
                 provider:
-                    NetworkImage(widget?.property?.customerProfile ?? ""));
+                    NetworkImage(widget?.property?.brokerProfile ?? ""));
           },
           child: Container(
               width: 70,
@@ -2060,7 +2050,7 @@ class CusomterProfileWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(10)),
-              child: UiUtils.getImage(widget.property?.customerProfile ?? "",
+              child: UiUtils.getImage(widget.property?.brokerProfile ?? "",
                   fit: BoxFit.cover)
 
               //  CachedNetworkImage(
@@ -2077,10 +2067,10 @@ class CusomterProfileWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.property?.customerName ?? "")
+              Text(widget.property?.brokerName ?? "")
                   .size(context.font.large)
                   .bold(),
-              Text(widget.property?.customerEmail ?? ""),
+              Text(widget.property?.brokerEmail ?? ""),
             ],
           ),
         )

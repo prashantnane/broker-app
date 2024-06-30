@@ -1,7 +1,7 @@
 import 'package:ebroker/Ui/screens/home/Widgets/property_horizontal_card.dart';
 import 'package:ebroker/Ui/screens/widgets/AnimatedRoutes/blur_page_route.dart';
 import 'package:ebroker/Ui/screens/widgets/Erros/something_went_wrong.dart';
-import 'package:ebroker/test_page/propertyHorizontalCard.dart';
+import 'package:ebroker/Ui/screens/home/Widgets/propertyHorizontalCard.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:ebroker/utils/helper_utils.dart';
 import 'package:ebroker/utils/ui_utils.dart';

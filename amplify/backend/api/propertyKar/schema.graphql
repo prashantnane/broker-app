@@ -1,3 +1,9 @@
+type Favorites @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  brokerID: String
+  propertyID: String
+}
+
 type Parameter @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
@@ -26,15 +32,14 @@ type Property @model @auth(rules: [{allow: public}]) {
   id: ID!
   title: String
   price: String
-  customerName: String
-  customerEmail: String
-  customerProfile: String
-  customerNumber: String
+  brokerName: String
+  brokerEmail: String
+  brokerProfile: String
+  brokerNumber: String
   category: AWSJSON
   description: String
   address: String
   clientAddress: String
-  propertyType: String
   titleImage: String
   postCreated: String
   gallery: [AWSJSON]
@@ -45,10 +50,8 @@ type Property @model @auth(rules: [{allow: public}]) {
   isFavourite: Boolean
   isInterested: Boolean
   assignedOutdoorFacility: [AWSJSON]
-  latitude: String
-  longitude: String
-  threeDImage: String
   video: String
   parameters: [AWSJSON]
+  propertyType: String
 }
  

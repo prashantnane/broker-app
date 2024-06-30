@@ -17,7 +17,7 @@
 // Generated files can be excluded from analysis in analysis_options.yaml
 // For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
 
-// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, override_on_non_overriding_member, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
@@ -30,15 +30,14 @@ class Property extends amplify_core.Model {
   final String id;
   final String? _title;
   final String? _price;
-  final String? _customerName;
-  final String? _customerEmail;
-  final String? _customerProfile;
-  final String? _customerNumber;
+  final String? _brokerName;
+  final String? _brokerEmail;
+  final String? _brokerProfile;
+  final String? _brokerNumber;
   final String? _category;
   final String? _description;
   final String? _address;
   final String? _clientAddress;
-  final String? _propertyType;
   final String? _titleImage;
   final String? _postCreated;
   final List<String>? _gallery;
@@ -49,11 +48,9 @@ class Property extends amplify_core.Model {
   final bool? _isFavourite;
   final bool? _isInterested;
   final List<String>? _assignedOutdoorFacility;
-  final String? _latitude;
-  final String? _longitude;
-  final String? _threeDImage;
   final String? _video;
   final List<String>? _parameters;
+  final String? _propertyType;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -78,20 +75,20 @@ class Property extends amplify_core.Model {
     return _price;
   }
   
-  String? get customerName {
-    return _customerName;
+  String? get brokerName {
+    return _brokerName;
   }
   
-  String? get customerEmail {
-    return _customerEmail;
+  String? get brokerEmail {
+    return _brokerEmail;
   }
   
-  String? get customerProfile {
-    return _customerProfile;
+  String? get brokerProfile {
+    return _brokerProfile;
   }
   
-  String? get customerNumber {
-    return _customerNumber;
+  String? get brokerNumber {
+    return _brokerNumber;
   }
   
   String? get category {
@@ -108,10 +105,6 @@ class Property extends amplify_core.Model {
   
   String? get clientAddress {
     return _clientAddress;
-  }
-  
-  String? get propertyType {
-    return _propertyType;
   }
   
   String? get titleImage {
@@ -154,24 +147,16 @@ class Property extends amplify_core.Model {
     return _assignedOutdoorFacility;
   }
   
-  String? get latitude {
-    return _latitude;
-  }
-  
-  String? get longitude {
-    return _longitude;
-  }
-  
-  String? get threeDImage {
-    return _threeDImage;
-  }
-  
   String? get video {
     return _video;
   }
   
   List<String>? get parameters {
     return _parameters;
+  }
+  
+  String? get propertyType {
+    return _propertyType;
   }
   
   amplify_core.TemporalDateTime? get createdAt {
@@ -182,22 +167,21 @@ class Property extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Property._internal({required this.id, title, price, customerName, customerEmail, customerProfile, customerNumber, category, description, address, clientAddress, propertyType, titleImage, postCreated, gallery, state, city, country, addedBy, isFavourite, isInterested, assignedOutdoorFacility, latitude, longitude, threeDImage, video, parameters, createdAt, updatedAt}): _title = title, _price = price, _customerName = customerName, _customerEmail = customerEmail, _customerProfile = customerProfile, _customerNumber = customerNumber, _category = category, _description = description, _address = address, _clientAddress = clientAddress, _propertyType = propertyType, _titleImage = titleImage, _postCreated = postCreated, _gallery = gallery, _state = state, _city = city, _country = country, _addedBy = addedBy, _isFavourite = isFavourite, _isInterested = isInterested, _assignedOutdoorFacility = assignedOutdoorFacility, _latitude = latitude, _longitude = longitude, _threeDImage = threeDImage, _video = video, _parameters = parameters, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Property._internal({required this.id, title, price, brokerName, brokerEmail, brokerProfile, brokerNumber, category, description, address, clientAddress, titleImage, postCreated, gallery, state, city, country, addedBy, isFavourite, isInterested, assignedOutdoorFacility, video, parameters, propertyType, createdAt, updatedAt}): _title = title, _price = price, _brokerName = brokerName, _brokerEmail = brokerEmail, _brokerProfile = brokerProfile, _brokerNumber = brokerNumber, _category = category, _description = description, _address = address, _clientAddress = clientAddress, _titleImage = titleImage, _postCreated = postCreated, _gallery = gallery, _state = state, _city = city, _country = country, _addedBy = addedBy, _isFavourite = isFavourite, _isInterested = isInterested, _assignedOutdoorFacility = assignedOutdoorFacility, _video = video, _parameters = parameters, _propertyType = propertyType, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Property({String? id, String? title, String? price, String? customerName, String? customerEmail, String? customerProfile, String? customerNumber, String? category, String? description, String? address, String? clientAddress, String? propertyType, String? titleImage, String? postCreated, List<String>? gallery, String? state, String? city, String? country, int? addedBy, bool? isFavourite, bool? isInterested, List<String>? assignedOutdoorFacility, String? latitude, String? longitude, String? threeDImage, String? video, List<String>? parameters}) {
+  factory Property({String? id, String? title, String? price, String? brokerName, String? brokerEmail, String? brokerProfile, String? brokerNumber, String? category, String? description, String? address, String? clientAddress, String? titleImage, String? postCreated, List<String>? gallery, String? state, String? city, String? country, int? addedBy, bool? isFavourite, bool? isInterested, List<String>? assignedOutdoorFacility, String? video, List<String>? parameters, String? propertyType}) {
     return Property._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       title: title,
       price: price,
-      customerName: customerName,
-      customerEmail: customerEmail,
-      customerProfile: customerProfile,
-      customerNumber: customerNumber,
+      brokerName: brokerName,
+      brokerEmail: brokerEmail,
+      brokerProfile: brokerProfile,
+      brokerNumber: brokerNumber,
       category: category,
       description: description,
       address: address,
       clientAddress: clientAddress,
-      propertyType: propertyType,
       titleImage: titleImage,
       postCreated: postCreated,
       gallery: gallery != null ? List<String>.unmodifiable(gallery) : gallery,
@@ -208,11 +192,9 @@ class Property extends amplify_core.Model {
       isFavourite: isFavourite,
       isInterested: isInterested,
       assignedOutdoorFacility: assignedOutdoorFacility != null ? List<String>.unmodifiable(assignedOutdoorFacility) : assignedOutdoorFacility,
-      latitude: latitude,
-      longitude: longitude,
-      threeDImage: threeDImage,
       video: video,
-      parameters: parameters != null ? List<String>.unmodifiable(parameters) : parameters);
+      parameters: parameters != null ? List<String>.unmodifiable(parameters) : parameters,
+      propertyType: propertyType);
   }
   
   bool equals(Object other) {
@@ -226,15 +208,14 @@ class Property extends amplify_core.Model {
       id == other.id &&
       _title == other._title &&
       _price == other._price &&
-      _customerName == other._customerName &&
-      _customerEmail == other._customerEmail &&
-      _customerProfile == other._customerProfile &&
-      _customerNumber == other._customerNumber &&
+      _brokerName == other._brokerName &&
+      _brokerEmail == other._brokerEmail &&
+      _brokerProfile == other._brokerProfile &&
+      _brokerNumber == other._brokerNumber &&
       _category == other._category &&
       _description == other._description &&
       _address == other._address &&
       _clientAddress == other._clientAddress &&
-      _propertyType == other._propertyType &&
       _titleImage == other._titleImage &&
       _postCreated == other._postCreated &&
       DeepCollectionEquality().equals(_gallery, other._gallery) &&
@@ -245,11 +226,9 @@ class Property extends amplify_core.Model {
       _isFavourite == other._isFavourite &&
       _isInterested == other._isInterested &&
       DeepCollectionEquality().equals(_assignedOutdoorFacility, other._assignedOutdoorFacility) &&
-      _latitude == other._latitude &&
-      _longitude == other._longitude &&
-      _threeDImage == other._threeDImage &&
       _video == other._video &&
-      DeepCollectionEquality().equals(_parameters, other._parameters);
+      DeepCollectionEquality().equals(_parameters, other._parameters) &&
+      _propertyType == other._propertyType;
   }
   
   @override
@@ -263,15 +242,14 @@ class Property extends amplify_core.Model {
     buffer.write("id=" + "$id" + ", ");
     buffer.write("title=" + "$_title" + ", ");
     buffer.write("price=" + "$_price" + ", ");
-    buffer.write("customerName=" + "$_customerName" + ", ");
-    buffer.write("customerEmail=" + "$_customerEmail" + ", ");
-    buffer.write("customerProfile=" + "$_customerProfile" + ", ");
-    buffer.write("customerNumber=" + "$_customerNumber" + ", ");
+    buffer.write("brokerName=" + "$_brokerName" + ", ");
+    buffer.write("brokerEmail=" + "$_brokerEmail" + ", ");
+    buffer.write("brokerProfile=" + "$_brokerProfile" + ", ");
+    buffer.write("brokerNumber=" + "$_brokerNumber" + ", ");
     buffer.write("category=" + "$_category" + ", ");
     buffer.write("description=" + "$_description" + ", ");
     buffer.write("address=" + "$_address" + ", ");
     buffer.write("clientAddress=" + "$_clientAddress" + ", ");
-    buffer.write("propertyType=" + "$_propertyType" + ", ");
     buffer.write("titleImage=" + "$_titleImage" + ", ");
     buffer.write("postCreated=" + "$_postCreated" + ", ");
     buffer.write("gallery=" + (_gallery != null ? _gallery!.toString() : "null") + ", ");
@@ -282,11 +260,9 @@ class Property extends amplify_core.Model {
     buffer.write("isFavourite=" + (_isFavourite != null ? _isFavourite!.toString() : "null") + ", ");
     buffer.write("isInterested=" + (_isInterested != null ? _isInterested!.toString() : "null") + ", ");
     buffer.write("assignedOutdoorFacility=" + (_assignedOutdoorFacility != null ? _assignedOutdoorFacility!.toString() : "null") + ", ");
-    buffer.write("latitude=" + "$_latitude" + ", ");
-    buffer.write("longitude=" + "$_longitude" + ", ");
-    buffer.write("threeDImage=" + "$_threeDImage" + ", ");
     buffer.write("video=" + "$_video" + ", ");
     buffer.write("parameters=" + (_parameters != null ? _parameters!.toString() : "null") + ", ");
+    buffer.write("propertyType=" + "$_propertyType" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -294,20 +270,19 @@ class Property extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Property copyWith({String? title, String? price, String? customerName, String? customerEmail, String? customerProfile, String? customerNumber, String? category, String? description, String? address, String? clientAddress, String? propertyType, String? titleImage, String? postCreated, List<String>? gallery, String? state, String? city, String? country, int? addedBy, bool? isFavourite, bool? isInterested, List<String>? assignedOutdoorFacility, String? latitude, String? longitude, String? threeDImage, String? video, List<String>? parameters}) {
+  Property copyWith({String? title, String? price, String? brokerName, String? brokerEmail, String? brokerProfile, String? brokerNumber, String? category, String? description, String? address, String? clientAddress, String? titleImage, String? postCreated, List<String>? gallery, String? state, String? city, String? country, int? addedBy, bool? isFavourite, bool? isInterested, List<String>? assignedOutdoorFacility, String? video, List<String>? parameters, String? propertyType}) {
     return Property._internal(
       id: id,
       title: title ?? this.title,
       price: price ?? this.price,
-      customerName: customerName ?? this.customerName,
-      customerEmail: customerEmail ?? this.customerEmail,
-      customerProfile: customerProfile ?? this.customerProfile,
-      customerNumber: customerNumber ?? this.customerNumber,
+      brokerName: brokerName ?? this.brokerName,
+      brokerEmail: brokerEmail ?? this.brokerEmail,
+      brokerProfile: brokerProfile ?? this.brokerProfile,
+      brokerNumber: brokerNumber ?? this.brokerNumber,
       category: category ?? this.category,
       description: description ?? this.description,
       address: address ?? this.address,
       clientAddress: clientAddress ?? this.clientAddress,
-      propertyType: propertyType ?? this.propertyType,
       titleImage: titleImage ?? this.titleImage,
       postCreated: postCreated ?? this.postCreated,
       gallery: gallery ?? this.gallery,
@@ -318,25 +293,22 @@ class Property extends amplify_core.Model {
       isFavourite: isFavourite ?? this.isFavourite,
       isInterested: isInterested ?? this.isInterested,
       assignedOutdoorFacility: assignedOutdoorFacility ?? this.assignedOutdoorFacility,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      threeDImage: threeDImage ?? this.threeDImage,
       video: video ?? this.video,
-      parameters: parameters ?? this.parameters);
+      parameters: parameters ?? this.parameters,
+      propertyType: propertyType ?? this.propertyType);
   }
   
   Property copyWithModelFieldValues({
     ModelFieldValue<String?>? title,
     ModelFieldValue<String?>? price,
-    ModelFieldValue<String?>? customerName,
-    ModelFieldValue<String?>? customerEmail,
-    ModelFieldValue<String?>? customerProfile,
-    ModelFieldValue<String?>? customerNumber,
+    ModelFieldValue<String?>? brokerName,
+    ModelFieldValue<String?>? brokerEmail,
+    ModelFieldValue<String?>? brokerProfile,
+    ModelFieldValue<String?>? brokerNumber,
     ModelFieldValue<String?>? category,
     ModelFieldValue<String?>? description,
     ModelFieldValue<String?>? address,
     ModelFieldValue<String?>? clientAddress,
-    ModelFieldValue<String?>? propertyType,
     ModelFieldValue<String?>? titleImage,
     ModelFieldValue<String?>? postCreated,
     ModelFieldValue<List<String>?>? gallery,
@@ -347,25 +319,22 @@ class Property extends amplify_core.Model {
     ModelFieldValue<bool?>? isFavourite,
     ModelFieldValue<bool?>? isInterested,
     ModelFieldValue<List<String>?>? assignedOutdoorFacility,
-    ModelFieldValue<String?>? latitude,
-    ModelFieldValue<String?>? longitude,
-    ModelFieldValue<String?>? threeDImage,
     ModelFieldValue<String?>? video,
-    ModelFieldValue<List<String>?>? parameters
+    ModelFieldValue<List<String>?>? parameters,
+    ModelFieldValue<String?>? propertyType
   }) {
     return Property._internal(
       id: id,
       title: title == null ? this.title : title.value,
       price: price == null ? this.price : price.value,
-      customerName: customerName == null ? this.customerName : customerName.value,
-      customerEmail: customerEmail == null ? this.customerEmail : customerEmail.value,
-      customerProfile: customerProfile == null ? this.customerProfile : customerProfile.value,
-      customerNumber: customerNumber == null ? this.customerNumber : customerNumber.value,
+      brokerName: brokerName == null ? this.brokerName : brokerName.value,
+      brokerEmail: brokerEmail == null ? this.brokerEmail : brokerEmail.value,
+      brokerProfile: brokerProfile == null ? this.brokerProfile : brokerProfile.value,
+      brokerNumber: brokerNumber == null ? this.brokerNumber : brokerNumber.value,
       category: category == null ? this.category : category.value,
       description: description == null ? this.description : description.value,
       address: address == null ? this.address : address.value,
       clientAddress: clientAddress == null ? this.clientAddress : clientAddress.value,
-      propertyType: propertyType == null ? this.propertyType : propertyType.value,
       titleImage: titleImage == null ? this.titleImage : titleImage.value,
       postCreated: postCreated == null ? this.postCreated : postCreated.value,
       gallery: gallery == null ? this.gallery : gallery.value,
@@ -376,11 +345,9 @@ class Property extends amplify_core.Model {
       isFavourite: isFavourite == null ? this.isFavourite : isFavourite.value,
       isInterested: isInterested == null ? this.isInterested : isInterested.value,
       assignedOutdoorFacility: assignedOutdoorFacility == null ? this.assignedOutdoorFacility : assignedOutdoorFacility.value,
-      latitude: latitude == null ? this.latitude : latitude.value,
-      longitude: longitude == null ? this.longitude : longitude.value,
-      threeDImage: threeDImage == null ? this.threeDImage : threeDImage.value,
       video: video == null ? this.video : video.value,
-      parameters: parameters == null ? this.parameters : parameters.value
+      parameters: parameters == null ? this.parameters : parameters.value,
+      propertyType: propertyType == null ? this.propertyType : propertyType.value
     );
   }
   
@@ -388,15 +355,14 @@ class Property extends amplify_core.Model {
     : id = json['id'],
       _title = json['title'],
       _price = json['price'],
-      _customerName = json['customerName'],
-      _customerEmail = json['customerEmail'],
-      _customerProfile = json['customerProfile'],
-      _customerNumber = json['customerNumber'],
+      _brokerName = json['brokerName'],
+      _brokerEmail = json['brokerEmail'],
+      _brokerProfile = json['brokerProfile'],
+      _brokerNumber = json['brokerNumber'],
       _category = json['category'],
       _description = json['description'],
       _address = json['address'],
       _clientAddress = json['clientAddress'],
-      _propertyType = json['propertyType'],
       _titleImage = json['titleImage'],
       _postCreated = json['postCreated'],
       _gallery = json['gallery']?.cast<String>(),
@@ -407,31 +373,28 @@ class Property extends amplify_core.Model {
       _isFavourite = json['isFavourite'],
       _isInterested = json['isInterested'],
       _assignedOutdoorFacility = json['assignedOutdoorFacility']?.cast<String>(),
-      _latitude = json['latitude'],
-      _longitude = json['longitude'],
-      _threeDImage = json['threeDImage'],
       _video = json['video'],
       _parameters = json['parameters']?.cast<String>(),
+      _propertyType = json['propertyType'],
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'title': _title, 'price': _price, 'customerName': _customerName, 'customerEmail': _customerEmail, 'customerProfile': _customerProfile, 'customerNumber': _customerNumber, 'category': _category, 'description': _description, 'address': _address, 'clientAddress': _clientAddress, 'propertyType': _propertyType, 'titleImage': _titleImage, 'postCreated': _postCreated, 'gallery': _gallery, 'state': _state, 'city': _city, 'country': _country, 'addedBy': _addedBy, 'isFavourite': _isFavourite, 'isInterested': _isInterested, 'assignedOutdoorFacility': _assignedOutdoorFacility, 'latitude': _latitude, 'longitude': _longitude, 'threeDImage': _threeDImage, 'video': _video, 'parameters': _parameters, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'title': _title, 'price': _price, 'brokerName': _brokerName, 'brokerEmail': _brokerEmail, 'brokerProfile': _brokerProfile, 'brokerNumber': _brokerNumber, 'category': _category, 'description': _description, 'address': _address, 'clientAddress': _clientAddress, 'titleImage': _titleImage, 'postCreated': _postCreated, 'gallery': _gallery, 'state': _state, 'city': _city, 'country': _country, 'addedBy': _addedBy, 'isFavourite': _isFavourite, 'isInterested': _isInterested, 'assignedOutdoorFacility': _assignedOutdoorFacility, 'video': _video, 'parameters': _parameters, 'propertyType': _propertyType, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
     'id': id,
     'title': _title,
     'price': _price,
-    'customerName': _customerName,
-    'customerEmail': _customerEmail,
-    'customerProfile': _customerProfile,
-    'customerNumber': _customerNumber,
+    'brokerName': _brokerName,
+    'brokerEmail': _brokerEmail,
+    'brokerProfile': _brokerProfile,
+    'brokerNumber': _brokerNumber,
     'category': _category,
     'description': _description,
     'address': _address,
     'clientAddress': _clientAddress,
-    'propertyType': _propertyType,
     'titleImage': _titleImage,
     'postCreated': _postCreated,
     'gallery': _gallery,
@@ -442,11 +405,9 @@ class Property extends amplify_core.Model {
     'isFavourite': _isFavourite,
     'isInterested': _isInterested,
     'assignedOutdoorFacility': _assignedOutdoorFacility,
-    'latitude': _latitude,
-    'longitude': _longitude,
-    'threeDImage': _threeDImage,
     'video': _video,
     'parameters': _parameters,
+    'propertyType': _propertyType,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -455,15 +416,14 @@ class Property extends amplify_core.Model {
   static final ID = amplify_core.QueryField(fieldName: "id");
   static final TITLE = amplify_core.QueryField(fieldName: "title");
   static final PRICE = amplify_core.QueryField(fieldName: "price");
-  static final CUSTOMERNAME = amplify_core.QueryField(fieldName: "customerName");
-  static final CUSTOMEREMAIL = amplify_core.QueryField(fieldName: "customerEmail");
-  static final CUSTOMERPROFILE = amplify_core.QueryField(fieldName: "customerProfile");
-  static final CUSTOMERNUMBER = amplify_core.QueryField(fieldName: "customerNumber");
+  static final BROKERNAME = amplify_core.QueryField(fieldName: "brokerName");
+  static final BROKEREMAIL = amplify_core.QueryField(fieldName: "brokerEmail");
+  static final BROKERPROFILE = amplify_core.QueryField(fieldName: "brokerProfile");
+  static final BROKERNUMBER = amplify_core.QueryField(fieldName: "brokerNumber");
   static final CATEGORY = amplify_core.QueryField(fieldName: "category");
   static final DESCRIPTION = amplify_core.QueryField(fieldName: "description");
   static final ADDRESS = amplify_core.QueryField(fieldName: "address");
   static final CLIENTADDRESS = amplify_core.QueryField(fieldName: "clientAddress");
-  static final PROPERTYTYPE = amplify_core.QueryField(fieldName: "propertyType");
   static final TITLEIMAGE = amplify_core.QueryField(fieldName: "titleImage");
   static final POSTCREATED = amplify_core.QueryField(fieldName: "postCreated");
   static final GALLERY = amplify_core.QueryField(fieldName: "gallery");
@@ -474,11 +434,9 @@ class Property extends amplify_core.Model {
   static final ISFAVOURITE = amplify_core.QueryField(fieldName: "isFavourite");
   static final ISINTERESTED = amplify_core.QueryField(fieldName: "isInterested");
   static final ASSIGNEDOUTDOORFACILITY = amplify_core.QueryField(fieldName: "assignedOutdoorFacility");
-  static final LATITUDE = amplify_core.QueryField(fieldName: "latitude");
-  static final LONGITUDE = amplify_core.QueryField(fieldName: "longitude");
-  static final THREEDIMAGE = amplify_core.QueryField(fieldName: "threeDImage");
   static final VIDEO = amplify_core.QueryField(fieldName: "video");
   static final PARAMETERS = amplify_core.QueryField(fieldName: "parameters");
+  static final PROPERTYTYPE = amplify_core.QueryField(fieldName: "propertyType");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Property";
     modelSchemaDefinition.pluralName = "Properties";
@@ -509,25 +467,25 @@ class Property extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Property.CUSTOMERNAME,
+      key: Property.BROKERNAME,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Property.CUSTOMEREMAIL,
+      key: Property.BROKEREMAIL,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Property.CUSTOMERPROFILE,
+      key: Property.BROKERPROFILE,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Property.CUSTOMERNUMBER,
+      key: Property.BROKERNUMBER,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
@@ -552,12 +510,6 @@ class Property extends amplify_core.Model {
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Property.CLIENTADDRESS,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Property.PROPERTYTYPE,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
@@ -625,24 +577,6 @@ class Property extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Property.LATITUDE,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Property.LONGITUDE,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Property.THREEDIMAGE,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Property.VIDEO,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
@@ -653,6 +587,12 @@ class Property extends amplify_core.Model {
       isRequired: false,
       isArray: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.string.name)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Property.PROPERTYTYPE,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(

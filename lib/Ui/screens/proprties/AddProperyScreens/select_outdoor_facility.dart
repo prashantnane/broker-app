@@ -206,10 +206,10 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
     final newData = Property(
       title: parameters?['title'],
       price: parameters?['price'],
-      customerName: parameters?['title'],
-      customerEmail: parameters?['title'],
-      customerProfile: parameters?['title'],
-      customerNumber: parameters?['title'],
+      brokerName: parameters?['title'],
+      brokerEmail: parameters?['title'],
+      brokerProfile: parameters?['title'],
+      brokerNumber: parameters?['title'],
       category: json.encode(categoryJson),
       // unitType: UnitType.fromMap(
       //   {"id": 13, "measurement": "land"},
@@ -231,9 +231,9 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       assignedOutdoorFacility: outdoorFacility,
       // latitude: parameters?['latitude'],
       // longitude: parameters?['longitude'],
-      latitude: 'latitude',
-      longitude: 'longitude',
-      threeDImage: threeDImageUrl,
+      // latitude: 'latitude',
+      // longitude: 'longitude',
+      // threeDImage: threeDImageUrl,
       // video: parameters?['video_link'],
       video: 'video_link',
     );

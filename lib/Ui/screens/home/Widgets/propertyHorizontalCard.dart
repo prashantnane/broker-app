@@ -13,11 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../data/model/property_model.dart';
-import '../../../../utils/constant.dart';
-import '../../../../utils/helper_utils.dart';
-import '../../../../utils/ui_utils.dart';
-import '../models/Property.dart';
+import '../../../../../../../data/model/property_model.dart';
+import '../../../../../../../utils/constant.dart';
+import '../../../../../../../utils/helper_utils.dart';
+import '../../../../../../../utils/ui_utils.dart';
+import '../../../../models/Property.dart';
+import '../../widgets/likeButtonWidget.dart';
 
 class PropertyHorizontalCardTest extends StatelessWidget {
   final Property property;
@@ -204,10 +205,10 @@ class PropertyHorizontalCardTest extends StatelessWidget {
                                               )
                                             ],
                                           ),
-                                          // child: LikeButtonWidget(
-                                          //   property: property,
-                                          //   onLikeChanged: onLikeChange,
-                                          // ),
+                                          child: LikeButtonWidgetTest(
+                                            property: property,
+                                            onLikeChanged: onLikeChange,
+                                          ),
                                         ),
                                     ],
                                   ),
