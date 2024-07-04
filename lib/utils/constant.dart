@@ -100,7 +100,7 @@ class Constant {
   //
 
   static List<int> interestedPropertyIds = [];
-  static List<int> favoritePropertyList = [];
+  static List<String> favoritePropertyList = [];
 
   static Map<dynamic, dynamic> addProperty = {};
 

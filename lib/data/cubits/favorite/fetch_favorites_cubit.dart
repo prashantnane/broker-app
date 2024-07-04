@@ -49,14 +49,14 @@ class FetchFavoritesFailure extends FetchFavoritesState {
 class FetchFavoritesCubit extends Cubit<FetchFavoritesState> {
   FetchFavoritesCubit() : super(FetchFavoritesInitial());
 
-  final FavoriteRepository _favoritesRepository = FavoriteRepository();
+  final FavoriteRepository _favoritesRepository = FavoriteRepository(brokerId: '');
 
   Future<void> fetchFavorites() async {
     try {
       emit(FetchFavoritesInProgress());
 
       DataOutput<PropertyModel> result =
-          await _favoritesRepository.fechFavorites(offset: 0);
+          await _favoritesRepository.fetchFavorites(offset: 0);
 
       emit(FetchFavoritesSuccess(
           isLoadingMore: false,
@@ -102,7 +102,7 @@ class FetchFavoritesCubit extends Cubit<FetchFavoritesState> {
         }
         emit((state as FetchFavoritesSuccess).copyWith(isLoadingMore: true));
         DataOutput<PropertyModel> result =
-            await _favoritesRepository.fechFavorites(
+            await _favoritesRepository.fetchFavorites(
           offset: (state as FetchFavoritesSuccess).propertymodel.length,
         );
 

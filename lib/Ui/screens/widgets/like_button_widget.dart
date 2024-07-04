@@ -86,7 +86,7 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
                 favoriteType = FavoriteType.add;
               }
               context.read<AddToFavoriteCubitCubit>().setFavroite(
-                    propertyId: property.id!,
+                    propertyId: property.id.toString(),
                     type: favoriteType,
                   );
             });

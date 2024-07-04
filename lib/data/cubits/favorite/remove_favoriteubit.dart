@@ -10,7 +10,7 @@ class RemoveFavoriteInitial extends RemoveFavoriteState {}
 class RemoveFavoriteInProgress extends RemoveFavoriteState {}
 
 class RemoveFavoriteSuccess extends RemoveFavoriteState {
-  final int id;
+  final String id;
   RemoveFavoriteSuccess({
     required this.id,
   });
@@ -23,11 +23,11 @@ class RemoveFavoriteFailure extends RemoveFavoriteState {
 }
 
 class RemoveFavoriteCubit extends Cubit<RemoveFavoriteState> {
-  final FavoriteRepository _favoriteRepository = FavoriteRepository();
+  final FavoriteRepository _favoriteRepository = FavoriteRepository(brokerId: '');
 
   RemoveFavoriteCubit() : super(RemoveFavoriteInitial());
 
-  void remove(int propertyID) async {
+  void remove(String propertyID) async {
     try {
       emit(RemoveFavoriteInProgress());
       await _favoriteRepository.removeFavorite(propertyID);

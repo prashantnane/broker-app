@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/cubits/Utility/like_properties.dart';
 import '../../../data/cubits/favorite/add_to_favorite_cubit.dart';
+import '../../../data/cubits/favorite/remove_favoriteubit.dart';
 import '../../../data/model/property_model.dart';
 import '../../../models/Property.dart';
 import '../../../utils/AppIcon.dart';
@@ -79,17 +80,21 @@ class _LikeButtonWidgetTestState extends State<LikeButtonWidgetTest> {
                   .read<LikedPropertiesCubit>()
                   .state
                   .liked
-                  .contains(property.id!);
+                  .contains(property.id);
 
               if (contains == true || property.isFavourite == 1) {
                 favoriteType = FavoriteType.remove;
+                context.read<RemoveFavoriteCubit>().remove(
+                  property.id,
+                );
               } else {
                 favoriteType = FavoriteType.add;
+                // context.read<AddToFavoriteCubitCubit>().setFavroite(
+                //   propertyId: property.id,
+                //   type: favoriteType,
+                // );
               }
-              // context.read<AddToFavoriteCubitCubit>().setFavroite(
-              //       // propertyId: property.id!,
-              //       type: favoriteType,
-              //     );
+
             });
           },
           child: Container(

@@ -21,7 +21,7 @@ class AddToFavoriteCubitInitial extends AddToFavoriteCubitState {}
 class AddToFavoriteCubitInProgress extends AddToFavoriteCubitState {}
 
 class AddToFavoriteCubitSuccess extends AddToFavoriteCubitState {
-  final int id;
+  final String id;
   final FavoriteType favorite;
   AddToFavoriteCubitSuccess({
     required this.favorite,
@@ -38,15 +38,15 @@ class AddToFavoriteCubitFailure extends AddToFavoriteCubitState {
 class AddToFavoriteCubitCubit extends Cubit<AddToFavoriteCubitState> {
   AddToFavoriteCubitCubit() : super(AddToFavoriteCubitInitial());
 
-  final FavoriteRepository _favouriteRepository = FavoriteRepository();
+  final FavoriteRepository _favouriteRepository = FavoriteRepository(brokerId: '');
 
   Future<void> setFavroite({
-    required int propertyId,
+    required String propertyId,
     required FavoriteType type,
   }) async {
     try {
       emit(AddToFavoriteCubitInProgress());
-      await _favouriteRepository.addToFavorite(propertyId, type.value);
+      await _favouriteRepository.addToFavorite(propertyId);
       if (type == FavoriteType.add) {
         Constant.favoritePropertyList.add((propertyId));
       } else {
