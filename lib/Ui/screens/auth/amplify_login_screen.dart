@@ -137,6 +137,7 @@ class _AmplifyLoginScreenState extends State<AmplifyLoginScreen> {
             return null;
         }
       },
+
       child: MaterialApp(
         initialRoute: Routes.main,
         // App will start from here splash screen is first screen,

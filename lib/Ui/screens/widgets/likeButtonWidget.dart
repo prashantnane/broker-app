@@ -65,15 +65,15 @@ class _LikeButtonWidgetTestState extends State<LikeButtonWidgetTest> {
           //callback
           widget.onLikeChanged?.call(state.favorite);
 
-          /// if it is already added then we'll add remove , other wise we'll add it into local list
+          // if it is already added then we'll remove it, otherwise we'll add it into the local list
           context.read<LikedPropertiesCubit>().changeLike(state.id);
         }
       },
-      builder: (BuildContext context, AddToFavoriteCubitState addState) {
+      builder: (BuildContext context, AddToFavoriteCubitState favoriteState) {
         return GestureDetector(
           onTap: () {
             GuestChecker.check(onNotGuest: () {
-              ///checking if added then remove or else add it
+              // checking if added then remove or else add it
               FavoriteType favoriteType;
 
               bool contains = context
@@ -84,17 +84,14 @@ class _LikeButtonWidgetTestState extends State<LikeButtonWidgetTest> {
 
               if (contains == true || property.isFavourite == 1) {
                 favoriteType = FavoriteType.remove;
-                context.read<RemoveFavoriteCubit>().remove(
-                  property.id,
-                );
               } else {
                 favoriteType = FavoriteType.add;
-                // context.read<AddToFavoriteCubitCubit>().setFavroite(
-                //   propertyId: property.id,
-                //   type: favoriteType,
-                // );
               }
 
+              context.read<AddToFavoriteCubitCubit>().setFavroite(
+                propertyId: property.id,
+                type: favoriteType,
+              );
             });
           },
           child: Container(
@@ -108,21 +105,23 @@ class _LikeButtonWidgetTestState extends State<LikeButtonWidgetTest> {
                     color: Color.fromARGB(33, 0, 0, 0),
                     offset: Offset(0, 2),
                     blurRadius: 15,
-                    spreadRadius: 0)
+                    spreadRadius: 0
+                )
               ],
             ),
             child: BlocBuilder<LikedPropertiesCubit, LikedPropertiesState>(
               builder: (context, state) {
                 return Center(
-                    child: (addState is AddToFavoriteCubitInProgress)
+                    child: (favoriteState is AddToFavoriteCubitInProgress)
                         ? UiUtils.progress(width: 20, height: 20)
                         : state.liked.contains(widget.property.id)
-                            ? UiUtils.getSvg(
-                                AppIcons.like_fill,
-                                color: context.color.teritoryColor,
-                              )
-                            : UiUtils.getSvg(AppIcons.like,
-                                color: context.color.teritoryColor));
+                        ? UiUtils.getSvg(
+                      AppIcons.like_fill,
+                      color: context.color.teritoryColor,
+                    )
+                        : UiUtils.getSvg(AppIcons.like,
+                        color: context.color.teritoryColor)
+                );
               },
             ),
           ),

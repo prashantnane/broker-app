@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import '../app/app_theme.dart';
 import '../app/routes.dart';
 import '../data/model/user_model.dart';
+import '../models/Broker.dart';
 import 'helper_utils.dart';
 import 'hive_keys.dart';
 
@@ -104,8 +105,8 @@ class HiveUtils {
     await Hive.box(HiveKeys.userDetailsBox).put(HiveKeys.jwtToken, token);
   }
 
-  static UserModel getUserDetails() {
-    return UserModel.fromJson(
+  static Broker getUserDetails() {
+    return Broker.fromJson(
         Map.from(Hive.box(HiveKeys.userDetailsBox).toMap()));
   }
 

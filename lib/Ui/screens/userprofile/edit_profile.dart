@@ -27,6 +27,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../app/routes.dart';
 import '../../../data/helper/widgets.dart';
 import '../../../data/model/google_place_model.dart';
+import '../../../models/Broker.dart';
 import '../../../utils/helper_utils.dart';
 import '../widgets/AnimatedRoutes/blur_page_route.dart';
 import '../widgets/BottomSheets/choose_location_bottomsheet.dart';
@@ -557,7 +558,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
         () {
           context
               .read<UserDetailsCubit>()
-              .copy(UserModel.fromJson(response['data']));
+              .copy(Broker.fromJson(response['data']));
         },
       );
 

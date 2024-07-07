@@ -21,6 +21,7 @@ import '../../../data/cubits/system/app_theme_cubit.dart';
 import '../../../data/cubits/system/fetch_system_settings_cubit.dart';
 import '../../../data/cubits/system/user_details.dart';
 import '../../../data/model/system_settings_model.dart';
+import '../../../models/Broker.dart';
 import '../../../utils/AppIcon.dart';
 import '../../../utils/Extensions/extensions.dart';
 import '../../../utils/Network/apiCallTrigger.dart';
@@ -91,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     var username = "Anonymous";
     var email = "Not logged in";
     if (!isGuest) {
-      UserModel? user = context.watch<UserDetailsCubit>().state.user;
+      Broker? user = context.watch<UserDetailsCubit>().state.user;
       username = user?.name!.firstUpperCase() ?? "Anonymous";
       email = (user?.email) ?? "Login first";
     }

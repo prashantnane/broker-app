@@ -1,3 +1,15 @@
+type Broker @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  email: String
+  mobile: String
+  address: String
+  isActive: Int
+  isProfileCompleted: Boolean
+  notification: Int
+  profile: String
+}
+
 type Favorites @model @auth(rules: [{allow: public}]) {
   id: ID!
   brokerID: String

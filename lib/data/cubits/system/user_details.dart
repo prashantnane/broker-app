@@ -3,16 +3,18 @@ import 'package:ebroker/data/model/user_model.dart';
 import 'package:ebroker/utils/hive_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/Broker.dart';
+
 class UserDetailsCubit extends Cubit<UserDetailsState> {
   UserDetailsCubit()
       : super(UserDetailsState(
             user: HiveUtils.isGuest() ? null : HiveUtils.getUserDetails()));
 
-  void fill(UserModel model) {
+  void fill(Broker model) {
     emit(UserDetailsState(user: model));
   }
 
-  void copy(UserModel model) {
+  void copy(Broker model) {
     emit(state.copyWith(user: model));
   }
 
@@ -22,13 +24,13 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
 }
 
 class UserDetailsState {
-  final UserModel? user;
+  final Broker? user;
   UserDetailsState({
     required this.user,
   });
 
   UserDetailsState copyWith({
-    UserModel? user,
+    Broker? user,
   }) {
     return UserDetailsState(
       user: user ?? this.user,

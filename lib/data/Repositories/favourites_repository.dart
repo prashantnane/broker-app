@@ -24,15 +24,15 @@ class FavoriteRepository {
     try {
       final request = ModelMutations.create(data);
       final response = await Amplify.API.mutate(request: request).response;
-      final FavoritesData = response.data;
+      final favoritesData = response.data;
       final statuscode = response.hasErrors;
-      print('this is FavoritesData: $FavoritesData');
+      print('this is FavoritesData: $favoritesData');
       success = true;
-      if (FavoritesData == null) {
+      if (favoritesData == null) {
         safePrint('errors: ${response.errors}');
         success = false;
       } else {
-        safePrint('Mutation result: ${FavoritesData.id}');
+        safePrint('Mutation result: ${favoritesData.id}');
       }
     } on Exception catch (error) {
       debugPrint(
@@ -40,21 +40,9 @@ class FavoriteRepository {
       );
       success = false;
     }
-    // return success;
     log("Added to favorites status: $success");
   }
 
-  // Future<void> removeFavorite(int propertyId) async {
-  //   Map<String, dynamic> parameters = {
-  //     'propertyid': propertyId,
-  //     'brokerid': brokerId,
-  //   };
-  //
-  //   await Api.post(url: Api.removeFavorite, parameter: parameters);
-  //   log("Removed from favorites: $propertyId");
-  // }
-
-  // New method to remove a favorite
   Future<void> removeFavorite(String propertyId) async {
     print('listening to removeFavorite');
     bool success = false;
@@ -88,6 +76,17 @@ class FavoriteRepository {
     }
     log("Removed from favorites status: $success");
   }
+  // Future<void> removeFavorite(int propertyId) async {
+  //   Map<String, dynamic> parameters = {
+  //     'propertyid': propertyId,
+  //     'brokerid': brokerId,
+  //   };
+  //
+  //   await Api.post(url: Api.removeFavorite, parameter: parameters);
+  //   log("Removed from favorites: $propertyId");
+  // }
+
+  // New method to remove a favorite
 
   Future<DataOutput<PropertyModel>> fetchFavorites({required int offset}) async {
     Map<String, dynamic> parameters = {

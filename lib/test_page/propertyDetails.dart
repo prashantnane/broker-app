@@ -57,6 +57,7 @@ import '../../../utils/ui_utils.dart';
 import '../Ui/screens/analytics/analytics_screen.dart';
 import '../Ui/screens/widgets/AnimatedRoutes/blur_page_route.dart';
 import '../Ui/screens/widgets/all_gallary_image.dart';
+import '../Ui/screens/widgets/likeButtonWidget.dart';
 import '../Ui/screens/widgets/video_view_screen.dart';
 import '../data/cubits/property/add_property_cubit.dart';
 import '../data/model/outdoor_facility.dart';
@@ -724,29 +725,29 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                               showFullScreenImage: true,
                                             ),
                                           ): CircularProgressIndicator() ,
-                                          // PositionedDirectional(
-                                          //   top: 20,
-                                          //   end: 20,
-                                          //   child: LikeButtonWidget(
-                                          //     onStateChange:
-                                          //         (AddToFavoriteCubitState
-                                          //             state) {
-                                          //       if (state
-                                          //           is AddToFavoriteCubitInProgress) {
-                                          //         favoriteInProgress = true;
-                                          //         setState(
-                                          //           () {},
-                                          //         );
-                                          //       } else {
-                                          //         favoriteInProgress = false;
-                                          //         setState(
-                                          //           () {},
-                                          //         );
-                                          //       }
-                                          //     },
-                                          //     property: property!,
-                                          //   ),
-                                          // ),
+                                          PositionedDirectional(
+                                            top: 20,
+                                            end: 20,
+                                            child: LikeButtonWidgetTest(
+                                              onStateChange:
+                                                  (AddToFavoriteCubitState
+                                                      state) {
+                                                if (state
+                                                    is AddToFavoriteCubitInProgress) {
+                                                  favoriteInProgress = true;
+                                                  setState(
+                                                    () {},
+                                                  );
+                                                } else {
+                                                  favoriteInProgress = false;
+                                                  setState(
+                                                    () {},
+                                                  );
+                                                }
+                                              },
+                                              property: property!,
+                                            ),
+                                          ),
 
                                           // PositionedDirectional(
                                           //   bottom: 5,

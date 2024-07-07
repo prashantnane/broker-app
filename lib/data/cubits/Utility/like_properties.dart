@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../favorite/remove_favoriteubit.dart';
 
 class LikedPropertiesState {
   final Set liked;
@@ -48,11 +51,14 @@ class LikedPropertiesCubit extends Cubit<LikedPropertiesState> {
   void changeLike(dynamic id) {
     bool isAvailable = state.liked.contains(id);
 
+      log('This is isAvailable state from liked: $isAvailable');
     if (isAvailable) {
       state.liked.remove(id);
       state.removedLikes?.add(id);
+      // log('This is remove state from liked: ${state.liked.remove(id)}');
     } else {
       state.liked.add(id);
+      // log('This is added state from liked: ${state.liked.add(id)}');
     }
 
     emit(LikedPropertiesState(
