@@ -135,7 +135,7 @@ class PropertyRepository {
 
         final List<dynamic> propertyList = data['listProperties']['items'];
 
-        print('this data from property repo: ${propertyList}');
+        // print('this data from property repo: ${propertyList}');
         //
         List<Property> modelList = propertyList.map(
           (e) {

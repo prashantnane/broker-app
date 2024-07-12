@@ -151,10 +151,7 @@ class _AppState extends State<App> {
     //Continuously watching theme change
     AppTheme currentTheme = context.watch<AppThemeCubit>().state.appTheme;
     // currentTheme = AppTheme.dark;
-    return BlocListener<FetchLanguageCubit, FetchLanguageState>(
-      listener: (context, state) {},
-      child: AmplifyLoginScreen(),
-    );
+    return AmplifyLoginScreen();
   }
 
   dynamic loadLocalLanguageIfFail(LanguageState state) {
