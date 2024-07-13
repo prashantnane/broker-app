@@ -76,7 +76,7 @@ class GuestChecker {
                   color: _context?.color.teritoryColor,
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, Routes.amplifyLogin,
+                    Navigator.pushNamed(context, Routes.login,
                         // arguments: {"popToCurrent": true}
                     );
                   },

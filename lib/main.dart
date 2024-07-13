@@ -9,6 +9,7 @@ import 'package:ebroker/utils/Network/apiCallTrigger.dart';
 import 'package:ebroker/utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 
+import 'Ui/screens/auth/login_screen.dart';
 import 'data/cubits/category/fetch_category_cubit.dart';
 import 'data/Repositories/category_repository.dart';
 import 'data/cubits/property/add_property_cubit.dart';
@@ -151,7 +152,76 @@ class _AppState extends State<App> {
     //Continuously watching theme change
     AppTheme currentTheme = context.watch<AppThemeCubit>().state.appTheme;
     // currentTheme = AppTheme.dark;
-    return AmplifyLoginScreen();
+    return BlocListener<FetchLanguageCubit, FetchLanguageState>(
+      listener: (context, state) {},
+      child: BlocListener<GetApiKeysCubit, GetApiKeysState>(
+        listener: (context, state) {
+          if (state is GetApiKeysSuccess) {
+            ///Assigning Api keys from here:)
+            AppSettings.paystackKey = state.paystackPublicKey;
+            AppSettings.razorpayKey = state.razorPayKey;
+            AppSettings.enabledPaymentGatway = state.enabledPaymentGatway;
+            AppSettings.paystackCurrency = state.paystackCurrency;
+            AppSettings.stripeCurrency = state.stripeCurrency;
+            AppSettings.stripePublishableKey = state.stripePublishableKey;
+            AppSettings.stripeSecrateKey = state.stripeSecretKey;
+          }
+        },
+        child: BlocBuilder<LanguageCubit, LanguageState>(
+          builder: (context, languageState) {
+            return MaterialApp(
+              initialRoute: Routes.splash,
+              // App will start from here splash screen is first screen,
+              navigatorKey: Constant.navigatorKey,
+              //This navigator key is used for Navigate users through notification
+              title: Constant.appName,
+              debugShowCheckedModeBanner: false,
+              onGenerateRoute: Routes.onGenerateRouted,
+              theme: appThemeData[currentTheme],
+              builder: (context, child) {
+                TextDirection direction;
+                //here we are languages direction locally
+                if (languageState is LanguageLoader) {
+                  if (Constant.totalRtlLanguages
+                      .contains((languageState).languageCode)) {
+                    direction = TextDirection.rtl;
+                  } else {
+                    direction = TextDirection.ltr;
+                  }
+                } else {
+                  direction = TextDirection.ltr;
+                }
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaleFactor:
+                    1.0, //set text scale factor to 1 so that this will not resize app's text while user change their system settings text scale
+                  ),
+                  child: Directionality(
+                    textDirection: direction,
+                    //This will convert app direction according to language
+                    child: DevicePreview(
+                      enabled: false,
+
+                      /// Turn on this if you want to test the app in different screen sizes
+                      builder: (context) {
+                        return child!;
+                      },
+                    ),
+                  ),
+                );
+              },
+              localizationsDelegates: const [
+                AppLocalization.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              locale: loadLocalLanguageIfFail(languageState),
+            );
+          },
+        ),
+      ),
+    );
   }
 
   dynamic loadLocalLanguageIfFail(LanguageState state) {

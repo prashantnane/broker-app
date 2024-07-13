@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:amplify_core/amplify_core.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:ebroker/settings.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -72,6 +73,7 @@ class LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isOtpSent = false; //to swap between login & OTP screen
   bool isChecked = false; //Privacy policy checkbox value check
+  int authScreen = 0;
   // bool enableResend = false;
   String? phone, otp, countryCode, countryName, flagEmoji;
   int otpLength = 6;
@@ -87,6 +89,10 @@ class LoginScreenState extends State<LoginScreen> {
   CountryService countryCodeService = CountryService();
   bool isLoginButtonDisabled = true;
   String otpIs = "";
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -528,11 +534,34 @@ class LoginScreenState extends State<LoginScreen> {
                               type: MessageType.error);
                         }
                       },
-                      child: Form(
-                        key: _formKey,
-                        child: isOtpSent
-                            ? buildOtpVerificationScreen()
-                            : buildLoginScreen(),
+                      child: Column(
+                        children: [
+                          Form(
+                            key: _formKey,
+                            child: isOtpSent
+                                ? buildOtpVerificationScreen()
+                                : authScreen == 0 ? buildLoginScreen() : buildRegisterScreen(),
+                          ),
+                          authScreen == 0 ? Row(
+                            children: [
+                              Text('Register'),
+                              TextButton(onPressed: () {
+                                setState(() {
+                                  authScreen = 1;
+                                });
+                              }, child: Text('Sign Up')),
+                            ],
+                          ): Row(
+                            children: [
+                              Text('Already have account? '),
+                              TextButton(onPressed: () {
+                                setState(() {
+                                  authScreen = 0;
+                                });
+                              }, child: Text('Sign In')),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -653,35 +682,274 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<void> _signUp(String _phoneNumber, String _password, String _email) async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      String _phone = "+91$_phoneNumber";
+      try {
+        SignUpResult res = await Amplify.Auth.signUp(
+          username: _phone,
+          password: _password,
+          options: SignUpOptions(
+            userAttributes: {
+              AuthUserAttributeKey.email: _email,
+              AuthUserAttributeKey.phoneNumber: _phone,
+            },
+          ),
+        );
+        await _handleSignUpResult(res);
+        if (res.isSignUpComplete) {
+          // await saveBrokerData(_phoneNumber, _email, _phoneNumber);
+        } else {
+          // handle confirmation step if needed
+        }
+      } catch (e) {
+        print('Sign up failed: $e');
+      }
+    }
+  }
+
+  Future<void> _handleSignUpResult(SignUpResult result) async {
+    switch (result.nextStep.signUpStep) {
+      case AuthSignUpStep.confirmSignUp:
+        final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+        _handleCodeDelivery(codeDeliveryDetails);
+
+        setState(() {
+          isOtpSent = true;
+        });
+        break;
+      case AuthSignUpStep.done:
+        safePrint('Sign up is complete');
+        break;
+    }
+  }
+
+  Future<void> signInUser(String username, String password) async {
+    try {
+      await Amplify.Auth.signOut();
+      final result = await Amplify.Auth.signIn(
+        username: "+91$username",
+        password: password,
+      );
+      await _handleSignInResult(result);
+      Navigator.pushReplacementNamed(
+        context,
+        Routes.main,
+        arguments: {"from": "login"},
+      );
+    } on AuthException catch (e) {
+      safePrint('Error signing in: ${e.message}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error signing in: ${e.message}'),
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleSignInResult(SignInResult result) async {
+    switch (result.nextStep.signInStep) {
+      case AuthSignInStep.confirmSignInWithSmsMfaCode:
+        final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+        _handleCodeDelivery(codeDeliveryDetails);
+        break;
+      case AuthSignInStep.confirmSignInWithNewPassword:
+        safePrint('Enter a new password to continue signing in');
+        break;
+      case AuthSignInStep.confirmSignInWithCustomChallenge:
+        final parameters = result.nextStep.additionalInfo;
+        final prompt = parameters['prompt']!;
+        safePrint(prompt);
+        break;
+    // case AuthSignInStep.resetPassword:
+    //   final resetResult = await Amplify.Auth.resetPassword(
+    //     username: _username,
+    //   );
+    //   await _handleResetPasswordResult(resetResult);
+    //   break;
+      case AuthSignInStep.confirmSignUp:
+      // Resend the sign up code to the registered device.
+        final resendResult = await Amplify.Auth.resendSignUpCode(
+          username: _phoneController.text,
+        );
+        _handleCodeDelivery(resendResult.codeDeliveryDetails);
+        break;
+      case AuthSignInStep.done:
+        safePrint('Sign in is complete');
+        break;
+    }
+  }
+
+  void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+    safePrint(
+      'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+          'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+    );
+  }
 
   Widget buildLoginScreen() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          // children: <Widget>[
+          //   Text(UiUtils.getTranslatedLabel(context, "enterYourNumber"))
+          //       .size(context.font.xxLarge)
+          //       .bold(weight: FontWeight.w700)
+          //       .color(context.color.textColorDark),
+          //   SizedBox(
+          //     height: 15.rh(context),
+          //   ),
+          //   Text(UiUtils.getTranslatedLabel(context, "weSendYouCode"))
+          //       .size(context.font.large)
+          //       .color(context.color.textColorDark.withOpacity(0.8)),
+          //   SizedBox(
+          //     height: 41.rh(context),
+          //   ),
+          //   buildMobileNumberField(),
+          //   SizedBox(
+          //     height: size.height * 0.05,
+          //   ),
+          //   buildNextButton(context),
+          //   SizedBox(
+          //     height: 20.rh(context),
+          //   ),
+          //   buildTermsAndPrivacyWidget()
+          // ]),
           children: <Widget>[
-            Text(UiUtils.getTranslatedLabel(context, "enterYourNumber"))
-                .size(context.font.xxLarge)
-                .bold(weight: FontWeight.w700)
-                .color(context.color.textColorDark),
-            SizedBox(
-              height: 15.rh(context),
+            TextFormField(
+              controller: _phoneController,
+              decoration: InputDecoration(labelText: 'Mobile Number'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a mobile number';
+                }
+                if (value.length != 10) {
+                  return 'Mobile number must be 10 digits';
+                }
+                if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                  return 'Mobile number must contain only digits';
+                }
+                return null;
+              },
             ),
-            Text(UiUtils.getTranslatedLabel(context, "weSendYouCode"))
-                .size(context.font.large)
-                .color(context.color.textColorDark.withOpacity(0.8)),
-            SizedBox(
-              height: 41.rh(context),
+            TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a password';
+                }
+                if (value.length < 8) {
+                  return 'Password must be at least 8 characters';
+                }
+                return null;
+              },
             ),
-            buildMobileNumberField(),
-            SizedBox(
-              height: size.height * 0.05,
+            ElevatedButton(
+              onPressed: () {
+                log('phone num: ${_phoneController.text} , password : ${_passwordController.text}');
+                if (_formKey.currentState?.validate() ?? false) {
+                  // If the form is valid, proceed with the sign-in
+                  signInUser(_phoneController.text, _passwordController.text);
+                }
+              },
+              child: Text('Sign In'),
             ),
-            buildNextButton(context),
-            SizedBox(
-              height: 20.rh(context),
+          ]),
+    );
+  }
+
+  Widget buildRegisterScreen() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          // children: <Widget>[
+          //   Text(UiUtils.getTranslatedLabel(context, "enterYourNumber"))
+          //       .size(context.font.xxLarge)
+          //       .bold(weight: FontWeight.w700)
+          //       .color(context.color.textColorDark),
+          //   SizedBox(
+          //     height: 15.rh(context),
+          //   ),
+          //   Text(UiUtils.getTranslatedLabel(context, "weSendYouCode"))
+          //       .size(context.font.large)
+          //       .color(context.color.textColorDark.withOpacity(0.8)),
+          //   SizedBox(
+          //     height: 41.rh(context),
+          //   ),
+          //   buildMobileNumberField(),
+          //   SizedBox(
+          //     height: size.height * 0.05,
+          //   ),
+          //   buildNextButton(context),
+          //   SizedBox(
+          //     height: 20.rh(context),
+          //   ),
+          //   buildTermsAndPrivacyWidget()
+          // ]),
+          children: <Widget>[
+            TextFormField(
+              controller: _phoneController,
+              decoration: InputDecoration(labelText: 'Mobile Number'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a mobile number';
+                }
+                if (value.length != 10) {
+                  return 'Mobile number must be 10 digits';
+                }
+                if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                  return 'Mobile number must contain only digits';
+                }
+                return null;
+              },
             ),
-            buildTermsAndPrivacyWidget()
+            TextFormField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Email'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter an email';
+                }
+                // Regular expression for validating an email address
+                String pattern =
+                    r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+                RegExp regex = RegExp(pattern);
+                if (!regex.hasMatch(value)) {
+                  return 'Please enter a valid email';
+                }
+                return null;
+
+              },
+            ),
+            TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a password';
+                }
+                if (value.length < 8) {
+                  return 'Password must be at least 8 characters';
+                }
+                return null;
+              },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                log('phone num: ${_phoneController.text} , password : ${_passwordController.text}');
+                if (_formKey.currentState?.validate() ?? false) {
+                  // If the form is valid, proceed with the sign-in
+                  _signUp(_phoneController.text, _passwordController.text, _emailController.text);
+                }
+              },
+              child: Text('Sign Up'),
+            ),
           ]),
     );
   }
@@ -789,9 +1057,9 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> sendVerificationCode({String? number}) async {
-    if (widget.isDeleteAccount ?? false) {
-      context.read<SendOtpCubit>().sendOTP(phoneNumber: "+$number");
-    }
+    // if (widget.isDeleteAccount ?? false) {
+    //   context.read<SendOtpCubit>().sendOTP(phoneNumber: "+$number");
+    // }
     final form = _formKey.currentState;
 
     if (form == null) return;
