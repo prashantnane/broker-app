@@ -30,30 +30,31 @@ class LoginCubit extends Cubit<LoginState> {
 
   void login(
       {required String phoneNumber,
-      required String fireabseUserId,
-      required countryCode}) async {
+      // required String fireabseUserId,
+      // required countryCode
+      }) async {
     try {
       emit(LoginInProgress());
-      Map<String, dynamic> result = await _authRepository.loginWithApi(
-        phone: phoneNumber,
-        uid: fireabseUserId,
-      );
+      // Map<String, dynamic> result = await _authRepository.loginWithApi(
+      //   phone: phoneNumber,
+      //   uid: fireabseUserId,
+      // );
 
       ///Storing data to local database {HIVE}
-      HiveUtils.setJWT(result['token']);
+      // HiveUtils.setJWT(result['token']);
 
-      if (result['data']['name'] == "" && result['data']['email'] == "") {
-        HiveUtils.setProfileNotCompleted();
-        isProfileIsCompleted = false;
-        var data = result['data'];
-        data['countryCode'] = countryCode;
-        HiveUtils.setUserData(data);
-      } else {
-        isProfileIsCompleted = true;
-        var data = result['data'];
-        data['countryCode'] = countryCode;
-        HiveUtils.setUserData(data);
-      }
+      // if (result['data']['name'] == "" && result['data']['email'] == "") {
+      //   HiveUtils.setProfileNotCompleted();
+      //   isProfileIsCompleted = false;
+        // var data = result['data'];
+        // data['countryCode'] = countryCode;
+        // HiveUtils.setUserData(data);
+      // } else {
+      //   isProfileIsCompleted = true;
+        // var data = result['data'];
+        // data['countryCode'] = countryCode;
+        // HiveUtils.setUserData(data);
+      // }
 
       emit(LoginSuccess(isProfileCompleted: isProfileIsCompleted));
     } catch (e) {

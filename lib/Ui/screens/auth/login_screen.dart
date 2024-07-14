@@ -396,46 +396,46 @@ class LoginScreenState extends State<LoginScreen> {
                         type: MessageType.error);
                   }
                   if (state is LoginSuccess) {
-                    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-                    GuestChecker.set(isGuest: false);
-                    HiveUtils.setIsNotGuest();
-                    context
-                        .read<UserDetailsCubit>()
-                        .fill(HiveUtils.getUserDetails());
-
-                    APICallTrigger.trigger();
-                    analytics.setUserId(
-                      id: HiveUtils.getUserDetails().id.toString(),
-                    );
-                    analytics.setUserProperty(
-                        name: "id",
-                        value: HiveUtils.getUserDetails().id.toString());
-                    context
-                        .read<FetchSystemSettingsCubit>()
-                        .fetchSettings(isAnonymouse: false);
-                    var settings = context.read<FetchSystemSettingsCubit>();
-
-                    if (!const bool.fromEnvironment("force-disable-demo-mode",
-                        defaultValue: false)) {
-                      Constant.isDemoModeOn =
-                          settings.getSetting(SystemSetting.demoMode) ?? false;
-                    }
-                    if (state.isProfileCompleted) {
-                      HiveUtils.setUserIsAuthenticated();
-                      HiveUtils.setUserIsNotNew();
-                      context.read<AuthCubit>().updateFCM(context);
-                      if (widget.popToCurrent == true) {
-                        Navigator.pop(context);
-                      } else {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          Routes.main,
-                          arguments: {"from": "login"},
-                        );
-                      }
-                    } else {
-                      HiveUtils.setUserIsNotNew();
-                      context.read<AuthCubit>().updateFCM(context);
+                    // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+                    // GuestChecker.set(isGuest: false);
+                    // HiveUtils.setIsNotGuest();
+                    // context
+                    //     .read<UserDetailsCubit>()
+                    //     .fill(HiveUtils.getUserDetails());
+                    //
+                    // APICallTrigger.trigger();
+                    // analytics.setUserId(
+                    //   id: HiveUtils.getUserDetails().id.toString(),
+                    // );
+                    // analytics.setUserProperty(
+                    //     name: "id",
+                    //     value: HiveUtils.getUserDetails().id.toString());
+                    // context
+                    //     .read<FetchSystemSettingsCubit>()
+                    //     .fetchSettings(isAnonymouse: false);
+                    // var settings = context.read<FetchSystemSettingsCubit>();
+                    //
+                    // if (!const bool.fromEnvironment("force-disable-demo-mode",
+                    //     defaultValue: false)) {
+                    //   Constant.isDemoModeOn =
+                    //       settings.getSetting(SystemSetting.demoMode) ?? false;
+                    // }
+                    // if (state.isProfileCompleted) {
+                      // HiveUtils.setUserIsAuthenticated();
+                      // HiveUtils.setUserIsNotNew();
+                      // context.read<AuthCubit>().updateFCM(context);
+                      // if (widget.popToCurrent == true) {
+                      //   Navigator.pop(context);
+                      // } else {
+                      //   Navigator.pushReplacementNamed(
+                      //     context,
+                      //     Routes.main,
+                      //     arguments: {"from": "login"},
+                      //   );
+                      // }
+                    // } else {
+                      // HiveUtils.setUserIsNotNew();
+                      // context.read<AuthCubit>().updateFCM(context);
 
                       if (widget.popToCurrent == true) {
                         //Navigate to Edit profile field
@@ -459,7 +459,7 @@ class LoginScreenState extends State<LoginScreen> {
                         );
                       }
                     }
-                  }
+                  // }
                 },
                 child: BlocListener<DeleteAccountCubit, DeleteAccountState>(
                   listener: (context, state) {
@@ -496,9 +496,10 @@ class LoginScreenState extends State<LoginScreen> {
                               .deleteUserAccount(context);
                         } else {
                           context.read<LoginCubit>().login(
-                              phoneNumber: state.credential.user!.phoneNumber!,
-                              fireabseUserId: state.credential.user!.uid,
-                              countryCode: countryCode);
+                              phoneNumber: _phoneController.text,
+                              // fireabseUserId: state.credential.user!.uid,
+                              // countryCode: countryCode
+                          );
                         }
                       }
                     },
@@ -635,11 +636,11 @@ class LoginScreenState extends State<LoginScreen> {
                 if (widget.isDeleteAccount ?? false) {
                   context
                       .read<VerifyOtpCubit>()
-                      .verifyOTP(verificationId: verificationID, otp: code);
+                      .verifyOTP(username: _phoneController.text, otp: code);
                 } else {
                   context
                       .read<VerifyOtpCubit>()
-                      .verifyOTP(verificationId: otpVerificationId, otp: code);
+                      .verifyOTP(username: _phoneController.text, otp: code);
                 }
               },
               onCodeChanged: (code) {
@@ -1089,12 +1090,12 @@ class LoginScreenState extends State<LoginScreen> {
       log("VERIFING FROM ON TAP DELETE");
       context
           .read<VerifyOtpCubit>()
-          .verifyOTP(verificationId: verificationID, otp: otpIs);
+          .verifyOTP(username: _phoneController.text, otp: otpIs);
     } else {
       log("VERIFING FROM ON TAP");
       context
           .read<VerifyOtpCubit>()
-          .verifyOTP(verificationId: otpVerificationId, otp: otpIs);
+          .verifyOTP(username: _phoneController.text, otp: otpIs);
     }
   }
 

@@ -115,7 +115,7 @@ class SplashScreenState extends State<SplashScreen>
             isAnonymouse: false,
             forceRefresh: true,
           );
-      completeProfileCheck();
+      // completeProfileCheck();
     } else {
       //This call will hide sensitive details.
       context.read<FetchSystemSettingsCubit>().fetchSettings(
@@ -174,31 +174,42 @@ class SplashScreenState extends State<SplashScreen>
           Routes.maintenanceMode,
         );
       });
-    } else if (authenticationState == AuthenticationState.authenticated) {
-      print('inside AuthenticationState.authenticated');
+    }
+    // else if (authenticationState == AuthenticationState.authenticated) {
+    //   print('inside AuthenticationState.authenticated');
+    //   Future.delayed(Duration.zero, () {
+    //     Navigator.of(context)
+    //         .pushReplacementNamed(Routes.main, arguments: {'from': "main"});
+    //   });
+    // }
+    // else if (authenticationState == AuthenticationState.unAuthenticated) {
+    //   print('inside AuthenticationState.unauthenticated');
+    //   if (Hive.box(HiveKeys.userDetailsBox).get("isGuest") == true) {
+    //     print('inside AuthenticationState.unauthenticated if');
+    //     Future.delayed(Duration.zero, () {
+    //       Navigator.of(context)
+    //           .pushReplacementNamed(Routes.main, arguments: {"from": "splash"});
+    //     });
+    //   }
+      // else {
+      //   print('inside AuthenticationState.unauthenticated else');
+      //   Future.delayed(Duration.zero, () {
+      //     Navigator.of(context).pushReplacementNamed(Routes.login);
+      //   });
+      // }
+    // }
+    // else if (authenticationState == AuthenticationState.firstTime) {
+    //   print('inside AuthenticationState.firstTime');
+    //   Future.delayed(Duration.zero, () {
+    //     Navigator.of(context).pushReplacementNamed(Routes.onboarding);
+    //   });
+    // }
+    else{
       Future.delayed(Duration.zero, () {
-        Navigator.of(context)
-            .pushReplacementNamed(Routes.main, arguments: {'from': "main"});
-      });
-    } else if (authenticationState == AuthenticationState.unAuthenticated) {
-      print('inside AuthenticationState.unauthenticated');
-      if (Hive.box(HiveKeys.userDetailsBox).get("isGuest") == true) {
-        print('inside AuthenticationState.unauthenticated if');
-        Future.delayed(Duration.zero, () {
-          Navigator.of(context)
-              .pushReplacementNamed(Routes.main, arguments: {"from": "splash"});
-        });
-      } else {
-        print('inside AuthenticationState.unauthenticated else');
-        Future.delayed(Duration.zero, () {
-          Navigator.of(context).pushReplacementNamed(Routes.login);
-        });
-      }
-    } else if (authenticationState == AuthenticationState.firstTime) {
-      print('inside AuthenticationState.firstTime');
-      Future.delayed(Duration.zero, () {
-        Navigator.of(context).pushReplacementNamed(Routes.onboarding);
-      });
+            Navigator.of(context).pushReplacementNamed(Routes.completeProfile, arguments: {
+              "from": "login",
+            },);
+          });
     }
   }
 

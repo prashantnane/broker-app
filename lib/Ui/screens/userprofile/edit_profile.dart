@@ -34,13 +34,13 @@ import '../widgets/BottomSheets/choose_location_bottomsheet.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String from;
-  final bool? navigateToHome;
-  final bool? popToCurrent;
+  // final bool? navigateToHome;
+  // final bool? popToCurrent;
   const UserProfileScreen({
     Key? key,
     required this.from,
-    this.navigateToHome,
-    this.popToCurrent,
+    // this.navigateToHome,
+    // this.popToCurrent,
   }) : super(key: key);
 
   @override
@@ -51,8 +51,8 @@ class UserProfileScreen extends StatefulWidget {
     return BlurredRouter(
       builder: (_) => UserProfileScreen(
         from: arguments['from'] as String,
-        popToCurrent: arguments['popToCurrent'] as bool?,
-        navigateToHome: arguments['navigateToHome'] as bool?,
+        // popToCurrent: arguments['popToCurrent'] as bool?,
+        // navigateToHome: arguments['navigateToHome'] as bool?,
       ),
     );
   }
@@ -73,19 +73,19 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   void initState() {
     super.initState();
 
-    city = HiveUtils.getCityName();
-    _state = HiveUtils.getStateName();
-    country = HiveUtils.getCountryName();
-    placeid = HiveUtils.getCityPlaceId();
-    phoneController.text = _saperateNumber();
-    nameController.text = (HiveUtils.getUserDetails().name) ?? "";
-    emailController.text = HiveUtils.getUserDetails().email ?? "";
-    addressController.text = HiveUtils.getUserDetails().address ?? "";
-    isNotificationsEnabled =
-        HiveUtils.getUserDetails().notification == 1 ? true : false;
+    // city = HiveUtils.getCityName();
+    // _state = HiveUtils.getStateName();
+    // country = HiveUtils.getCountryName();
+    // placeid = HiveUtils.getCityPlaceId();
+    // phoneController.text = _saperateNumber();
+    // nameController.text = (HiveUtils.getUserDetails().name) ?? "";
+    // emailController.text = HiveUtils.getUserDetails().email ?? "";
+    // addressController.text = HiveUtils.getUserDetails().address ?? "";
+    // isNotificationsEnabled =
+    //     HiveUtils.getUserDetails().notification == 1 ? true : false;
     //}
 
-    _saperateNumber();
+    // _saperateNumber();
   }
 
   String _saperateNumber() {
@@ -573,32 +573,32 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               if (mounted) Navigator.pop(context);
             },
           );
-          if (widget.navigateToHome ?? false) {
-            Navigator.pop(context);
-          }
+          // if (widget.navigateToHome ?? false) {
+          //   Navigator.pop(context);
+          // }
         },
       );
 
-      if (widget.from == "login" && widget.popToCurrent != true) {
-        Future.delayed(
-          Duration.zero,
-          () {
-            HelperUtils.killPreviousPages(
-                context, Routes.personalizedPropertyScreen, {
-              "type": PersonalizedVisitType.FirstTime,
-            });
-
-            // HelperUtils.killPreviousPages(
-            //     context, Routes.main, {"from": widget.from});
-          },
-        );
-      } else if (widget.from == "login" && widget.popToCurrent == true) {
-        Future.delayed(Duration.zero, () {
-          Navigator.of(context)
-            ..pop()
-            ..pop();
-        });
-      }
+      // if (widget.from == "login" && widget.popToCurrent != true) {
+      //   Future.delayed(
+      //     Duration.zero,
+      //     () {
+      //       HelperUtils.killPreviousPages(
+      //           context, Routes.personalizedPropertyScreen, {
+      //         "type": PersonalizedVisitType.FirstTime,
+      //       });
+      //
+      //       // HelperUtils.killPreviousPages(
+      //       //     context, Routes.main, {"from": widget.from});
+      //     },
+      //   );
+      // } else if (widget.from == "login" && widget.popToCurrent == true) {
+      //   Future.delayed(Duration.zero, () {
+      //     Navigator.of(context)
+      //       ..pop()
+      //       ..pop();
+      //   });
+      // }
     } on CustomException catch (e) {
       Future.delayed(Duration.zero, () {
         Widgets.hideLoder(context);

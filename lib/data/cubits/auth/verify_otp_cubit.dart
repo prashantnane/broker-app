@@ -12,10 +12,10 @@ class VerifyOtpInitial extends VerifyOtpState {}
 class VerifyOtpInProgress extends VerifyOtpState {}
 
 class VerifyOtpSuccess extends VerifyOtpState {
-  final UserCredential credential;
-  VerifyOtpSuccess({
-    required this.credential,
-  });
+  // final UserCredential credential;
+  VerifyOtpSuccess(
+    // required this.credential,
+  );
 }
 
 class VerifyOtpFailure extends VerifyOtpState {
@@ -30,13 +30,13 @@ class VerifyOtpCubit extends Cubit<VerifyOtpState> {
   VerifyOtpCubit() : super(VerifyOtpInitial());
 
   Future<void> verifyOTP(
-      {required String verificationId, required String otp}) async {
+      {required String username, required String otp}) async {
     try {
       emit(VerifyOtpInProgress());
-      UserCredential userCredential = await _authReoisitory.verifyOTP(
-          otpVerificationId: verificationId, otp: otp);
+      await _authReoisitory.verifyOTP(
+          username: username, otp: otp);
 
-      emit(VerifyOtpSuccess(credential: userCredential));
+      emit(VerifyOtpSuccess());
     } on FirebaseAuthException catch (e) {
       emit(VerifyOtpFailure(ErrorFilter.check(e.code).error));
     } catch (e) {
