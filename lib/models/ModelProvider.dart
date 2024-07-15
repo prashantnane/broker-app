@@ -36,7 +36,7 @@ export 'Property.dart';
 
 class ModelProvider implements amplify_core.ModelProviderInterface {
   @override
-  String version = "72b853b6feb7689037e6e5d2599d795d";
+  String version = "1cd48025091230b487f3de2f61ee4de3";
   @override
   List<amplify_core.ModelSchema> modelSchemas = [Broker.schema, Category.schema, Favorites.schema, OutdoorFacility.schema, Parameter.schema, Property.schema];
   @override

@@ -8,6 +8,7 @@ type Broker @model @auth(rules: [{allow: public}]) {
   isProfileCompleted: Boolean
   notification: Int
   profile: String
+  RERA: String
 }
 
 type Favorites @model @auth(rules: [{allow: public}]) {

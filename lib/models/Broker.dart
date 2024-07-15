@@ -35,6 +35,7 @@ class Broker extends amplify_core.Model {
   final bool? _isProfileCompleted;
   final int? _notification;
   final String? _profile;
+  final String? _RERA;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -83,6 +84,10 @@ class Broker extends amplify_core.Model {
     return _profile;
   }
   
+  String? get RERA {
+    return _RERA;
+  }
+  
   amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -91,9 +96,9 @@ class Broker extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Broker._internal({required this.id, name, email, mobile, address, isActive, isProfileCompleted, notification, profile, createdAt, updatedAt}): _name = name, _email = email, _mobile = mobile, _address = address, _isActive = isActive, _isProfileCompleted = isProfileCompleted, _notification = notification, _profile = profile, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Broker._internal({required this.id, name, email, mobile, address, isActive, isProfileCompleted, notification, profile, RERA, createdAt, updatedAt}): _name = name, _email = email, _mobile = mobile, _address = address, _isActive = isActive, _isProfileCompleted = isProfileCompleted, _notification = notification, _profile = profile, _RERA = RERA, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Broker({String? id, String? name, String? email, String? mobile, String? address, int? isActive, bool? isProfileCompleted, int? notification, String? profile}) {
+  factory Broker({String? id, String? name, String? email, String? mobile, String? address, int? isActive, bool? isProfileCompleted, int? notification, String? profile, String? RERA}) {
     return Broker._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
@@ -103,7 +108,8 @@ class Broker extends amplify_core.Model {
       isActive: isActive,
       isProfileCompleted: isProfileCompleted,
       notification: notification,
-      profile: profile);
+      profile: profile,
+      RERA: RERA);
   }
   
   bool equals(Object other) {
@@ -122,7 +128,8 @@ class Broker extends amplify_core.Model {
       _isActive == other._isActive &&
       _isProfileCompleted == other._isProfileCompleted &&
       _notification == other._notification &&
-      _profile == other._profile;
+      _profile == other._profile &&
+      _RERA == other._RERA;
   }
   
   @override
@@ -142,6 +149,7 @@ class Broker extends amplify_core.Model {
     buffer.write("isProfileCompleted=" + (_isProfileCompleted != null ? _isProfileCompleted!.toString() : "null") + ", ");
     buffer.write("notification=" + (_notification != null ? _notification!.toString() : "null") + ", ");
     buffer.write("profile=" + "$_profile" + ", ");
+    buffer.write("RERA=" + "$_RERA" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -149,7 +157,7 @@ class Broker extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Broker copyWith({String? name, String? email, String? mobile, String? address, int? isActive, bool? isProfileCompleted, int? notification, String? profile}) {
+  Broker copyWith({String? name, String? email, String? mobile, String? address, int? isActive, bool? isProfileCompleted, int? notification, String? profile, String? RERA}) {
     return Broker._internal(
       id: id,
       name: name ?? this.name,
@@ -159,7 +167,8 @@ class Broker extends amplify_core.Model {
       isActive: isActive ?? this.isActive,
       isProfileCompleted: isProfileCompleted ?? this.isProfileCompleted,
       notification: notification ?? this.notification,
-      profile: profile ?? this.profile);
+      profile: profile ?? this.profile,
+      RERA: RERA ?? this.RERA);
   }
   
   Broker copyWithModelFieldValues({
@@ -170,7 +179,8 @@ class Broker extends amplify_core.Model {
     ModelFieldValue<int?>? isActive,
     ModelFieldValue<bool?>? isProfileCompleted,
     ModelFieldValue<int?>? notification,
-    ModelFieldValue<String?>? profile
+    ModelFieldValue<String?>? profile,
+    ModelFieldValue<String?>? RERA
   }) {
     return Broker._internal(
       id: id,
@@ -181,7 +191,8 @@ class Broker extends amplify_core.Model {
       isActive: isActive == null ? this.isActive : isActive.value,
       isProfileCompleted: isProfileCompleted == null ? this.isProfileCompleted : isProfileCompleted.value,
       notification: notification == null ? this.notification : notification.value,
-      profile: profile == null ? this.profile : profile.value
+      profile: profile == null ? this.profile : profile.value,
+      RERA: RERA == null ? this.RERA : RERA.value
     );
   }
   
@@ -195,11 +206,12 @@ class Broker extends amplify_core.Model {
       _isProfileCompleted = json['isProfileCompleted'],
       _notification = (json['notification'] as num?)?.toInt(),
       _profile = json['profile'],
+      _RERA = json['RERA'],
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'email': _email, 'mobile': _mobile, 'address': _address, 'isActive': _isActive, 'isProfileCompleted': _isProfileCompleted, 'notification': _notification, 'profile': _profile, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'email': _email, 'mobile': _mobile, 'address': _address, 'isActive': _isActive, 'isProfileCompleted': _isProfileCompleted, 'notification': _notification, 'profile': _profile, 'RERA': _RERA, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -212,6 +224,7 @@ class Broker extends amplify_core.Model {
     'isProfileCompleted': _isProfileCompleted,
     'notification': _notification,
     'profile': _profile,
+    'RERA': _RERA,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -226,6 +239,7 @@ class Broker extends amplify_core.Model {
   static final ISPROFILECOMPLETED = amplify_core.QueryField(fieldName: "isProfileCompleted");
   static final NOTIFICATION = amplify_core.QueryField(fieldName: "notification");
   static final PROFILE = amplify_core.QueryField(fieldName: "profile");
+  static final RERA = amplify_core.QueryField(fieldName: "RERA");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Broker";
     modelSchemaDefinition.pluralName = "Brokers";
@@ -287,6 +301,12 @@ class Broker extends amplify_core.Model {
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Broker.PROFILE,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Broker.RERA,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
