@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:ebroker/Ui/screens/Personalized/personalized_property_screen.dart';
 import 'package:ebroker/Ui/screens/main_activity.dart';
+import 'package:ebroker/Ui/screens/userprofile/profile_details_screen.dart';
 import 'package:ebroker/data/model/user_model.dart';
 import 'package:ebroker/utils/guestChecker.dart';
 import 'package:flutter/cupertino.dart';
@@ -200,9 +201,10 @@ class _ProfileScreenState extends State<ProfileScreen>
 
                             return InkWell(
                               onTap: () {
-                                HelperUtils.goToNextPage(
-                                    Routes.completeProfile, context, false,
-                                    args: {"from": "profile"});
+                                // HelperUtils.goToNextPage(
+                                //     Routes.completeProfile, context, false,
+                                //     args: {"from": "profile"});
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileDetailsScreen(),));
                               },
                               child: Container(
                                 width: 40.rw(context),

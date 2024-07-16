@@ -14,6 +14,7 @@ import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../../app/routes.dart';
+import '../../../data/Repositories/auth_repository.dart';
 import '../../../data/cubits/auth/auth_cubit.dart';
 import '../../../data/cubits/auth/login_cubit.dart';
 import '../../../data/cubits/auth/send_otp_cubit.dart';
@@ -40,11 +41,13 @@ import '../widgets/AnimatedRoutes/blur_page_route.dart';
 class LoginScreen extends StatefulWidget {
   final bool? isDeleteAccount;
   final bool? popToCurrent;
+
   const LoginScreen({Key? key, this.isDeleteAccount, this.popToCurrent})
       : super(key: key);
 
   @override
   State<LoginScreen> createState() => LoginScreenState();
+
   static route(RouteSettings routeSettings) {
     Map? args = routeSettings.arguments as Map?;
     return BlurredRouter(
@@ -65,6 +68,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final TextEditingController mobileNumController = TextEditingController(
       text: Constant.isDemoModeOn ? Constant.demoMobileNumber : "");
+
   //final TextEditingController otpController = TextEditingController();
   final List<TextEditingController> _controllers = [];
   final List<FocusNode> _focusNodes = [];
@@ -74,6 +78,7 @@ class LoginScreenState extends State<LoginScreen> {
   bool isOtpSent = false; //to swap between login & OTP screen
   bool isChecked = false; //Privacy policy checkbox value check
   int authScreen = 0;
+
   // bool enableResend = false;
   String? phone, otp, countryCode, countryName, flagEmoji;
   int otpLength = 6;
@@ -89,7 +94,10 @@ class LoginScreenState extends State<LoginScreen> {
   CountryService countryCodeService = CountryService();
   bool isLoginButtonDisabled = true;
   String otpIs = "";
+  TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _reraController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -364,6 +372,8 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildLoginFields(BuildContext context) {
+    final AuthRepository _authReoisitory = AuthRepository();
+
     return BlocConsumer<DeleteAccountCubit, DeleteAccountState>(
       listener: (context, state) {
         if (state is AccountDeleted) {
@@ -421,44 +431,44 @@ class LoginScreenState extends State<LoginScreen> {
                     //       settings.getSetting(SystemSetting.demoMode) ?? false;
                     // }
                     // if (state.isProfileCompleted) {
-                      // HiveUtils.setUserIsAuthenticated();
-                      // HiveUtils.setUserIsNotNew();
-                      // context.read<AuthCubit>().updateFCM(context);
-                      // if (widget.popToCurrent == true) {
-                      //   Navigator.pop(context);
-                      // } else {
-                      //   Navigator.pushReplacementNamed(
-                      //     context,
-                      //     Routes.main,
-                      //     arguments: {"from": "login"},
-                      //   );
-                      // }
+                    HiveUtils.setUserIsAuthenticated();
+                    HiveUtils.setUserIsNotNew();
+                    // context.read<AuthCubit>().updateFCM(context);
+                    // if (widget.popToCurrent == true) {
+                    //   Navigator.pop(context);
                     // } else {
-                      // HiveUtils.setUserIsNotNew();
-                      // context.read<AuthCubit>().updateFCM(context);
+                    //   Navigator.pushReplacementNamed(
+                    //     context,
+                    //     Routes.main,
+                    //     arguments: {"from": "login"},
+                    //   );
+                    // }
+                    // } else {
+                    // HiveUtils.setUserIsNotNew();
+                    // context.read<AuthCubit>().updateFCM(context);
 
-                      if (widget.popToCurrent == true) {
-                        //Navigate to Edit profile field
-                        Navigator.pushNamed(
-                          context,
-                          Routes.completeProfile,
-                          arguments: {
-                            "from": "login",
-                            "popToCurrent": widget.popToCurrent
-                          },
-                        );
-                      } else {
-                        //Navigate to Edit profile field
-                        Navigator.pushReplacementNamed(
-                          context,
-                          Routes.completeProfile,
-                          arguments: {
-                            "from": "login",
-                            "popToCurrent": widget.popToCurrent
-                          },
-                        );
-                      }
+                    if (widget.popToCurrent == true) {
+                      //Navigate to Edit profile field
+                      Navigator.pushNamed(
+                        context,
+                        Routes.completeProfile,
+                        arguments: {
+                          "from": "login",
+                          "popToCurrent": widget.popToCurrent
+                        },
+                      );
+                    } else {
+                      //Navigate to Edit profile field
+                      Navigator.pushReplacementNamed(
+                        context,
+                        Routes.completeProfile,
+                        arguments: {
+                          "from": "login",
+                          "popToCurrent": widget.popToCurrent
+                        },
+                      );
                     }
+                  }
                   // }
                 },
                 child: BlocListener<DeleteAccountCubit, DeleteAccountState>(
@@ -472,7 +482,7 @@ class LoginScreenState extends State<LoginScreen> {
                     }
                   },
                   child: BlocListener<VerifyOtpCubit, VerifyOtpState>(
-                    listener: (context, state) {
+                    listener: (context, state) async {
                       if (state is VerifyOtpInProgress) {
                         Widgets.showLoader(context);
                       } else {
@@ -490,17 +500,29 @@ class LoginScreenState extends State<LoginScreen> {
                       }
 
                       if (state is VerifyOtpSuccess) {
-                        if (widget.isDeleteAccount ?? false) {
-                          context
-                              .read<DeleteAccountCubit>()
-                              .deleteUserAccount(context);
-                        } else {
-                          context.read<LoginCubit>().login(
-                              phoneNumber: _phoneController.text,
-                              // fireabseUserId: state.credential.user!.uid,
-                              // countryCode: countryCode
-                          );
-                        }
+                        // if (widget.isDeleteAccount ?? false) {
+                        //   context
+                        //       .read<DeleteAccountCubit>()
+                        //       .deleteUserAccount(context);
+                        // } else {
+                        //
+                        //   context.read<LoginCubit>().login(
+                        //       phoneNumber: _phoneController.text,
+                        //       // fireabseUserId: state.credential.user!.uid,
+                        //       // countryCode: countryCode
+                        //   );
+                        // }
+                        await _authReoisitory.saveBrokerData(
+                            name: _nameController.text,
+                            email: _emailController.text,
+                            rera: _reraController.text,
+                            address: _addressController.text,
+                            phone: _phoneController.text);
+                        Future.delayed(Duration.zero, () {
+                          Navigator.of(context).pushReplacementNamed(
+                              Routes.main,
+                              arguments: {'from': "main"});
+                        });
                       }
                     },
                     child: BlocListener<SendOtpCubit, SendOtpState>(
@@ -541,27 +563,35 @@ class LoginScreenState extends State<LoginScreen> {
                             key: _formKey,
                             child: isOtpSent
                                 ? buildOtpVerificationScreen()
-                                : authScreen == 0 ? buildLoginScreen() : buildRegisterScreen(),
+                                : authScreen == 0
+                                    ? buildLoginScreen()
+                                    : buildRegisterScreen(),
                           ),
-                          authScreen == 0 ? Row(
-                            children: [
-                              Text('Register'),
-                              TextButton(onPressed: () {
-                                setState(() {
-                                  authScreen = 1;
-                                });
-                              }, child: Text('Sign Up')),
-                            ],
-                          ): Row(
-                            children: [
-                              Text('Already have account? '),
-                              TextButton(onPressed: () {
-                                setState(() {
-                                  authScreen = 0;
-                                });
-                              }, child: Text('Sign In')),
-                            ],
-                          )
+                          authScreen == 0
+                              ? Row(
+                                  children: [
+                                    Text('Register'),
+                                    TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            authScreen = 1;
+                                          });
+                                        },
+                                        child: Text('Sign Up')),
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Text('Already have account? '),
+                                    TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            authScreen = 0;
+                                          });
+                                        },
+                                        child: Text('Sign In')),
+                                  ],
+                                )
                         ],
                       ),
                     ),
@@ -683,7 +713,8 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> _signUp(String _phoneNumber, String _password, String _email) async {
+  Future<void> _signUp(
+      String _phoneNumber, String _password, String _email) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       String _phone = "+91$_phoneNumber";
@@ -763,14 +794,14 @@ class LoginScreenState extends State<LoginScreen> {
         final prompt = parameters['prompt']!;
         safePrint(prompt);
         break;
-    // case AuthSignInStep.resetPassword:
-    //   final resetResult = await Amplify.Auth.resetPassword(
-    //     username: _username,
-    //   );
-    //   await _handleResetPasswordResult(resetResult);
-    //   break;
+      // case AuthSignInStep.resetPassword:
+      //   final resetResult = await Amplify.Auth.resetPassword(
+      //     username: _username,
+      //   );
+      //   await _handleResetPasswordResult(resetResult);
+      //   break;
       case AuthSignInStep.confirmSignUp:
-      // Resend the sign up code to the registered device.
+        // Resend the sign up code to the registered device.
         final resendResult = await Amplify.Auth.resendSignUpCode(
           username: _phoneController.text,
         );
@@ -785,7 +816,7 @@ class LoginScreenState extends State<LoginScreen> {
   void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
     safePrint(
       'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
-          'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+      'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
     );
   }
 
@@ -894,17 +925,11 @@ class LoginScreenState extends State<LoginScreen> {
           // ]),
           children: <Widget>[
             TextFormField(
-              controller: _phoneController,
-              decoration: InputDecoration(labelText: 'Mobile Number'),
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Name'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter a mobile number';
-                }
-                if (value.length != 10) {
-                  return 'Mobile number must be 10 digits';
-                }
-                if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                  return 'Mobile number must contain only digits';
+                  return 'Please enter a name';
                 }
                 return null;
               },
@@ -924,7 +949,48 @@ class LoginScreenState extends State<LoginScreen> {
                   return 'Please enter a valid email';
                 }
                 return null;
-
+              },
+            ),
+            TextFormField(
+              controller: _phoneController,
+              decoration: InputDecoration(labelText: 'Mobile Number'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a mobile number';
+                }
+                if (value.length != 10) {
+                  return 'Mobile number must be 10 digits';
+                }
+                if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                  return 'Mobile number must contain only digits';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _reraController,
+              decoration: InputDecoration(labelText: 'RERA Number'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a RERA number';
+                }
+                // if (value.length != 10) {
+                //   return 'Mobile number must be 10 digits';
+                // }
+                // if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                //   return 'Mobile number must contain only digits';
+                // }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _addressController,
+              decoration: InputDecoration(labelText: 'Address'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a mobile number';
+                }
+                return null;
               },
             ),
             TextFormField(
@@ -946,7 +1012,8 @@ class LoginScreenState extends State<LoginScreen> {
                 log('phone num: ${_phoneController.text} , password : ${_passwordController.text}');
                 if (_formKey.currentState?.validate() ?? false) {
                   // If the form is valid, proceed with the sign-in
-                  _signUp(_phoneController.text, _passwordController.text, _emailController.text);
+                  _signUp(_phoneController.text, _passwordController.text,
+                      _emailController.text);
                 }
               },
               child: Text('Sign Up'),

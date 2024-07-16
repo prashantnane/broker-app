@@ -1,14 +1,20 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/src/widgets/editable_text.dart';
 
+import '../../models/Broker.dart';
 import '../../utils/api.dart';
 import '../../utils/constant.dart';
+import '../../utils/hive_utils.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static int? forceResendingToken;
+
   Future<Map<String, dynamic>> loginWithApi(
       {required String phone, required String uid}) async {
     Map<String, String> parameters = {
@@ -85,8 +91,42 @@ class AuthRepository {
 
   void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
     safePrint(
-      'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
-          'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+      'A confirmation code has been sent to ${codeDeliveryDetails.destination}.'
+      'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
     );
+  }
+
+  Future<void> saveBrokerData({
+    required String name,
+    required String email,
+    required String phone,
+    required String address,
+    required String rera,
+  }) async {
+    try {
+      print('listening to saveBrokerData');
+      Broker broker = Broker(
+        name: name,
+        email: email,
+        mobile: phone,
+        address: address,
+        isActive: 1,
+        isProfileCompleted: false,
+        notification: 0,
+        profile: '',
+        rera: rera,
+      );
+
+      final request = ModelMutations.create(broker);
+      final response = await Amplify.API.mutate(request: request).response;
+      final BrokerData = response.data!.toJson();
+      // Map<dynamic, dynamic> responseData = jsonDecode(response.data.toJson());
+      HiveUtils.setUserData(response.data!.toJson());
+      print('this is BrokerData: $BrokerData');
+
+      print('Broker data saved successfully');
+    } catch (e) {
+      print('Error saving broker data: $e');
+    }
   }
 }

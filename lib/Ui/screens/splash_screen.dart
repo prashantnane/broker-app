@@ -175,13 +175,13 @@ class SplashScreenState extends State<SplashScreen>
         );
       });
     }
-    // else if (authenticationState == AuthenticationState.authenticated) {
-    //   print('inside AuthenticationState.authenticated');
-    //   Future.delayed(Duration.zero, () {
-    //     Navigator.of(context)
-    //         .pushReplacementNamed(Routes.main, arguments: {'from': "main"});
-    //   });
-    // }
+    else if (authenticationState == AuthenticationState.authenticated) {
+      print('inside AuthenticationState.authenticated');
+      Future.delayed(Duration.zero, () {
+        Navigator.of(context)
+            .pushReplacementNamed(Routes.main, arguments: {'from': "main"});
+      });
+    }
     // else if (authenticationState == AuthenticationState.unAuthenticated) {
     //   print('inside AuthenticationState.unauthenticated');
     //   if (Hive.box(HiveKeys.userDetailsBox).get("isGuest") == true) {
@@ -206,7 +206,7 @@ class SplashScreenState extends State<SplashScreen>
     // }
     else{
       Future.delayed(Duration.zero, () {
-            Navigator.of(context).pushReplacementNamed(Routes.completeProfile, arguments: {
+            Navigator.of(context).pushReplacementNamed(Routes.onboarding, arguments: {
               "from": "login",
             },);
           });

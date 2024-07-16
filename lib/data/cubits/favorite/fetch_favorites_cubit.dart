@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/hive_utils.dart';
 import '../../Repositories/favourites_repository.dart';
 import '../../model/data_output.dart';
 import '../../model/property_model.dart';
@@ -49,7 +50,7 @@ class FetchFavoritesFailure extends FetchFavoritesState {
 class FetchFavoritesCubit extends Cubit<FetchFavoritesState> {
   FetchFavoritesCubit() : super(FetchFavoritesInitial());
 
-  final FavoriteRepository _favoritesRepository = FavoriteRepository(brokerId: '');
+  final FavoriteRepository _favoritesRepository = FavoriteRepository(brokerId: HiveUtils.getUserDetails().id);
 
   Future<void> fetchFavorites() async {
     try {

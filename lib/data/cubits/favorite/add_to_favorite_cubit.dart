@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ebroker/data/Repositories/favourites_repository.dart';
 
 import '../../../utils/constant.dart';
+import '../../../utils/hive_utils.dart';
 import 'remove_favoriteubit.dart';
 
 enum FavoriteType {
@@ -40,7 +41,7 @@ class AddToFavoriteCubitFailure extends AddToFavoriteCubitState {
 class AddToFavoriteCubitCubit extends Cubit<AddToFavoriteCubitState> {
   AddToFavoriteCubitCubit() : super(AddToFavoriteCubitInitial());
 
-  final FavoriteRepository _favouriteRepository = FavoriteRepository(brokerId: '');
+  final FavoriteRepository _favouriteRepository = FavoriteRepository(brokerId: HiveUtils.getUserDetails().id);
 
   Future<void> setFavroite({
     required String propertyId,

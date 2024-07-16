@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/hive_utils.dart';
 import '../../Repositories/favourites_repository.dart';
 
 abstract class RemoveFavoriteState {}
@@ -23,7 +24,7 @@ class RemoveFavoriteFailure extends RemoveFavoriteState {
 }
 
 class RemoveFavoriteCubit extends Cubit<RemoveFavoriteState> {
-  final FavoriteRepository _favoriteRepository = FavoriteRepository(brokerId: '');
+  final FavoriteRepository _favoriteRepository = FavoriteRepository(brokerId: HiveUtils.getUserDetails().id);
 
   RemoveFavoriteCubit() : super(RemoveFavoriteInitial());
 
