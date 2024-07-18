@@ -198,19 +198,19 @@ class SplashScreenState extends State<SplashScreen>
       //   });
       // }
     // }
-    // else if (authenticationState == AuthenticationState.firstTime) {
-    //   print('inside AuthenticationState.firstTime');
-    //   Future.delayed(Duration.zero, () {
-    //     Navigator.of(context).pushReplacementNamed(Routes.onboarding);
-    //   });
-    // }
-    else{
+    else if (authenticationState == AuthenticationState.firstTime) {
+      print('inside AuthenticationState.firstTime');
       Future.delayed(Duration.zero, () {
-            Navigator.of(context).pushReplacementNamed(Routes.onboarding, arguments: {
-              "from": "login",
-            },);
-          });
+        Navigator.of(context).pushReplacementNamed(Routes.onboarding);
+      });
     }
+    // else{
+    //   Future.delayed(Duration.zero, () {
+    //         Navigator.of(context).pushReplacementNamed(Routes.onboarding, arguments: {
+    //           "from": "login",
+    //         },);
+    //       });
+    // }
   }
 
   @override

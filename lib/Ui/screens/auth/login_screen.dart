@@ -408,7 +408,7 @@ class LoginScreenState extends State<LoginScreen> {
                   if (state is LoginSuccess) {
                     // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
                     // GuestChecker.set(isGuest: false);
-                    // HiveUtils.setIsNotGuest();
+                    HiveUtils.setIsNotGuest();
                     // context
                     //     .read<UserDetailsCubit>()
                     //     .fill(HiveUtils.getUserDetails());
@@ -518,6 +518,9 @@ class LoginScreenState extends State<LoginScreen> {
                             rera: _reraController.text,
                             address: _addressController.text,
                             phone: _phoneController.text);
+                        HiveUtils.setIsNotGuest();
+                        HiveUtils.setUserIsAuthenticated();
+                        HiveUtils.setUserIsNotNew();
                         Future.delayed(Duration.zero, () {
                           Navigator.of(context).pushReplacementNamed(
                               Routes.main,
@@ -765,6 +768,9 @@ class LoginScreenState extends State<LoginScreen> {
         password: password,
       );
       await _handleSignInResult(result);
+      HiveUtils.setIsNotGuest();
+      HiveUtils.setUserIsAuthenticated();
+      HiveUtils.setUserIsNotNew();
       Navigator.pushReplacementNamed(
         context,
         Routes.main,
