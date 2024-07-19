@@ -94,6 +94,7 @@ class LoginScreenState extends State<LoginScreen> {
   CountryService countryCodeService = CountryService();
   bool isLoginButtonDisabled = true;
   String otpIs = "";
+  final AuthRepository _authReoisitory = AuthRepository();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _reraController = TextEditingController();
@@ -372,7 +373,6 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildLoginFields(BuildContext context) {
-    final AuthRepository _authReoisitory = AuthRepository();
 
     return BlocConsumer<DeleteAccountCubit, DeleteAccountState>(
       listener: (context, state) {
@@ -887,9 +887,10 @@ class LoginScreenState extends State<LoginScreen> {
               },
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 log('phone num: ${_phoneController.text} , password : ${_passwordController.text}');
                 if (_formKey.currentState?.validate() ?? false) {
+                  await _authReoisitory.fetchUserDetailsByPhone(_phoneController.text);
                   // If the form is valid, proceed with the sign-in
                   signInUser(_phoneController.text, _passwordController.text);
                 }

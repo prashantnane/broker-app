@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:amplify_core/amplify_core.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ebroker/Ui/screens/home/Widgets/category_card.dart';
 import 'package:ebroker/Ui/screens/home/Widgets/home_search.dart';
@@ -240,13 +241,22 @@ class HomeScreenState extends State<HomeScreen>
             backgroundColor: const Color.fromARGB(0, 0, 0, 0),
             actions: [
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => TestPage()));
+                  onPressed: () async {
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (BuildContext context) => TestPage()));
+
+                    final result = await Amplify.Auth.signOut();
+                    Future.delayed(
+                      Duration.zero,
+                          () {
+                        HelperUtils.killPreviousPages(
+                            context, Routes.login, {});
+                      },
+                    );
                   },
-                  child: Text('Test Page')),
+                  child: Text('logout')),
               GuestChecker.updateUI(
                 onChangeStatus: (isGuest) {
                   Widget buildDefaultPersonSVG(BuildContext context) {
@@ -702,10 +712,10 @@ class HomeScreenState extends State<HomeScreen>
         FetchMostLikedPropertiesState>(
       listener: (context, state) {
         if (state is FetchMostLikedPropertiesFailure) {
-          if (state.error is ApiException) {
-            homeStateListener.setNetworkState(
-                setState, !(state.error.error == "no-internet"));
-          }
+          // if (state.error is ApiException) {
+          //   homeStateListener.setNetworkState(
+          //       setState, !(state.error.error == "no-internet"));
+          // }
 
           setState(() {});
         }
@@ -778,10 +788,10 @@ class HomeScreenState extends State<HomeScreen>
     return BlocConsumer<FetchNearbyPropertiesCubit, FetchNearbyPropertiesState>(
       listener: (context, state) {
         if (state is FetchNearbyPropertiesFailure) {
-          if (state.error is ApiException) {
-            homeStateListener.setNetworkState(
-                setState, !(state.error.error == "no-internet"));
-          }
+          // if (state.error is ApiException) {
+          //   homeStateListener.setNetworkState(
+          //       setState, !(state.error.error == "no-internet"));
+          // }
 
           setState(() {});
         }
@@ -857,10 +867,10 @@ class HomeScreenState extends State<HomeScreen>
         FetchMostViewedPropertiesState>(
       listener: (context, state) {
         if (state is FetchMostViewedPropertiesFailure) {
-          if (state.error is ApiException) {
-            homeStateListener.setNetworkState(
-                setState, !(state.error.error == "no-internet"));
-          }
+          // if (state.error is ApiException) {
+          //   homeStateListener.setNetworkState(
+          //       setState, !(state.error.error == "no-internet"));
+          // }
 
           setState(() {});
         }

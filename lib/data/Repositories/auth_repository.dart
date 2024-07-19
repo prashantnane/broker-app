@@ -129,4 +129,34 @@ class AuthRepository {
       print('Error saving broker data: $e');
     }
   }
+
+  Future<Map<String, dynamic>> fetchUserDetailsByPhone(String phone) async {
+    print('listening to fetchUserDetailsByPhone');
+    try {
+      // final request = GraphQLRequest<String>(
+      //   document: '''
+      //     query fetchCategoryById {
+      //       getCategory(id: "$id") {
+      //         category
+      //         image
+      //       }
+      //     }
+      //   ''',
+      // );
+      final request = ModelQueries.list(Broker.classType,where:Broker.MOBILE.eq(phone));
+
+      final response = await Amplify.API.query(request: request).response;
+      print('this is response from broker repo: ${response.data}');
+
+      final patientPhoneNumbeList = response.data?.items;
+      if (patientPhoneNumbeList == null) {
+        safePrint('errors: ${response.errors}');
+        return const {};
+      }
+      return {};
+    } catch (e) {
+      safePrint('Query failed: $e');
+      return const {};
+    }
+  }
 }
