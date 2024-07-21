@@ -151,15 +151,15 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                               child: ElevatedButton.icon(
                                 onPressed: () async {
                                   signOutCurrentUser();
-                                  // await Hive.box(HiveKeys.userDetailsBox)
-                                  //     .clear();
-                                  // HiveUtils.setUserIsNotAuthenticated();
-                                  // HiveUtils.clear();
-                                  // Constant.favoritePropertyList.clear();
-                                  // context.read<UserDetailsCubit>().clear();
-                                  // context.read<LikedPropertiesCubit>().state.liked.clear();
-                                  //
-                                  // context.read<LikedPropertiesCubit>().clear();
+                                  await Hive.box(HiveKeys.userDetailsBox)
+                                      .clear();
+                                  HiveUtils.setUserIsNotAuthenticated();
+                                  HiveUtils.clear();
+                                  Constant.favoritePropertyList.clear();
+                                  context.read<UserDetailsCubit>().clear();
+                                  context.read<LikedPropertiesCubit>().state.liked.clear();
+
+                                  context.read<LikedPropertiesCubit>().clear();
 
                                   Future.delayed(
                                     Duration.zero,

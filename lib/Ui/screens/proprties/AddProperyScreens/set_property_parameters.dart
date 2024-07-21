@@ -365,10 +365,10 @@ class _SetProeprtyParametersScreenState
                 );
               } else {
                 context.read<PropertyEditCubit>().add(state.propertyModel!);
-                context
-                    .read<FetchMyPropertiesCubit>()
-                    .update(state.propertyModel!);
-                cubitReference?.update(state.propertyModel!);
+                // context
+                //     .read<FetchMyPropertiesCubit>()
+                //     .update(state.propertyModel!);
+                // cubitReference?.update(state.propertyModel!);
                 HelperUtils.showSnackBarMessage(context,
                     UiUtils.getTranslatedLabel(context, "propertyUpdated"),
                     type: MessageType.success, onClose: () {

@@ -79,21 +79,10 @@ class AuthRepository {
 
   Future<void> _handleSignUpResult(SignUpResult result) async {
     switch (result.nextStep.signUpStep) {
-      case AuthSignUpStep.confirmSignUp:
-        final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
-        _handleCodeDelivery(codeDeliveryDetails);
-        break;
       case AuthSignUpStep.done:
         safePrint('Sign up is complete');
         break;
     }
-  }
-
-  void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
-    safePrint(
-      'A confirmation code has been sent to ${codeDeliveryDetails.destination}.'
-      'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
-    );
   }
 
   Future<void> saveBrokerData({
@@ -130,7 +119,7 @@ class AuthRepository {
     }
   }
 
-  Future<Map<String, dynamic>> fetchUserDetailsByPhone(String phone) async {
+  Future<void> fetchUserDetailsByPhone(String phone) async {
     print('listening to fetchUserDetailsByPhone');
     try {
       // final request = GraphQLRequest<String>(
@@ -146,17 +135,20 @@ class AuthRepository {
       final request = ModelQueries.list(Broker.classType,where:Broker.MOBILE.eq(phone));
 
       final response = await Amplify.API.query(request: request).response;
-      print('this is response from broker repo: ${response.data}');
 
-      final patientPhoneNumbeList = response.data?.items;
-      if (patientPhoneNumbeList == null) {
+      final brokerDetails = response.data?.items[0]?.toJson() ?? {};
+      HiveUtils.setUserData(brokerDetails);
+      HiveUtils.setIsNotGuest();
+      HiveUtils.setUserIsAuthenticated();
+      HiveUtils.setUserIsNotNew();
+
+      print('this is response from broker repo: $brokerDetails');
+
+      if (brokerDetails == null) {
         safePrint('errors: ${response.errors}');
-        return const {};
       }
-      return {};
     } catch (e) {
       safePrint('Query failed: $e');
-      return const {};
     }
   }
 }

@@ -634,9 +634,9 @@ class PropertyDetailsState extends State<PropertyDetails>
                               gravity: ToastGravity.TOP,
                               toastLength: Toast.LENGTH_LONG);
 
-                          (cubitReference as FetchMyPropertiesCubit)
-                              .updateStatus(
-                                  property!.id!, property!.properyType!);
+                          // (cubitReference as FetchMyPropertiesCubit)
+                          //     .updateStatus(
+                          //         property!.id!, property!.properyType!);
                           setState(() {});
                         }
                         if (state is UpdatePropertyStatusFail) {
@@ -1393,11 +1393,11 @@ class PropertyDetailsState extends State<PropertyDetails>
               builder: (context, state) {
                 PropertyModel? model;
 
-                if (state is FetchMyPropertiesSuccess) {
-                  model = state.myProperty
-                      .where((element) => element.id == property?.id)
-                      .first;
-                }
+                // if (state is FetchMyPropertiesSuccess) {
+                //   model = state.myProperty
+                //       .where((element) => element.id == property?.id)
+                //       .first;
+                // }
 
                 model ??= widget.property;
 

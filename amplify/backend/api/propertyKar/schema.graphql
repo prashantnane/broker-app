@@ -8,7 +8,7 @@ type Broker @model @auth(rules: [{allow: public}]) {
   isProfileCompleted: Boolean
   notification: Int
   profile: String
-  RERA: String
+  rera: String
 }
 
 type Favorites @model @auth(rules: [{allow: public}]) {
@@ -59,12 +59,13 @@ type Property @model @auth(rules: [{allow: public}]) {
   state: String
   city: String
   country: String
-  addedBy: Int
+  addedBy: String
   isFavourite: Boolean
   isInterested: Boolean
   assignedOutdoorFacility: [AWSJSON]
   video: String
   parameters: [AWSJSON]
   propertyType: String
+  status: Int
 }
  

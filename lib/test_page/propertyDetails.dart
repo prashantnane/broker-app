@@ -1337,17 +1337,17 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
                                   const SizedBox(
                                     height: 18,
                                   ),
-                                  if (!HiveUtils.isGuest()) ...[
-                                    if (int.parse(
-                                            HiveUtils.getUserId() ?? "0") !=
-                                        property?.addedBy)
-                                      Row(
-                                        children: [
-                                          // sendEnquiryButtonWithState(),
-                                          setInterest(),
-                                        ],
-                                      ),
-                                  ],
+                                  // if (!HiveUtils.isGuest()) ...[
+                                  //   if (int.parse(
+                                  //           HiveUtils.getUserId() ?? "0") !=
+                                  //       property?.addedBy)
+                                  //     Row(
+                                  //       children: [
+                                  //         // sendEnquiryButtonWithState(),
+                                  //         setInterest(),
+                                  //       ],
+                                  //     ),
+                                  // ],
                                   const SizedBox(
                                     height: 18,
                                   ),
@@ -1423,203 +1423,203 @@ class PropertyDetailsTestState extends State<PropertyDetailsTest>
 
   Widget bottomNavBar() {
     /// IF property is added by current user then it will show promote button
-    if (!HiveUtils.isGuest()) {
-      if (int.parse(HiveUtils.getUserId() ?? "0") == property?.addedBy) {
-        return SizedBox(
-          height: 65.rh(context),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child:
-                BlocBuilder<FetchAllPropertiesCubit, FetchAllPropertiesState>(
-              builder: (context, state) {
-                Property? model;
-
-                if (state is FetchAllPropertiesSuccess) {
-                  model = state.properties
-                      .where((element) => element.id == property?.id)
-                      .first;
-                }
-
-                model ??= widget.property;
-
-                // var isPromoted = (model?.promoted);
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // if (!HiveUtils.isGuest()) ...[
-                    //   if (isPromoted == false &&
-                    //       (property?.status.toString() != "0")) ...[
-                    //     Expanded(
-                    //         child: UiUtils.buildButton(
-                    //       context,
-                    //       disabled: (property?.status.toString() == "0"),
-                    //       // padding: const EdgeInsets.symmetric(horizontal: 1),
-                    //       outerPadding: const EdgeInsets.all(
-                    //         1,
-                    //       ),
-                    //       onPressed: () {
-                    //         Navigator.pushNamed(
-                    //           context,
-                    //           Routes.createAdvertismentScreenRoute,
-                    //           arguments: {
-                    //             "model": property,
-                    //           },
-                    //         ).then(
-                    //           (value) {
-                    //             setState(() {});
-                    //           },
-                    //         );
-                    //       },
-                    //       prefixWidget: Padding(
-                    //         padding: const EdgeInsets.only(right: 6),
-                    //         child: SvgPicture.asset(
-                    //           AppIcons.promoted,
-                    //           width: 14,
-                    //           height: 14,
-                    //         ),
-                    //       ),
-                    //
-                    //       fontSize: context.font.normal,
-                    //       width: context.screenWidth / 3,
-                    //       buttonTitle:
-                    //           UiUtils.getTranslatedLabel(context, "feature"),
-                    //     )),
-                    //     const SizedBox(
-                    //       width: 8,
-                    //     ),
-                    //   ],
-                    // ],
-                    // Expanded(
-                    //   child: UiUtils.buildButton(context,
-                    //       // padding: const EdgeInsets.symmetric(horizontal: 1),
-                    //       outerPadding: const EdgeInsets.all(1), onPressed: () {
-                    //     Constant.addProperty.addAll({
-                    //       "category": CategoryModel(
-                    //         category: json.decode(property!.category!) ,
-                    //         id: json.decode(property?.category?.id!.toString()),
-                    //         image: json.decode(property?.category?.image),
-                    //         // parameterTypes: {
-                    //         //   "parameters": property?.parameters
-                    //         //       ?.map((e) => e.toMap())
-                    //         //       .toList()
-                    //         // },
-                    //       )
-                    //     });
-                    //     log("GOING THROW IT ${property?.parameters}");
-                    //     Navigator.pushNamed(
-                    //         context, Routes.addPropertyDetailsScreen,
-                    //         arguments: {
-                    //           "details": {
-                    //             "id": property?.id,
-                    //             "catId": property?.category?.id,
-                    //             "propType": property?.properyType,
-                    //             "name": property?.title,
-                    //             "desc": property?.description,
-                    //             "city": property?.city,
-                    //             "state": property?.state,
-                    //             "country": property?.country,
-                    //             "latitude": property?.latitude,
-                    //             "longitude": property?.longitude,
-                    //             "address": property?.address,
-                    //             "client": property?.clientAddress,
-                    //             "price": property?.price,
-                    //             'parms': property?.parameters,
-                    //             "images": property?.gallery
-                    //                 ?.map((e) => e.imageUrl)
-                    //                 .toList(),
-                    //             "gallary_with_id": property?.gallery,
-                    //             "rentduration": property?.rentduration,
-                    //             "assign_facilities":
-                    //                 property?.assignedOutdoorFacility,
-                    //             "titleImage": property?.titleImage
-                    //           }
-                    //         });
-                    //   },
-                    //       fontSize: context.font.normal,
-                    //       width: context.screenWidth / 3,
-                    //       prefixWidget: Padding(
-                    //         padding: const EdgeInsets.only(right: 6.0),
-                    //         child: SvgPicture.asset(AppIcons.edit),
-                    //       ),
-                    //       buttonTitle:
-                    //           UiUtils.getTranslatedLabel(context, "edit")),
-                    // ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: UiUtils.buildButton(context,
-                          padding: const EdgeInsets.symmetric(horizontal: 1),
-                          outerPadding: const EdgeInsets.all(1),
-                          prefixWidget: Padding(
-                            padding: const EdgeInsets.only(right: 6.0),
-                            child: SvgPicture.asset(
-                              AppIcons.delete,
-                              color: context.color.buttonColor,
-                              width: 14,
-                              height: 14,
-                            ),
-                          ), onPressed: () async {
-                        // //THIS IS FOR DEMO MODE
-                        // bool isPropertyActive =
-                        //     property?.status.toString() == "1";
-
-                        bool isDemoNumber = HiveUtils.getUserDetails().mobile ==
-                            "${Constant.demoCountryCode}${Constant.demoMobileNumber}";
-
-                        // if (Constant.isDemoModeOn &&
-                        //     isPropertyActive &&
-                        //     isDemoNumber) {
-                        //   HelperUtils.showSnackBarMessage(context,
-                        //       "Active property cannot be deleted in demo app.");
-                        //
-                        //   return;
-                        // }
-
-                        var delete = await UiUtils.showBlurredDialoge(
-                          context,
-                          dialoge: BlurredDialogBox(
-                            title: UiUtils.getTranslatedLabel(
-                              context,
-                              "deleteBtnLbl",
-                            ),
-                            content: Text(
-                              UiUtils.getTranslatedLabel(
-                                  context, "deletepropertywarning"),
-                            ),
-                          ),
-                        );
-                        if (delete == true) {
-                          Future.delayed(
-                            Duration.zero,
-                            () {
-                              // if (Constant.isDemoModeOn) {
-                              //   HelperUtils.showSnackBarMessage(
-                              //       context,
-                              //       UiUtils.getTranslatedLabel(
-                              //           context, "thisActionNotValidDemo"));
-                              // } else {
-                              // context
-                              //     .read<DeletePropertyCubit>()
-                              //     .delete(property!.id!);
-                              // }
-                            },
-                          );
-                        }
-                      },
-                          fontSize: context.font.normal,
-                          width: context.screenWidth / 3.2,
-                          buttonTitle: UiUtils.getTranslatedLabel(
-                              context, "deleteBtnLbl")),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        );
-      }
-    }
+    // if (!HiveUtils.isGuest()) {
+    //   // if (int.parse(HiveUtils.getUserId() ?? "0") == property?.addedBy) {
+    //     return SizedBox(
+    //       height: 65.rh(context),
+    //       child: Padding(
+    //         padding: const EdgeInsets.symmetric(vertical: 10.0),
+    //         child:
+    //             BlocBuilder<FetchAllPropertiesCubit, FetchAllPropertiesState>(
+    //           builder: (context, state) {
+    //             Property? model;
+    //
+    //             if (state is FetchAllPropertiesSuccess) {
+    //               model = state.properties
+    //                   .where((element) => element!.id == property?.id)
+    //                   .first;
+    //             }
+    //
+    //             model ??= widget.property;
+    //
+    //             // var isPromoted = (model?.promoted);
+    //             return Row(
+    //               mainAxisSize: MainAxisSize.min,
+    //               children: [
+    //                 // if (!HiveUtils.isGuest()) ...[
+    //                 //   if (isPromoted == false &&
+    //                 //       (property?.status.toString() != "0")) ...[
+    //                 //     Expanded(
+    //                 //         child: UiUtils.buildButton(
+    //                 //       context,
+    //                 //       disabled: (property?.status.toString() == "0"),
+    //                 //       // padding: const EdgeInsets.symmetric(horizontal: 1),
+    //                 //       outerPadding: const EdgeInsets.all(
+    //                 //         1,
+    //                 //       ),
+    //                 //       onPressed: () {
+    //                 //         Navigator.pushNamed(
+    //                 //           context,
+    //                 //           Routes.createAdvertismentScreenRoute,
+    //                 //           arguments: {
+    //                 //             "model": property,
+    //                 //           },
+    //                 //         ).then(
+    //                 //           (value) {
+    //                 //             setState(() {});
+    //                 //           },
+    //                 //         );
+    //                 //       },
+    //                 //       prefixWidget: Padding(
+    //                 //         padding: const EdgeInsets.only(right: 6),
+    //                 //         child: SvgPicture.asset(
+    //                 //           AppIcons.promoted,
+    //                 //           width: 14,
+    //                 //           height: 14,
+    //                 //         ),
+    //                 //       ),
+    //                 //
+    //                 //       fontSize: context.font.normal,
+    //                 //       width: context.screenWidth / 3,
+    //                 //       buttonTitle:
+    //                 //           UiUtils.getTranslatedLabel(context, "feature"),
+    //                 //     )),
+    //                 //     const SizedBox(
+    //                 //       width: 8,
+    //                 //     ),
+    //                 //   ],
+    //                 // ],
+    //                 // Expanded(
+    //                 //   child: UiUtils.buildButton(context,
+    //                 //       // padding: const EdgeInsets.symmetric(horizontal: 1),
+    //                 //       outerPadding: const EdgeInsets.all(1), onPressed: () {
+    //                 //     Constant.addProperty.addAll({
+    //                 //       "category": CategoryModel(
+    //                 //         category: json.decode(property!.category!) ,
+    //                 //         id: json.decode(property?.category?.id!.toString()),
+    //                 //         image: json.decode(property?.category?.image),
+    //                 //         // parameterTypes: {
+    //                 //         //   "parameters": property?.parameters
+    //                 //         //       ?.map((e) => e.toMap())
+    //                 //         //       .toList()
+    //                 //         // },
+    //                 //       )
+    //                 //     });
+    //                 //     log("GOING THROW IT ${property?.parameters}");
+    //                 //     Navigator.pushNamed(
+    //                 //         context, Routes.addPropertyDetailsScreen,
+    //                 //         arguments: {
+    //                 //           "details": {
+    //                 //             "id": property?.id,
+    //                 //             "catId": property?.category?.id,
+    //                 //             "propType": property?.properyType,
+    //                 //             "name": property?.title,
+    //                 //             "desc": property?.description,
+    //                 //             "city": property?.city,
+    //                 //             "state": property?.state,
+    //                 //             "country": property?.country,
+    //                 //             "latitude": property?.latitude,
+    //                 //             "longitude": property?.longitude,
+    //                 //             "address": property?.address,
+    //                 //             "client": property?.clientAddress,
+    //                 //             "price": property?.price,
+    //                 //             'parms': property?.parameters,
+    //                 //             "images": property?.gallery
+    //                 //                 ?.map((e) => e.imageUrl)
+    //                 //                 .toList(),
+    //                 //             "gallary_with_id": property?.gallery,
+    //                 //             "rentduration": property?.rentduration,
+    //                 //             "assign_facilities":
+    //                 //                 property?.assignedOutdoorFacility,
+    //                 //             "titleImage": property?.titleImage
+    //                 //           }
+    //                 //         });
+    //                 //   },
+    //                 //       fontSize: context.font.normal,
+    //                 //       width: context.screenWidth / 3,
+    //                 //       prefixWidget: Padding(
+    //                 //         padding: const EdgeInsets.only(right: 6.0),
+    //                 //         child: SvgPicture.asset(AppIcons.edit),
+    //                 //       ),
+    //                 //       buttonTitle:
+    //                 //           UiUtils.getTranslatedLabel(context, "edit")),
+    //                 // ),
+    //                 const SizedBox(
+    //                   width: 8,
+    //                 ),
+    //                 Expanded(
+    //                   child: UiUtils.buildButton(context,
+    //                       padding: const EdgeInsets.symmetric(horizontal: 1),
+    //                       outerPadding: const EdgeInsets.all(1),
+    //                       prefixWidget: Padding(
+    //                         padding: const EdgeInsets.only(right: 6.0),
+    //                         child: SvgPicture.asset(
+    //                           AppIcons.delete,
+    //                           color: context.color.buttonColor,
+    //                           width: 14,
+    //                           height: 14,
+    //                         ),
+    //                       ), onPressed: () async {
+    //                     // //THIS IS FOR DEMO MODE
+    //                     // bool isPropertyActive =
+    //                     //     property?.status.toString() == "1";
+    //
+    //                     bool isDemoNumber = HiveUtils.getUserDetails().mobile ==
+    //                         "${Constant.demoCountryCode}${Constant.demoMobileNumber}";
+    //
+    //                     // if (Constant.isDemoModeOn &&
+    //                     //     isPropertyActive &&
+    //                     //     isDemoNumber) {
+    //                     //   HelperUtils.showSnackBarMessage(context,
+    //                     //       "Active property cannot be deleted in demo app.");
+    //                     //
+    //                     //   return;
+    //                     // }
+    //
+    //                     var delete = await UiUtils.showBlurredDialoge(
+    //                       context,
+    //                       dialoge: BlurredDialogBox(
+    //                         title: UiUtils.getTranslatedLabel(
+    //                           context,
+    //                           "deleteBtnLbl",
+    //                         ),
+    //                         content: Text(
+    //                           UiUtils.getTranslatedLabel(
+    //                               context, "deletepropertywarning"),
+    //                         ),
+    //                       ),
+    //                     );
+    //                     if (delete == true) {
+    //                       Future.delayed(
+    //                         Duration.zero,
+    //                         () {
+    //                           // if (Constant.isDemoModeOn) {
+    //                           //   HelperUtils.showSnackBarMessage(
+    //                           //       context,
+    //                           //       UiUtils.getTranslatedLabel(
+    //                           //           context, "thisActionNotValidDemo"));
+    //                           // } else {
+    //                           // context
+    //                           //     .read<DeletePropertyCubit>()
+    //                           //     .delete(property!.id!);
+    //                           // }
+    //                         },
+    //                       );
+    //                     }
+    //                   },
+    //                       fontSize: context.font.normal,
+    //                       width: context.screenWidth / 3.2,
+    //                       buttonTitle: UiUtils.getTranslatedLabel(
+    //                           context, "deleteBtnLbl")),
+    //                 ),
+    //               ],
+    //             );
+    //           },
+    //         ),
+    //       ),
+    //     );
+    //   // }
+    // }
 
     return SizedBox(
       height: 65.rh(context),

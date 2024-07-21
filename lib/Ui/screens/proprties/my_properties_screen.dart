@@ -76,50 +76,49 @@ class MyPropertyState extends State<PropertiesScreen>
           context,
           title: "myProperty".translate(context),
           // bottomHeight: 49,
-          bottomHeight: 49,
 
-          bottom: [
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(15, 8, 15, 0),
-              child: Row(
-                children: [
-                  customTab(
-                    context,
-                    isSelected: (selectTab == 0),
-                    onTap: () {
-                      selectTab = 0;
-                      propertyScreenCurrentPage = 0;
-                      setState(() {});
-                      _pageController.jumpToPage(0);
-                      cubitReference = context.read<FetchMyPropertiesCubit>();
-                      propertyType = "sell";
-                    },
-                    name: UiUtils.getTranslatedLabel(context, "sell"),
-                    onDoubleTap: () {},
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  customTab(
-                    context,
-                    isSelected: selectTab == 1,
-                    onTap: () {
-                      _pageController.jumpToPage(1);
-                      selectTab = 1;
-                      propertyScreenCurrentPage = 1;
-
-                      cubitReference = context.read<FetchMyPropertiesCubit>();
-                      propertyType = "rent";
-
-                      setState(() {});
-                    },
-                    onDoubleTap: () {},
-                    name: UiUtils.getTranslatedLabel(context, "rent"),
-                  ),
-                ],
-              ),
-            )
-          ],
+          // bottom: [
+          //   Padding(
+          //     padding: const EdgeInsetsDirectional.fromSTEB(15, 8, 15, 0),
+          //     child: Row(
+          //       children: [
+          //         customTab(
+          //           context,
+          //           isSelected: (selectTab == 0),
+          //           onTap: () {
+          //             selectTab = 0;
+          //             propertyScreenCurrentPage = 0;
+          //             setState(() {});
+          //             _pageController.jumpToPage(0);
+          //             cubitReference = context.read<FetchMyPropertiesCubit>();
+          //             propertyType = "sell";
+          //           },
+          //           name: UiUtils.getTranslatedLabel(context, "sell"),
+          //           onDoubleTap: () {},
+          //         ),
+          //         const SizedBox(
+          //           width: 5,
+          //         ),
+          //         customTab(
+          //           context,
+          //           isSelected: selectTab == 1,
+          //           onTap: () {
+          //             _pageController.jumpToPage(1);
+          //             selectTab = 1;
+          //             propertyScreenCurrentPage = 1;
+          //
+          //             cubitReference = context.read<FetchMyPropertiesCubit>();
+          //             propertyType = "rent";
+          //
+          //             setState(() {});
+          //           },
+          //           onDoubleTap: () {},
+          //           name: UiUtils.getTranslatedLabel(context, "rent"),
+          //         ),
+          //       ],
+          //     ),
+          //   )
+          // ],
         )
 
         // appBar: AppBar(

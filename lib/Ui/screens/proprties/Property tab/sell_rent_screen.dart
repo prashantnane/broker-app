@@ -6,9 +6,11 @@ import '../../../../data/cubits/favorite/add_to_favorite_cubit.dart';
 import '../../../../data/cubits/property/fetch_my_properties_cubit.dart';
 import '../../../../data/helper/designs.dart';
 import '../../../../data/model/property_model.dart';
+import '../../../../models/Property.dart';
 import '../../../../utils/Extensions/extensions.dart';
 import '../../../../utils/responsiveSize.dart';
 import '../../../../utils/ui_utils.dart';
+import '../../home/Widgets/propertyHorizontalCard.dart';
 import '../../home/Widgets/property_horizontal_card.dart';
 import '../../widgets/Erros/no_data_found.dart';
 import '../../widgets/Erros/no_internet.dart';
@@ -149,14 +151,14 @@ class _SellRentScreenState extends State<SellRentScreen>
                   );
                 }
 
-                PropertyModel property = state.myProperty[index];
+                Property property = state.myProperty[index];
 
                 return GestureDetector(
                   onTap: () {
                     cubitReference = context.read<FetchMyPropertiesCubit>();
                     Navigator.pushNamed(
                       context,
-                      Routes.propertyDetails,
+                      Routes.propertyDetailsTest,
                       arguments: {
                         'propertyData': property,
                         'fromMyProperty': true
@@ -171,10 +173,9 @@ class _SellRentScreenState extends State<SellRentScreen>
                   },
                   child: BlocProvider(
                     create: (context) => AddToFavoriteCubitCubit(),
-                    child: PropertyHorizontalCard(
+                    child: PropertyHorizontalCardTest(
                       property: property,
-
-                      statusButton: StatusButton(
+                      statusButton: StatusButtonTest(
                         lable: statusText(property.status.toString()),
                         color: statusColor(property.status.toString()),
                         textColor: context.color.buttonColor,

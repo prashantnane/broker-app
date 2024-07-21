@@ -25,7 +25,7 @@ class FetchAllPropertiesSuccess extends FetchAllPropertiesState
   final bool isLoadingMore;
   final bool hasError;
   // @override
-  final List<Property> properties;
+  final List<Property?> properties;
 
   FetchAllPropertiesSuccess({
     required this.total,
@@ -40,7 +40,7 @@ class FetchAllPropertiesSuccess extends FetchAllPropertiesState
     int? offset,
     bool? isLoadingMore,
     bool? hasError,
-    List<Property>? properties,
+    List<Property?>? properties,
   }) {
     return FetchAllPropertiesSuccess(
       total: total ?? this.total,
@@ -52,7 +52,7 @@ class FetchAllPropertiesSuccess extends FetchAllPropertiesState
   }
 
   @override
-  set properties(List<Property> _properties) {
+  set properties(List<Property?> _properties) {
     // TODO: implement properties
   }
 
@@ -63,11 +63,11 @@ class FetchAllPropertiesSuccess extends FetchAllPropertiesState
 
   Map<String, dynamic> toMap() {
     return {
-      'total': this.total,
-      'offset': this.offset,
-      'isLoadingMore': this.isLoadingMore,
-      'hasError': this.hasError,
-      'properties': properties.map((e) => e.toMap()).toList(),
+      'total': total,
+      'offset': offset,
+      'isLoadingMore': isLoadingMore,
+      'hasError': hasError,
+      'properties': properties.map((e) => e?.toMap()).toList(),
     };
   }
 
@@ -77,11 +77,11 @@ class FetchAllPropertiesSuccess extends FetchAllPropertiesState
       offset: map['offset'] as int,
       isLoadingMore: map['isLoadingMore'] as bool,
       hasError: map['hasError'] as bool,
-      properties: map['properties']
-
+      properties: List<Property>.from(map['properties']?.map((x) => Property.fromJson(x))),
     );
   }
 }
+
 
 class FetchAllPropertiesFailur extends FetchAllPropertiesState
     implements PropertyErrorStateWireframe {
@@ -128,7 +128,7 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
       //   }
       // }
       if (forceRefresh == true) {
-        DataOutput<Property> result =
+        DataOutput<Property?> result =
         await _propertyRepository.fetchAllProperties(offset: 0);
         // log("API RESULT IS $result");
         emit(
@@ -141,7 +141,7 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
         );
       } else {
         if (state is! FetchAllPropertiesSuccess) {
-          DataOutput<Property> result =
+          DataOutput<Property?> result =
           await _propertyRepository.fetchAllProperties(offset: 0);
           emit(
             FetchAllPropertiesSuccess(
@@ -154,7 +154,7 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
         } else {
           await CheckInternet.check(
             onInternet: () async {
-              DataOutput<Property> result =
+              DataOutput<Property?> result =
               await _propertyRepository.fetchAllProperties(offset: 0);
               emit(
                 FetchAllPropertiesSuccess(
@@ -196,7 +196,7 @@ class FetchAllPropertiesCubit extends Cubit<FetchAllPropertiesState>
       }
       emit((state as FetchAllPropertiesSuccess)
           .copyWith(isLoadingMore: true));
-      DataOutput<Property> result =
+      DataOutput<Property?> result =
       await _propertyRepository.fetchAllProperties(
         offset: (state as FetchAllPropertiesSuccess).properties.length,
       );

@@ -208,8 +208,8 @@ class FilterScreenState extends State<FilterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  const SizedBox(height: 10),
-                  buyORsellOption(),
+                  // const SizedBox(height: 10),
+                  // buyORsellOption(),
                   const SizedBox(height: 15),
                   if (widget.showPropertyType ?? true) ...[
                     Text(UiUtils.getTranslatedLabel(context, "proeprtyType"))

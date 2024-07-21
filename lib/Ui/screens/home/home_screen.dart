@@ -377,7 +377,8 @@ class HomeScreenState extends State<HomeScreen>
                           else if (section ==
                               HomeScreenSections.RecentlyAdded) {
                             return const ShowAllPropertyPage();
-                          }else if (section ==
+                          }
+                          else if (section ==
                               HomeScreenSections.Sample) {
                             return const RecentPropertiesSectionWidget();
                           }

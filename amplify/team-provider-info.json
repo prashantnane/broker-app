@@ -18,6 +18,9 @@
       },
       "storage": {
         "s3propertyKar": {}
+      },
+      "api": {
+        "propertyKar": {}
       }
     }
   }

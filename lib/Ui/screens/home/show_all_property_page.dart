@@ -116,7 +116,7 @@ class _ShowAllPropertyPageState extends State<ShowAllPropertyPage> {
             return ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                Property modal = state.properties[index];
+                Property? modal = state.properties[index];
                 // modal = context.watch<PropertyEditCubit>().get(modal);
                 return GestureDetector(
                     onTap: () {
@@ -136,7 +136,7 @@ class _ShowAllPropertyPageState extends State<ShowAllPropertyPage> {
                       additionalImageWidth: 10,
                     ));
               },
-              itemCount: state.properties.length.clamp(0, 4),
+              itemCount: state.properties.length,
               shrinkWrap: true,
             );
           }

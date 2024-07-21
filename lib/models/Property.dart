@@ -44,13 +44,14 @@ class Property extends amplify_core.Model {
   final String? _state;
   final String? _city;
   final String? _country;
-  final int? _addedBy;
+  final String? _addedBy;
   final bool? _isFavourite;
   final bool? _isInterested;
   final List<String>? _assignedOutdoorFacility;
   final String? _video;
   final List<String>? _parameters;
   final String? _propertyType;
+  final int? _status;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -131,7 +132,7 @@ class Property extends amplify_core.Model {
     return _country;
   }
   
-  int? get addedBy {
+  String? get addedBy {
     return _addedBy;
   }
   
@@ -159,6 +160,10 @@ class Property extends amplify_core.Model {
     return _propertyType;
   }
   
+  int? get status {
+    return _status;
+  }
+  
   amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -167,9 +172,9 @@ class Property extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Property._internal({required this.id, title, price, brokerName, brokerEmail, brokerProfile, brokerNumber, category, description, address, clientAddress, titleImage, postCreated, gallery, state, city, country, addedBy, isFavourite, isInterested, assignedOutdoorFacility, video, parameters, propertyType, createdAt, updatedAt}): _title = title, _price = price, _brokerName = brokerName, _brokerEmail = brokerEmail, _brokerProfile = brokerProfile, _brokerNumber = brokerNumber, _category = category, _description = description, _address = address, _clientAddress = clientAddress, _titleImage = titleImage, _postCreated = postCreated, _gallery = gallery, _state = state, _city = city, _country = country, _addedBy = addedBy, _isFavourite = isFavourite, _isInterested = isInterested, _assignedOutdoorFacility = assignedOutdoorFacility, _video = video, _parameters = parameters, _propertyType = propertyType, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Property._internal({required this.id, title, price, brokerName, brokerEmail, brokerProfile, brokerNumber, category, description, address, clientAddress, titleImage, postCreated, gallery, state, city, country, addedBy, isFavourite, isInterested, assignedOutdoorFacility, video, parameters, propertyType, status, createdAt, updatedAt}): _title = title, _price = price, _brokerName = brokerName, _brokerEmail = brokerEmail, _brokerProfile = brokerProfile, _brokerNumber = brokerNumber, _category = category, _description = description, _address = address, _clientAddress = clientAddress, _titleImage = titleImage, _postCreated = postCreated, _gallery = gallery, _state = state, _city = city, _country = country, _addedBy = addedBy, _isFavourite = isFavourite, _isInterested = isInterested, _assignedOutdoorFacility = assignedOutdoorFacility, _video = video, _parameters = parameters, _propertyType = propertyType, _status = status, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Property({String? id, String? title, String? price, String? brokerName, String? brokerEmail, String? brokerProfile, String? brokerNumber, String? category, String? description, String? address, String? clientAddress, String? titleImage, String? postCreated, List<String>? gallery, String? state, String? city, String? country, int? addedBy, bool? isFavourite, bool? isInterested, List<String>? assignedOutdoorFacility, String? video, List<String>? parameters, String? propertyType}) {
+  factory Property({String? id, String? title, String? price, String? brokerName, String? brokerEmail, String? brokerProfile, String? brokerNumber, String? category, String? description, String? address, String? clientAddress, String? titleImage, String? postCreated, List<String>? gallery, String? state, String? city, String? country, String? addedBy, bool? isFavourite, bool? isInterested, List<String>? assignedOutdoorFacility, String? video, List<String>? parameters, String? propertyType, int? status}) {
     return Property._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       title: title,
@@ -194,7 +199,8 @@ class Property extends amplify_core.Model {
       assignedOutdoorFacility: assignedOutdoorFacility != null ? List<String>.unmodifiable(assignedOutdoorFacility) : assignedOutdoorFacility,
       video: video,
       parameters: parameters != null ? List<String>.unmodifiable(parameters) : parameters,
-      propertyType: propertyType);
+      propertyType: propertyType,
+      status: status);
   }
   
   bool equals(Object other) {
@@ -228,7 +234,8 @@ class Property extends amplify_core.Model {
       DeepCollectionEquality().equals(_assignedOutdoorFacility, other._assignedOutdoorFacility) &&
       _video == other._video &&
       DeepCollectionEquality().equals(_parameters, other._parameters) &&
-      _propertyType == other._propertyType;
+      _propertyType == other._propertyType &&
+      _status == other._status;
   }
   
   @override
@@ -256,13 +263,14 @@ class Property extends amplify_core.Model {
     buffer.write("state=" + "$_state" + ", ");
     buffer.write("city=" + "$_city" + ", ");
     buffer.write("country=" + "$_country" + ", ");
-    buffer.write("addedBy=" + (_addedBy != null ? _addedBy!.toString() : "null") + ", ");
+    buffer.write("addedBy=" + "$_addedBy" + ", ");
     buffer.write("isFavourite=" + (_isFavourite != null ? _isFavourite!.toString() : "null") + ", ");
     buffer.write("isInterested=" + (_isInterested != null ? _isInterested!.toString() : "null") + ", ");
     buffer.write("assignedOutdoorFacility=" + (_assignedOutdoorFacility != null ? _assignedOutdoorFacility!.toString() : "null") + ", ");
     buffer.write("video=" + "$_video" + ", ");
     buffer.write("parameters=" + (_parameters != null ? _parameters!.toString() : "null") + ", ");
     buffer.write("propertyType=" + "$_propertyType" + ", ");
+    buffer.write("status=" + (_status != null ? _status!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -270,7 +278,7 @@ class Property extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Property copyWith({String? title, String? price, String? brokerName, String? brokerEmail, String? brokerProfile, String? brokerNumber, String? category, String? description, String? address, String? clientAddress, String? titleImage, String? postCreated, List<String>? gallery, String? state, String? city, String? country, int? addedBy, bool? isFavourite, bool? isInterested, List<String>? assignedOutdoorFacility, String? video, List<String>? parameters, String? propertyType}) {
+  Property copyWith({String? title, String? price, String? brokerName, String? brokerEmail, String? brokerProfile, String? brokerNumber, String? category, String? description, String? address, String? clientAddress, String? titleImage, String? postCreated, List<String>? gallery, String? state, String? city, String? country, String? addedBy, bool? isFavourite, bool? isInterested, List<String>? assignedOutdoorFacility, String? video, List<String>? parameters, String? propertyType, int? status}) {
     return Property._internal(
       id: id,
       title: title ?? this.title,
@@ -295,7 +303,8 @@ class Property extends amplify_core.Model {
       assignedOutdoorFacility: assignedOutdoorFacility ?? this.assignedOutdoorFacility,
       video: video ?? this.video,
       parameters: parameters ?? this.parameters,
-      propertyType: propertyType ?? this.propertyType);
+      propertyType: propertyType ?? this.propertyType,
+      status: status ?? this.status);
   }
   
   Property copyWithModelFieldValues({
@@ -315,13 +324,14 @@ class Property extends amplify_core.Model {
     ModelFieldValue<String?>? state,
     ModelFieldValue<String?>? city,
     ModelFieldValue<String?>? country,
-    ModelFieldValue<int?>? addedBy,
+    ModelFieldValue<String?>? addedBy,
     ModelFieldValue<bool?>? isFavourite,
     ModelFieldValue<bool?>? isInterested,
     ModelFieldValue<List<String>?>? assignedOutdoorFacility,
     ModelFieldValue<String?>? video,
     ModelFieldValue<List<String>?>? parameters,
-    ModelFieldValue<String?>? propertyType
+    ModelFieldValue<String?>? propertyType,
+    ModelFieldValue<int?>? status
   }) {
     return Property._internal(
       id: id,
@@ -347,7 +357,8 @@ class Property extends amplify_core.Model {
       assignedOutdoorFacility: assignedOutdoorFacility == null ? this.assignedOutdoorFacility : assignedOutdoorFacility.value,
       video: video == null ? this.video : video.value,
       parameters: parameters == null ? this.parameters : parameters.value,
-      propertyType: propertyType == null ? this.propertyType : propertyType.value
+      propertyType: propertyType == null ? this.propertyType : propertyType.value,
+      status: status == null ? this.status : status.value
     );
   }
   
@@ -369,18 +380,19 @@ class Property extends amplify_core.Model {
       _state = json['state'],
       _city = json['city'],
       _country = json['country'],
-      _addedBy = (json['addedBy'] as num?)?.toInt(),
+      _addedBy = json['addedBy'],
       _isFavourite = json['isFavourite'],
       _isInterested = json['isInterested'],
       _assignedOutdoorFacility = json['assignedOutdoorFacility']?.cast<String>(),
       _video = json['video'],
       _parameters = json['parameters']?.cast<String>(),
       _propertyType = json['propertyType'],
+      _status = (json['status'] as num?)?.toInt(),
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'title': _title, 'price': _price, 'brokerName': _brokerName, 'brokerEmail': _brokerEmail, 'brokerProfile': _brokerProfile, 'brokerNumber': _brokerNumber, 'category': _category, 'description': _description, 'address': _address, 'clientAddress': _clientAddress, 'titleImage': _titleImage, 'postCreated': _postCreated, 'gallery': _gallery, 'state': _state, 'city': _city, 'country': _country, 'addedBy': _addedBy, 'isFavourite': _isFavourite, 'isInterested': _isInterested, 'assignedOutdoorFacility': _assignedOutdoorFacility, 'video': _video, 'parameters': _parameters, 'propertyType': _propertyType, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'title': _title, 'price': _price, 'brokerName': _brokerName, 'brokerEmail': _brokerEmail, 'brokerProfile': _brokerProfile, 'brokerNumber': _brokerNumber, 'category': _category, 'description': _description, 'address': _address, 'clientAddress': _clientAddress, 'titleImage': _titleImage, 'postCreated': _postCreated, 'gallery': _gallery, 'state': _state, 'city': _city, 'country': _country, 'addedBy': _addedBy, 'isFavourite': _isFavourite, 'isInterested': _isInterested, 'assignedOutdoorFacility': _assignedOutdoorFacility, 'video': _video, 'parameters': _parameters, 'propertyType': _propertyType, 'status': _status, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -408,6 +420,7 @@ class Property extends amplify_core.Model {
     'video': _video,
     'parameters': _parameters,
     'propertyType': _propertyType,
+    'status': _status,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -437,6 +450,7 @@ class Property extends amplify_core.Model {
   static final VIDEO = amplify_core.QueryField(fieldName: "video");
   static final PARAMETERS = amplify_core.QueryField(fieldName: "parameters");
   static final PROPERTYTYPE = amplify_core.QueryField(fieldName: "propertyType");
+  static final STATUS = amplify_core.QueryField(fieldName: "status");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Property";
     modelSchemaDefinition.pluralName = "Properties";
@@ -554,7 +568,7 @@ class Property extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Property.ADDEDBY,
       isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
@@ -593,6 +607,12 @@ class Property extends amplify_core.Model {
       key: Property.PROPERTYTYPE,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Property.STATUS,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(

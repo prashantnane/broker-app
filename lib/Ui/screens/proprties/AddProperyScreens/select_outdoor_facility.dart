@@ -224,7 +224,7 @@ class _SelectOutdoorFacilityState extends State<SelectOutdoorFacility> {
       state: parameters?['state'],
       city: parameters?['city'],
       country: parameters?['country'],
-      addedBy: 10,
+      addedBy: HiveUtils.getUserId(),
       isFavourite: false,
       isInterested: false,
       parameters: parameters?['parameter'],

@@ -15,7 +15,7 @@ import '../../../utils/ui_utils.dart';
 
 //This like button is used in app for favorite feature, it is used in all propery so it is very important
 class LikeButtonWidgetTest extends StatefulWidget {
-  final Property property;
+  final Property? property;
   final Function(FavoriteType type)? onLikeChanged;
   final Function(AddToFavoriteCubitState state)? onStateChange;
   const LikeButtonWidgetTest({
@@ -34,18 +34,18 @@ class _LikeButtonWidgetTestState extends State<LikeButtonWidgetTest> {
   void initState() {
     //checking is property is already favorite , it will come in api
     if (GuestChecker.value != true) {
-      if (widget.property.isFavourite == 1 &&
+      if (widget.property!.isFavourite == 1 &&
           context
                   .read<LikedPropertiesCubit>()
                   .state
                   .liked
-                  .contains(widget.property.id) ==
+                  .contains(widget.property!.id) ==
               false) {
         if (!context
             .read<LikedPropertiesCubit>()
             .getRemovedLikes()!
-            .contains(widget.property.id)) {
-          context.read<LikedPropertiesCubit>().add(widget.property.id);
+            .contains(widget.property!.id)) {
+          context.read<LikedPropertiesCubit>().add(widget.property!.id);
         }
       }
     }
@@ -114,7 +114,7 @@ class _LikeButtonWidgetTestState extends State<LikeButtonWidgetTest> {
                 return Center(
                     child: (favoriteState is AddToFavoriteCubitInProgress)
                         ? UiUtils.progress(width: 20, height: 20)
-                        : state.liked.contains(widget.property.id)
+                        : state.liked.contains(widget.property!.id)
                         ? UiUtils.getSvg(
                       AppIcons.like_fill,
                       color: context.color.teritoryColor,
@@ -132,6 +132,6 @@ class _LikeButtonWidgetTestState extends State<LikeButtonWidgetTest> {
 
   @override
   Widget build(BuildContext context) {
-    return setFavorite(widget.property, context);
+    return setFavorite(widget.property!, context);
   }
 }

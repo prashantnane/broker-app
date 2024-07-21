@@ -8,6 +8,9 @@ import 'package:ebroker/data/model/property_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/Property.dart';
+import '../../../utils/hive_utils.dart';
+
 abstract class FetchMyPropertiesState {}
 
 class FetchMyPropertiesInitial extends FetchMyPropertiesState {}
@@ -19,7 +22,7 @@ class FetchMyPropertiesSuccess extends FetchMyPropertiesState {
   final int offset;
   final bool isLoadingMore;
   final bool hasError;
-  final List<PropertyModel> myProperty;
+  final List<Property> myProperty;
   FetchMyPropertiesSuccess({
     required this.total,
     required this.offset,
@@ -33,7 +36,7 @@ class FetchMyPropertiesSuccess extends FetchMyPropertiesState {
     int? offset,
     bool? isLoadingMore,
     bool? hasMoreData,
-    List<PropertyModel>? myProperty,
+    List<Property>? myProperty,
   }) {
     return FetchMyPropertiesSuccess(
       total: total ?? this.total,
@@ -60,8 +63,8 @@ class FetchMyPropertiesCubit extends Cubit<FetchMyPropertiesState> {
   }) async {
     try {
       emit(FetchMyPropertiesInProgress());
-      DataOutput<PropertyModel> result =
-          await _propertyRepository.fetchMyProperties(offset: 0, type: type);
+      DataOutput<Property> result =
+          await _propertyRepository.fetchFavoritesByBrokerId(offset: 0, brokerId: HiveUtils.getUserId());
       log("MY PROPERTIES RESULT ${result.total}");
       emit(FetchMyPropertiesSuccess(
           hasError: false,
@@ -74,42 +77,42 @@ class FetchMyPropertiesCubit extends Cubit<FetchMyPropertiesState> {
     }
   }
 
-  void updateStatus(int propertyId, String currentType) {
-    try {
-      if (state is FetchMyPropertiesSuccess) {
-        List<PropertyModel> propertyList =
-            (state as FetchMyPropertiesSuccess).myProperty;
-        int index = propertyList.indexWhere((element) {
-          return element.id == propertyId;
-        });
+  // void updateStatus(int propertyId, String currentType) {
+  //   try {
+  //     if (state is FetchMyPropertiesSuccess) {
+  //       List<Property> propertyList =
+  //           (state as FetchMyPropertiesSuccess).myProperty;
+  //       int index = propertyList.indexWhere((element) {
+  //         return element.id == propertyId;
+  //       });
+  //
+  //       if (currentType == "Sell") {
+  //         propertyList[index].properyType = "Sold";
+  //       }
+  //       if (currentType == "Rent") {
+  //         propertyList[index].properyType = "Rented";
+  //       }
+  //
+  //       if (currentType == "Rented") {
+  //         propertyList[index].properyType = "Rent";
+  //       }
+  //       if (kDebugMode) {
+  //         if (currentType == "Sold") {
+  //           propertyList[index].properyType = "Sell";
+  //         }
+  //       }
+  //
+  //       emit((state as FetchMyPropertiesSuccess)
+  //           .copyWith(myProperty: propertyList));
+  //     }
+  //   } catch (e) {
+  //     log("#--this has error");
+  //   }
+  // }
 
-        if (currentType == "Sell") {
-          propertyList[index].properyType = "Sold";
-        }
-        if (currentType == "Rent") {
-          propertyList[index].properyType = "Rented";
-        }
-
-        if (currentType == "Rented") {
-          propertyList[index].properyType = "Rent";
-        }
-        if (kDebugMode) {
-          if (currentType == "Sold") {
-            propertyList[index].properyType = "Sell";
-          }
-        }
-
-        emit((state as FetchMyPropertiesSuccess)
-            .copyWith(myProperty: propertyList));
-      }
-    } catch (e) {
-      log("#--this has error");
-    }
-  }
-
-  void update(PropertyModel model) {
+  void update(Property model) {
     if (state is FetchMyPropertiesSuccess) {
-      List<PropertyModel> properties =
+      List<Property> properties =
           (state as FetchMyPropertiesSuccess).myProperty;
 
       var index = properties.indexWhere((element) => element.id == model.id);
@@ -131,10 +134,9 @@ class FetchMyPropertiesCubit extends Cubit<FetchMyPropertiesState> {
         }
         emit((state as FetchMyPropertiesSuccess).copyWith(isLoadingMore: true));
 
-        DataOutput<PropertyModel> result =
-            await _propertyRepository.fetchMyProperties(
-                offset: (state as FetchMyPropertiesSuccess).myProperty.length,
-                type: type);
+        DataOutput<Property> result =
+            await _propertyRepository.fetchFavoritesByBrokerId(
+                offset: (state as FetchMyPropertiesSuccess).myProperty.length, brokerId: HiveUtils.getUserId());
 
         FetchMyPropertiesSuccess bookingsState =
             (state as FetchMyPropertiesSuccess);
@@ -159,10 +161,10 @@ class FetchMyPropertiesCubit extends Cubit<FetchMyPropertiesState> {
     }
   }
 
-  void addLocal(PropertyModel model) {
+  void addLocal(Property model) {
     try {
       if (state is FetchMyPropertiesSuccess) {
-        List<PropertyModel> myProperty =
+        List<Property> myProperty =
             (state as FetchMyPropertiesSuccess).myProperty;
         if (myProperty.isNotEmpty) {
           myProperty.insert(0, model);

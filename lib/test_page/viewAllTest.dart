@@ -17,7 +17,7 @@ import '../models/Property.dart';
 ///This [PropertySuccessStateWireframe] this will force class to have properties list
 
 abstract class PropertySuccessStateWireframeTest {
-  abstract List<Property> properties;
+  abstract List<Property?> properties;
   abstract bool isLoadingMore;
 }
 
@@ -136,7 +136,7 @@ FAIL extends PropertyErrorStateWireframeTest> {
                 controller: controller,
                 padding: const EdgeInsets.all(20),
                 itemBuilder: (context, index) {
-                  Property model = state.properties[index];
+                  Property? model = state.properties[index];
                   return GestureDetector(
                       onTap: () {
                         HelperUtils.goToNextPage(

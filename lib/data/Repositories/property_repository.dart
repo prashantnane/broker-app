@@ -4,6 +4,7 @@ import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../models/Favorites.dart';
 import '../../models/Property.dart';
 import '../../utils/api.dart';
 import '../../utils/constant.dart';
@@ -78,7 +79,7 @@ class PropertyRepository {
     return DataOutput(total: response['total'] ?? 0, modelList: modelList);
   }
 
-  Future<DataOutput<Property>> fetchAllProperties({required int offset}) async {
+  Future<DataOutput<Property?>> fetchAllProperties({required int offset}) async {
     Map<String, dynamic> parameters = {
       Api.offset: offset,
       Api.limit: Constant.loadLimit,
@@ -127,18 +128,21 @@ class PropertyRepository {
       //   Property.classType,
       // );
 
+      // final request = ModelQueries.list(Property.classType);
+
       final response = await Amplify.API.query(request: request).response;
       print('this is response from property repo: ${response}');
 
       if (response.data != null) {
-        Map<String, dynamic> data = json.decode(response.data!);
+        Map<String, dynamic>? data = json.decode(response.data!);
 
-        final List<dynamic> propertyList = data['listProperties']['items'];
+        final List<dynamic> propertyList = data?['listProperties']['items'];
+        // final List<Property?> propertyList = response.data!.items;
 
-        // print('this data from property repo: ${propertyList}');
-        //
+        print('this data from property lenght: ${propertyList.length}');
+
         List<Property> modelList = propertyList.map(
-          (e) {
+              (e) {
             return Property.fromJson(e);
           },
         ).toList();
@@ -182,6 +186,40 @@ class PropertyRepository {
 
     // If there's an error fetching Firestore data, return the API data
     return DataOutput(total: response['total'] ?? 0, modelList: modelList);
+  }
+
+  Future<DataOutput<Property?>> fetchByPropertyId({required int offset, required String propertyId}) async {
+    Map<String, dynamic> parameters = {
+      Api.offset: offset,
+      Api.limit: Constant.loadLimit,
+      "current_user": HiveUtils.getUserId()
+    };
+    List<Property> modelList = [];
+
+    print('listening to fetchByPropertyId');
+    try {
+      final request = ModelQueries.list(Property.classType, where: Property.ID.eq(propertyId));
+      final response = await Amplify.API.query(request: request).response;
+      print('this is response from property repo: $response');
+
+      if (response.data != null) {
+        final propertyItems = response.data?.items ?? [];
+        print('this data from property length: ${propertyItems.length}');
+
+        List<Property> modelList = propertyItems.map(
+              (e) {
+            return Property.fromJson(e!.toJson());
+          },
+        ).toList();
+
+        print('this is modelList from property repository: $modelList');
+        return DataOutput(total: modelList.length, modelList: modelList);
+      } else {
+        throw Exception('Failed to fetch property repo');
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 
   Future<DataOutput<PropertyModel>> fetchPropertyFromPropertyId(
@@ -400,6 +438,38 @@ class PropertyRepository {
         .toList();
 
     return DataOutput(total: response['total'] ?? 0, modelList: modelList);
+  }
+
+  Future<DataOutput<Property>> fetchFavoritesByBrokerId({required int offset, required String? brokerId}) async {
+    print('listening to fetchFavoritesByBrokerId');
+    try {
+      final request = ModelQueries.list(Favorites.classType, where: Favorites.BROKERID.eq(brokerId));
+      final response = await Amplify.API.query(request: request).response;
+      final favoriteItems = response.data?.items ?? [];
+
+      print('this is response from favorite items repo: $favoriteItems');
+
+      if (response.data != null) {
+        List<Property> modelList = [];
+
+        for (var item in favoriteItems) {
+          final propertyId = item?.propertyID;
+          if (propertyId != null) {
+            DataOutput<Property?> propertyOutput = await fetchByPropertyId(offset: offset, propertyId: propertyId);
+            if (propertyOutput.modelList.isNotEmpty) {
+              modelList.add(propertyOutput.modelList.first!);
+            }
+          }
+        }
+
+        print('this is modelList from myproperty repository: $modelList');
+        return DataOutput(total: modelList.length, modelList: modelList);
+      } else {
+        throw Exception('Failed to fetch favorite items');
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 
   String? _findPropertyType(String type) {

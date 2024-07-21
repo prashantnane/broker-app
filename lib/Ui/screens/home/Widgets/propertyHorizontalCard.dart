@@ -21,10 +21,10 @@ import '../../../../models/Property.dart';
 import '../../widgets/likeButtonWidget.dart';
 
 class PropertyHorizontalCardTest extends StatelessWidget {
-  final Property property;
+  final Property? property;
   final List<Widget>? addBottom;
   final double? additionalHeight;
-  final StatusButton? statusButton;
+  final StatusButtonTest? statusButton;
   final Function(FavoriteType type)? onLikeChange;
   final bool? useRow;
   final bool? showDeleteButton;
@@ -46,7 +46,7 @@ class PropertyHorizontalCardTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String rentPrice = (property.price!
+    String rentPrice = (property!.price!
         .priceFormate(
       disabled: Constant.isNumberWithSuffix == false,
     )
@@ -214,7 +214,7 @@ class PropertyHorizontalCardTest extends StatelessWidget {
                                   ),
 
                                   Text(
-                                    property.price!
+                                    property!.price!
                                         .priceFormate(
                                         disabled:
                                         Constant.isNumberWithSuffix ==
@@ -229,12 +229,12 @@ class PropertyHorizontalCardTest extends StatelessWidget {
                                       .bold(weight: FontWeight.w700),
 
                                   Text(
-                                    property.title!.firstUpperCase(),
+                                    property!.title!.firstUpperCase(),
                                   )
                                       .setMaxLines(lines: 1)
                                       .size(context.font.large)
                                       .color(context.color.textColorDark),
-                                  if (property.city != "")
+                                  if (property!.city != "")
                                     Row(
                                       children: [
                                         Icon(
@@ -244,7 +244,7 @@ class PropertyHorizontalCardTest extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: Text(
-                                              property.city?.trim() ?? "")
+                                              property!.city?.trim() ?? "")
                                               .setMaxLines(lines: 1)
                                               .color(
                                               context.color.textLightColor),
@@ -313,11 +313,11 @@ class PropertyHorizontalCardTest extends StatelessWidget {
   }
 }
 
-class StatusButton {
+class StatusButtonTest {
   final String lable;
   final Color color;
   final Color? textColor;
-  StatusButton({
+  StatusButtonTest({
     required this.lable,
     required this.color,
     this.textColor,

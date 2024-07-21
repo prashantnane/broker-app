@@ -89,7 +89,7 @@ class AuthCubit extends Cubit<AuthState> {
     print("Res[o] $response $parameters");
     if (!response[Api.error]) {
       // Constant.session.setUserData(response['data'], "");
-      HiveUtils.setUserData(response['data']);
+      // HiveUtils.setUserData(response['data']);
       checkIsAuthenticated();
     } else {
       throw CustomException(response[Api.message]);

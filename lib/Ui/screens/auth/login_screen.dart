@@ -891,6 +891,8 @@ class LoginScreenState extends State<LoginScreen> {
                 log('phone num: ${_phoneController.text} , password : ${_passwordController.text}');
                 if (_formKey.currentState?.validate() ?? false) {
                   await _authReoisitory.fetchUserDetailsByPhone(_phoneController.text);
+
+                  // log("this is hive setuserdata: ${HiveUtils.getUserDetails().id}");
                   // If the form is valid, proceed with the sign-in
                   signInUser(_phoneController.text, _passwordController.text);
                 }
