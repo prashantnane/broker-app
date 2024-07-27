@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ebroker/data/model/propery_filter_model.dart';
 
 import '../../models/Favorites.dart';
 import '../../models/Property.dart';
@@ -186,6 +187,92 @@ class PropertyRepository {
 
     // If there's an error fetching Firestore data, return the API data
     return DataOutput(total: response['total'] ?? 0, modelList: modelList);
+  }
+
+  Future<DataOutput<Property?>> fetchByFilterQuery({required PropertyFilterModel filterQuery}) async {
+    List<Property> modelList = [];
+
+    print('listening to fetchProperties');
+    try {
+      QueryPredicate queryPredicate = QueryPredicate.all;
+      if(filterQuery.state!="" )
+         queryPredicate = Property.STATE.eq(filterQuery.state);
+
+      final request = ModelQueries.list(
+        Property.classType,
+        where: queryPredicate
+      );
+
+      final response = await Amplify.API.query(request: request).response;
+      print('this is response from fetchbyFilterQuery : ${response.data?.items}');
+      return DataOutput(total: response.data?.items.length ?? 0, modelList: response.data?.items?? []) ;
+      // if (response.data != null) {
+      //   Map<String, dynamic>? data = json.decode(response.data.items!);
+      //
+      //   final List<dynamic> propertyList = data?['listProperties']['items'];
+      //   // final List<Property?> propertyList = response.data!.items;
+      //
+      //   print('this data from property lenght: ${propertyList.length}');
+      //
+      //   List<Property> modelList = propertyList.map(
+      //         (e) {
+      //       return Property.fromJson(e);
+      //     },
+      //   ).toList();
+      //
+      //   print('this is modelList from property repository: $modelList');
+      //
+      //   return DataOutput(total: 0, modelList: modelList);
+      // } else {
+      //   throw Exception('Failed to fetch property repo');
+      // }
+    } catch (e) {
+      throw e;
+    }
+
+  }
+
+  Future<DataOutput<Property>> fetchByLocation({required String queryLocation}) async {
+    List<Property> modelList = [];
+
+    print('listening to fetchProperties');
+    try {
+      QueryPredicate queryPredicate = QueryPredicate.all;
+      queryPredicate = Property.CITY.eq(queryLocation);
+
+      final request = ModelQueries.list(
+        Property.classType,
+        where: queryPredicate
+      );
+
+      final response = await Amplify.API.query(request: request).response;
+      print('this is response from fetchbyFilterQuery : ${response.data?.items}');
+      List<Property> responseData =  response.data?.items.where((property) => property != null).cast<Property>().toList()??[];
+      return DataOutput(total: response.data?.items.length ?? 0, modelList:responseData) ;
+      // if (response.data != null) {
+      //   Map<String, dynamic>? data = json.decode(response.data.items!);
+      //
+      //   final List<dynamic> propertyList = data?['listProperties']['items'];
+      //   // final List<Property?> propertyList = response.data!.items;
+      //
+      //   print('this data from property lenght: ${propertyList.length}');
+      //
+      //   List<Property> modelList = propertyList.map(
+      //         (e) {
+      //       return Property.fromJson(e);
+      //     },
+      //   ).toList();
+      //
+      //   print('this is modelList from property repository: $modelList');
+      //
+      //   return DataOutput(total: 0, modelList: modelList);
+      // } else {
+      //   throw Exception('Failed to fetch property repo');
+      // }
+    } catch (e) {
+      throw e;
+    }
+
   }
 
   Future<DataOutput<Property?>> fetchByPropertyId({required int offset, required String propertyId}) async {
@@ -396,7 +483,7 @@ class PropertyRepository {
   }
 
   ///Search proeprty
-  Future<DataOutput<PropertyModel>> searchProperty(String searchQuery,
+  Future<DataOutput<Property>> searchProperty(String searchQuery,
       {required int offset}) async {
     Map<String, dynamic> parameters = {
       Api.search: searchQuery,
@@ -409,14 +496,15 @@ class PropertyRepository {
       parameters.addAll(Constant.propertyFilter!.toMap());
     }
 
-    Map<String, dynamic> response =
-        await Api.get(url: Api.apiGetProprty, queryParameters: parameters);
+    // Map<String, dynamic> response =
+    //     await Api.get(url: Api.apiGetProprty, queryParameters: parameters);
+    DataOutput<Property> repsonse = await fetchByLocation(queryLocation:  searchQuery);
+    List<Property> modelList = repsonse.modelList;
+    // List<Property> modelList = (response['data'] as List)
+    //     .map((e) => PropertyModel.fromMap(e))
+    //     .toList();
 
-    List<PropertyModel> modelList = (response['data'] as List)
-        .map((e) => PropertyModel.fromMap(e))
-        .toList();
-
-    return DataOutput(total: response['total'] ?? 0, modelList: modelList);
+    return DataOutput(total: modelList.length ?? 0, modelList: modelList);
   }
 
   ///to get my properties which i had added to sell or rent

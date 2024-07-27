@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import '../../../data/cubits/property/property_cubit.dart';
+import '../../../models/Property.dart';
+import 'Widgets/propertyHorizontalCard.dart';
 import 'Widgets/property_horizontal_card.dart';
 import '../widgets/AnimatedRoutes/blur_page_route.dart';
 import '../widgets/Erros/something_went_wrong.dart';
@@ -131,41 +134,41 @@ void  pageScrollListen() {
       ),
       body: Column(
         children: [
-          // BlocBuilder<PropertyCubit, PropertyState>(
-          //   builder: (context, state) {
-          //     log("state isss $state");
-          //     if (state is PropertyFetchSuccess) {
-          //       return SingleChildScrollView(
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             const Padding(
-          //               padding: EdgeInsets.symmetric(horizontal: 16.0),
-          //               child: Text("Latest properties"),
-          //             ),
-          //             ListView.builder(
-          //               shrinkWrap: true,
-          //               physics: const NeverScrollableScrollPhysics(),
-          //               padding: const EdgeInsets.symmetric(horizontal: 16),
-          //               itemCount: state.propertylist.length,
-          //               itemBuilder: (context, index) {
-          //                 return PropertyHorizontalCard(
-          //                     property: state.propertylist[index]);
-          //               },
-          //             ),
-          //           ],
-          //         ),
-          //       );
-          //     }
-          //     if (state is PropertyFetchFailure) {
-          //       log(state.errmsg);
-          //       return Container(
-          //         child: Text(state.errmsg.toString()),
-          //       );
-          //     }
-          //     return Container();
-          //   },
-          // ),
+          BlocBuilder<PropertyCubit, PropertyState>(
+            builder: (context, state) {
+              log("state isss $state");
+              if (state is PropertyFetchSuccess) {
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text("Latest properties"),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: state.propertylist.length,
+                        itemBuilder: (context, index) {
+                          return PropertyHorizontalCard(
+                              property: state.propertylist[index]);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+              if (state is PropertyFetchFailure) {
+                log(state.errmsg);
+                return Container(
+                  child: Text(state.errmsg.toString()),
+                );
+              }
+              return Container();
+            },
+          ),
           const SizedBox(height: 10),
           Expanded(
             child: BlocBuilder<SearchPropertyCubit, SearchPropertyState>(
@@ -191,8 +194,8 @@ void  pageScrollListen() {
     }
 
     if (state is SearchPropertySuccess) {
-      log(state.searchedroperties.toString(), name: "SEARCHED");
-      if (state.searchedroperties.isEmpty) {
+      log(state.searchedProperties.toString(), name: "SEARCHED");
+      if (state.searchedProperties.isEmpty) {
         return Center(
           child: Text(
             UiUtils.getTranslatedLabel(context, "nodatafound"),
@@ -219,9 +222,9 @@ void  pageScrollListen() {
               Wrap(
                 direction: Axis.horizontal,
                 children:
-                    List.generate(state.searchedroperties.length, (index) {
-                  PropertyModel property = state.searchedroperties[index];
-                  List propertiesList = state.searchedroperties;
+                    List.generate(state.searchedProperties.length, (index) {
+                  Property property = state.searchedProperties[index];
+                  List propertiesList = state.searchedProperties;
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16.0,
@@ -236,7 +239,7 @@ void  pageScrollListen() {
                           'propertiesList': propertiesList
                         });
                       },
-                      child: PropertyHorizontalCard(property: property),
+                      child: PropertyHorizontalCardTest(property: property),
                     ),
                   );
                 }),

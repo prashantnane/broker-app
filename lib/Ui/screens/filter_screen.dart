@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/cubits/category/fetch_category_cubit.dart';
 import '../../data/model/google_place_model.dart';
 import '../../models/CategoryModel.dart';
 import '../../utils/api.dart';
@@ -191,9 +190,9 @@ class FilterScreenState extends State<FilterScreen> {
               state: _state,
               country: country,
             );
-
             Navigator.pop(context, true);
           }, buttonTitle: UiUtils.getTranslatedLabel(context, "applyFilter")),
+
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

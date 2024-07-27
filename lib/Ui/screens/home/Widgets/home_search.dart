@@ -1,14 +1,18 @@
+import 'package:ebroker/exports/main_export.dart';
 import 'package:ebroker/utils/Extensions/extensions.dart';
 import 'package:ebroker/utils/responsiveSize.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../app/routes.dart';
+import '../../../../data/cubits/property/search_property_cubit.dart';
 import '../../../../utils/AppIcon.dart';
 import '../../../../utils/ui_utils.dart';
 import '../home_screen.dart';
 
 class HomeSearchField extends StatelessWidget {
   const HomeSearchField({super.key});
+
+  static TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,23 +71,50 @@ class HomeSearchField extends StatelessWidget {
           const Spacer(),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, Routes.propertyMapScreen);
+              Navigator.pushNamed(
+                context,
+                Routes.filterScreen,
+              ).then((value) {
+                if (value == true) {
+                  context
+                      .read<SearchPropertyCubit>()
+                      .searchProperty(searchController.text, offset: 0);
+                }
+              });
             },
             child: Container(
               width: 50.rw(context),
               height: 50.rh(context),
               decoration: BoxDecoration(
-                border:
-                    Border.all(width: 1.5, color: context.color.borderColor),
+                border: Border.all(
+                    width: 1.5, color: context.color.borderColor),
                 color: context.color.secondaryColor,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
-                child: UiUtils.getSvg(AppIcons.propertyMap,
-                    color: context.color.teritoryColor),
+                child: UiUtils.getSvg(AppIcons.filter),
               ),
             ),
           ),
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.pushNamed(context, Routes.propertyMapScreen);
+          //   },
+          //   child: Container(
+          //     width: 50.rw(context),
+          //     height: 50.rh(context),
+          //     decoration: BoxDecoration(
+          //       border:
+          //           Border.all(width: 1.5, color: context.color.borderColor),
+          //       color: context.color.secondaryColor,
+          //       borderRadius: BorderRadius.circular(10),
+          //     ),
+          //     child: Center(
+          //       child: UiUtils.getSvg(AppIcons.propertyMap,
+          //           color: context.color.teritoryColor),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

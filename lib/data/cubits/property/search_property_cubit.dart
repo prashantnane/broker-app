@@ -6,6 +6,8 @@ import 'package:ebroker/data/Repositories/property_repository.dart';
 import 'package:ebroker/data/model/data_output.dart';
 import 'package:ebroker/data/model/property_model.dart';
 
+import '../../../models/Property.dart';
+
 abstract class SearchPropertyState {}
 
 class SearchPropertyInitial extends SearchPropertyState {}
@@ -20,7 +22,7 @@ class SearchPropertySuccess extends SearchPropertyState {
   final String searchQuery;
   final bool isLoadingMore;
   final bool hasError;
-  final List<PropertyModel> searchedroperties;
+  final List<Property> searchedProperties;
 
   SearchPropertySuccess({
     required this.searchQuery,
@@ -28,7 +30,7 @@ class SearchPropertySuccess extends SearchPropertyState {
     required this.offset,
     required this.isLoadingMore,
     required this.hasError,
-    required this.searchedroperties,
+    required this.searchedProperties,
   });
 
   SearchPropertySuccess copyWith({
@@ -37,7 +39,7 @@ class SearchPropertySuccess extends SearchPropertyState {
     String? searchQuery,
     bool? isLoadingMore,
     bool? hasError,
-    List<PropertyModel>? searchedroperties,
+    List<Property>? searchedProperties,
   }) {
     return SearchPropertySuccess(
       total: total ?? this.total,
@@ -45,7 +47,7 @@ class SearchPropertySuccess extends SearchPropertyState {
       searchQuery: searchQuery ?? this.searchQuery,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasError: hasError ?? this.hasError,
-      searchedroperties: searchedroperties ?? this.searchedroperties,
+      searchedProperties: searchedProperties ?? this.searchedProperties,
     );
   }
 }
@@ -63,7 +65,7 @@ class SearchPropertyCubit extends Cubit<SearchPropertyState> {
       {required int offset, bool? useOffset}) async {
     try {
       emit(SearchPropertyFetchProgress());
-      DataOutput<PropertyModel> result =
+      DataOutput<Property> result =
           await _propertyRepository.searchProperty(query, offset: 0);
 
       emit(SearchPropertySuccess(
@@ -72,7 +74,7 @@ class SearchPropertyCubit extends Cubit<SearchPropertyState> {
           hasError: false,
           isLoadingMore: false,
           offset: 0,
-          searchedroperties: result.modelList));
+          searchedProperties: result.modelList));
     } catch (e) {
       emit(SearchPropertyFailure(e.toString()));
     }
@@ -92,21 +94,21 @@ class SearchPropertyCubit extends Cubit<SearchPropertyState> {
         }
         emit((state as SearchPropertySuccess).copyWith(isLoadingMore: true));
 
-        DataOutput<PropertyModel> result =
+        DataOutput<Property> result =
             await _propertyRepository.searchProperty(
           (state as SearchPropertySuccess).searchQuery,
-          offset: (state as SearchPropertySuccess).searchedroperties.length,
+          offset: (state as SearchPropertySuccess).searchedProperties.length,
         );
 
         SearchPropertySuccess bookingsState = (state as SearchPropertySuccess);
-        bookingsState.searchedroperties.addAll(result.modelList);
+        bookingsState.searchedProperties.addAll(result.modelList);
         emit(
           SearchPropertySuccess(
             searchQuery: (state as SearchPropertySuccess).searchQuery,
             isLoadingMore: false,
             hasError: false,
-            searchedroperties: bookingsState.searchedroperties,
-            offset: (state as SearchPropertySuccess).searchedroperties.length,
+            searchedProperties: bookingsState.searchedProperties,
+            offset: (state as SearchPropertySuccess).searchedProperties.length,
             total: result.total,
           ),
         );
@@ -123,7 +125,7 @@ class SearchPropertyCubit extends Cubit<SearchPropertyState> {
 
   bool hasMoreData() {
     if (state is SearchPropertySuccess) {
-      return (state as SearchPropertySuccess).searchedroperties.length <
+      return (state as SearchPropertySuccess).searchedProperties.length <
           (state as SearchPropertySuccess).total;
     }
     return false;
